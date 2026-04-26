@@ -1,0 +1,48 @@
+{
+  "skills": {
+    "data-processing": {
+      "description": "数据处理与分析的自动化配置",
+      "hooks": {
+        "before_save": "python3 scripts/format_data.py"
+      }
+    }
+  },
+  "mcpServers": {
+    "alpha-vantage": {
+      "command": "npx",
+      "args": ["-y", "alpha-vantage-mcp"],
+      "env": {
+        "ALPHA_VANTAGE_API_KEY": "${ALPHA_VANTAGE_API_KEY}"
+      }
+    },
+    "yahoo-finance": {
+      "command": "npx",
+      "args": ["-y", "investor-agent"]
+    },
+    "finbud": {
+      "command": "npx",
+      "args": ["-y", "finbud-data-mcp"]
+    },
+    "helium-news": {
+      "command": "npx",
+      "args": ["-y", "helium-mcp"]
+    },
+    "katzilla-data": {
+      "command": "npx",
+      "args": ["-y", "@katzilla/mcp"]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp"]
+    }
+  },
+  "permissions": {
+    "allow": [
+      "python3 scripts/**",
+      "node scripts/**",
+      "npx **",
+      "git **",
+      "curl **"
+    ]
+  }
+}

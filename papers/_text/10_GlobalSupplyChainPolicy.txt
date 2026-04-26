@@ -1,0 +1,1143 @@
+--- Page 1 ---
+Structural Consequences of Policy-Based Interventions on the
+Global Supply Chain Network
+Lea Karbevska∗1, Liming Xu1, Zehui Dai1, Sara AlMahri1, and Alexandra Brintrup1,2
+1Department of Engineering, University of Cambridge, Cambridge, United Kingdom
+2The Alan Turing Institute, London, United Kingdom
+Abstract
+AsglobalpoliticaltensionsriseandtheanticipationofadditionaltariffsfromtheUnitedStates
+on international trade increases, the issues of economic independence and supply chain resilience
+become more prominent. The importance of supply chain resilience has been further underscored
+by disruptions caused by the COVID-19 pandemic and the ongoing war in Ukraine. In light of
+thesechallenges,rangingfromgeopoliticalinstabilitytoproductsupplyuncertainties,governments
+areincreasinglyfocusedonadoptingnewtradepolicies. Thisstudyexplorestheimpactofseveral
+of these policies on the global electric vehicle (EV) supply chain network, with a particular focus
+on their effects on country clusters and the broader structure of international trade. Specifically,
+we analyse three key policies: Country Plus One, Friendshoring, and Reshoring. Our findings
+show that Friendshoring, contrary to expectations, leads to greater globalisation by increasing
+the number of supply links across friendly countries, potentially raising transaction costs. The
+Country Plus One policy similarly enhances network density through redundant links, while the
+Reshoring policy creates challenges in the EV sector due to the high number of irreplaceable
+products. Additionally, the effects of these policies vary across industries; for instance, mining
+goods being less affected in Country Plus One than the Friendshoring policy.
+1 Introduction
+Inrecentyears,supplychaindisruptionshavebecomeincreasinglyfrequentandsevereduetomultiple,
+compoundingfactorssuchasgeopoliticaltensions,theCOVID-19pandemic,tariffs,andclimate-related
+events. This has intensified the need for robust and resilient supply networks capable of adapting to
+and recovering from such disruptions.
+For example, the COVID-19 pandemic exposed significant weakness in global manufacturing and
+distribution networks (Queiroz et al., 2020), leading to widespread shortages of personal protective
+equipment(PPE).TheongoingRussia-Ukrainewarhasfurtherdisruptedglobalsupplychains,prompt-
+ing European countries to diversify their energy sources in an effort to reduce dependency on Russian
+energy imports (Hafner and Tagliapietra, 2020). More recently, trade policies introduced during the
+Trump administration, such as tariffs on neighbouring countries and export bans on Chinese goods,
+are reshaping trade flows and underscoring the risks of overdependence on a single source for essential
+components.
+These disruptions have promoted policymakers to consider interventions aimed at reshaping the
+structure of their national supply networks. For example, in the US, strategies such as Country Plus
+One (Country+1) (Witchell and Symington, 2013; Enderwick, 2011), Reshoring (Essletzbichler and
+Pintar, 2021), and the enforcement of new tariffs have been widely discussed. Similarly, in the UK,
+approaches like Friendshoring and Nearshoring have been proposed as mitigation strategies (Cagliano
+etal.,2012;Godselletal.,2017). Whilethesepoliciesmayintuitivelyenhancesupplychainrobustness,
+they are fundamentally localized strategies, and their broader implications for global trade dynamics
+∗Correspondingauthor. Email: lk547@cam.ac.uk
+1
+6202
+rpA
+41
+]GL.sc[
+2v97411.4062:viXra
+
+--- Page 2 ---
+remain uncertain.
+Theanalysisofsupplychainnetworkrobustnesshasbeenanactivetopicofresearch(Ivanov,2024;
+Zamani et al., 2023). Prior studies have primarily examined the impacts of policies from focal firm
+perspectives, often focusing on potential cost savings or economic implications. For instance, in the
+caseofNearshoring(VanHasseletal.,2022)andReshoring(Amicoetal.,2024),studiessuggestthese
+strategies significantly reduce transport costs. However, while financial analyses provide valuable in-
+sights, they often fail to capture the structural and systemic consequences these policies may have on
+the global supply chain network. The effects on network topology, robustness, and the propagation
+of disruptions through interconnected nodes have not been systematically analyzed, leaving a critical
+gap in understanding the broader ramifications of these interventions.
+Overthepastdecades,emergentstructuralnetworkpropertieshavebeenidentifiedascriticaltothe
+robustness of complex supply chains. One such property is the presence of scale-free or heavy-tailed
+structuresinfirm-to-firmconnections,whichmakenetworksmorerobusttorandomfailuresbuthighly
+vulnerable to targeted failures at central hubs (Bacilieri et al., 2023; Brintrup et al., 2016). Similarly,
+nested structures within firm-to-firm and firm-to-product connections shelter unique products and
+links within large hubs, potentially enhancing robustness against localized failures (Brintrup et al.,
+2015a). Another key feature is modularity, which allows supply chains to form distinct communities,
+thereby containing disruptions within specific clusters or regions (Kito et al., 2014).
+Moreover, the distribution of domestic and international connections has a significant impact on
+network resilience. On average, supply networks exhibit a strong presence of domestic connections
+(30) compared to international ones (3), reducing the exposure of local production systems to global
+disruptions(Pichleretal.,2023). Thenegativeassortativityobservedinsupplychainnetworks, where
+high-degree nodes tend to connect with low-degree nodes, helps distribute risk more evenly across the
+network and mitigates the likelihood of cascading failures (Bacilieri et al., 2023). Additionally, the
+small-world properties of supply chain networks, characterized by higher clustering coefficients and
+shorter path lengths than expected in random networks, enhance robustness to random failures but
+simultaneouslyincreasevulnerabilitytotargetedattacksonhubs(Brintrupetal.,2015b;Galaskiewicz,
+2011).
+Finally,thedistributionsofcentralitymeasures,suchasdegree,betweenness,andclosenesscentral-
+ity,providevaluableinsightsintotherolesofindividualnodesinmaintainingnetworkconnectivityand
+resilience. Nodes with high betweenness centrality, for instance, often serve as critical bridges within
+the network, and their removal can have disproportionately severe impacts on the overall performance
+of the supply chain (Kim et al., 2011).
+Understanding these systemic structural properties is crucial for designing global strategies aimed
+at enhancing the robustness and resilience of supply chain networks amid increasing uncertainties.
+In this paper, we aim to bridge the gap between network analysis and policy consequences by
+exploringhowlocalizedsupplynetworkdesigninterventionsmightreshapethebroadernetworkstruc-
+ture. Specifically,weinvestigatewhethertheseinterventions—designedtoenhancenationalorregional
+resilience—could inadvertently introduce systemic inefficiencies or vulnerabilities. For example, poli-
+cies encouraging multi-sourcing from allied or proximate countries may reduce reliance on a single
+supplierorregion,buttheycouldalsocreatenewclustersofinterdependencethatamplifyriskswithin
+specific sectors. Similarly, policies promoting friendshoring might strengthen regional self-sufficiency
+but could also lead to fragmentation and a loss of economies of scale. Through this research, we seek
+toaddressthesecriticalquestionsandprovideafirst-of-its-kindanalysisofhowsuchpoliciesinfluence
+the structural robustness and resilience of global supply chains.
+We examine these policy impacts using supply chain data from the global EV industry, evaluat-
+ing how the Country+1, Reshoring and Friendshoring policies, as illustrated in Figure 1 B, reshape
+network structures. Specifically, we compute key network metrics and assess robustness across two
+dimensions (Figure 1 A): Geopolitical, using the US three-tier risk system (Hawkins and Leonard,
+2
+
+--- Page 3 ---
+2025) for categorizing chip import tariffs, and Geographical, grouping major trade countries across
+three continents. Additionally, we identify vulnerable countries and products most affected by these
+interventions.
+The rest of this paper is organized as follows. Section 2 presents the datasets used in our analysis.
+Section 3 details our methodology, including the network metrics and the three policies. The analysis
+results are presented in Section 4. Finally, Section 5 discusses the results, concludes this paper and
+presents future work.
+2 Datasets
+The data used for our analysis comes from three data sources: Bloomberg, Marklines (a private auto-
+motive industry database), and Mining Sites (Jasansky et al., 2023). All three data sources provide
+information on company-to-company supply relationships, including the specific products traded in
+MarklinesandMiningSites,andtheindustriescoveredinBloomberg. Additionally,thesesourcesoffer
+details on company locations, market capitalisations, and the size of the relationships between com-
+panies. The Bloomberg data, in particular, was collected between July and December 2023, ensuring
+the analysis is based on recent and relevant information.
+We focus on the EV industry because of its complexity, global scale, and the significant reliance
+of auto manufacturers on overseas suppliers for a diverse range of inputs, including raw materials
+from mining. The combined dataset comprises 18,833 companies, 66,745 different product types (e.g.
+Lithium, Engine Temperature Sensor, and Software) sourced from across 32 industries (e.g. Auto-
+motive, Aerospace & Defense, Chemicals, Mine, Refinery, and Smelter) and 149 countries (China,
+Canada, Spain, and Russia, etc.). For more details on the dataset, refer to Section A.1.
+However, a significant portion of the customer-supplier relationships in our dataset lacked detailed
+product information. To address this gap, we used a pre-trained large language model (LLM) to ex-
+tractproductdatafromcompanywebsites,asdescribedin(AlMahrietal.,2024),therebyaugmenting
+our dataset.
+We then compiled a list of product category names, totalling 1,102 categories. This list was con-
+structed by combining Marklines product names (929 categories), Bloomberg industry classifications
+outside the automotive sector (32 categories), and products from the Mining Sites dataset (141 cate-
+gories).
+Tomapthe66,745productnamesinourdatasettothesecategories, weleveragedthreepretrained
+LLMs: bert-base-nli-mean-tokens, paraphrase-MiniLM-L6-v2, and roberta-large. The map-
+ping was determined by either the majority agreement across the three models or, in cases without a
+majority, the category with the highest similarity score provided by any of the models. This approach
+ensured robust and consistent categorisation of product names.
+3 Methodology
+In this study, we conceptualize supply chain data as a network, where nodes represent firms and
+directed edges capture the supplier-customer relationships between them. Each node is further char-
+acterized by the products it manufactures.
+Wecomputeasubsetofstructuralmetricsknowntoinfluencesupplychainresilience,suchasdegree
+distribution, nestedness, modularity, assortativity, small-world properties, and centrality measures, to
+evaluate the network’s vulnerability and robustness under different configurations (Brintrup et al.,
+2015a,2016;Kitoetal.,2014;Bacilierietal.,2023;Galaskiewicz,2011;Kimetal.,2011;Pichleretal.,
+2023).
+Inparticular,weanalysethesemetricsofthesupplychainnetworkbeforeandaftertheapplication
+of the three policies: Country+1, Friendshoring, and Reshoring. These policies impose constraints on
+3
+
+--- Page 4 ---
+thegeographicaloriginsofsuppliersofcompanieswithinaspecificcountryoragroupofcountries. To
+model them, we apply two distinct country clustering strategies.
+Thefirstclusteringstrategy,Geographical,dividesmajortradecountriesintothreecontinentalclus-
+ters: North American, European, and Asian. The North American cluster includes the US, Mexico,
+andCanada;theEuropeanclusterincludescountriessuchasthoseintheEuropeanUnion,Switzerland,
+and the UK; and the Asian cluster encompasses nations like China, India, Japan, Indonesia, and oth-
+ers. ThesetwoclassificationstrategiesareillustratedinFigure1A(a)andFigure1A(b)respectively.
+The second clustering strategy, Geopolitical, is based on the three-tier risk system established by
+theUStocategorizecountriesfortariffpurposesconcerningchipimports. Thissystemclassifiescoun-
+tries into three risk levels: Low Risk includes close allies such as South Korea and Taiwan, which have
+unrestrictedaccesstoadvancedAIchips;MediumRiskincludescountrieslikethoseinEasternEurope
+and Latin America, which face restrictions on-chip access; and High Risk includes nations such as
+China and Russia, which are entirely banned from receiving US chips (Hawkins and Leonard, 2025).
+This classification is depicted in Figure 1 A (a).
+In addition, during each simulation, we track the number of companies and products for which
+companies within a given cluster are unable to find alternative suppliers whilst adhering to the geo-
+graphical constraints imposed by the specific policy. Given the stochastic nature of our methodology,
+each simulation is conducted over five iterations, and the average values are reported to ensure the
+robustness and reliability of the results.
+It is important to emphasize that real world conditions are likely to reflect a mixture of these
+scenarios. The results presented here correspond to extreme rewiring cases derived from the applied
+policies.
+3.1 The Three Policies
+This section details the three policies examined in our analysis: Country Plus One (Country+1),
+Friendshoring, and Reshoring. The detailed pseudo-code for each policy algorithm is provided in
+Section A.2.
+3.1.1 Country Plus One
+The Country+1 policy, as illustrated in Figure 1 B(b), involves designating a specific country or a
+list of countries, X, and seeking additional suppliers outside of X for products currently sourced from
+there, thereby reducing dependence on country X (Witchell and Symington, 2013; Enderwick, 2011).
+For this particular scenario, motivated by recent geopolitical developments in the US and the
+broader Western context (Hawkins and Leonard, 2025; Mukherjee, 2025; Jackson, 2025), we designate
+X asChinainthegeographical scope. ThisdecisionreflectsthesignificantrelianceonChinaforcritical
+components in the automotive industry, which is the focus of our dataset.
+Additionally, within our geopolitical scope, we designate X as the High Risk countries (such as
+China, Russia, Iran, and North Korea) to assess the extent of global dependence on these nations.
+ThisapproachalignswiththeUSgovernment’seffortstoaddresseconomicandnationalsecurityrisks
+associated with reliance on certain countries for critical goods and materials (Rowan, 2025).
+Figure 1 B b) illustrates the Country+1 policy, where, for illustrative purposes, the scope is on a
+company in France, and Germany is selected as Country X.
+3.1.2 Friendshoring
+Friendshoring or Nearshoring (see Figure 1 B (c)) is a policy designed to reallocate suppliers to geo-
+graphically closer or geopolitically aligned countries, enhancing supply chain stability.
+4
+
+--- Page 5 ---
+Nearshoring involves sourcing products and services from suppliers in geographically proximate
+regions (Cagliano et al., 2012). Its primary economic benefits stem from shorter transport corridors,
+leading to reduced logistics costs and lower emissions. Additionally, shorter delivery times enhance
+flexibility, allowing businesses to respond more efficiently to fluctuations in demand. This strategy
+serves as a middle ground between full globalization and economic isolation, as well as between off-
+shoring and domestic production (reshoring).
+Friendshoring, on the other hand, prioritizes sourcing from suppliers located in politically allied or
+strategicallyalignedcountries(Hayashi,2022). Ratherthansolelyfocusingoneconomicefficiency,this
+approach emphasizes long-term stability and supply chain resilience by reducing exposure to geopolit-
+ical risks.
+In our scenarios, we define “friends” as countries belonging to the same cluster (e.g., Low Risk,
+Asian and European). In the geographical scope, these clusters generally comprise geographically
+proximate countries. In contrast, under the geopolitical scope, countries within the same cluster are
+not necessarily geographically close.
+Refer to Figure 1B(c) for a visual illustration of the Friendshoring policy, focusing on a company
+based in France. In this example, friendshoring entails relocating suppliers to neighboring countries.
+3.1.3 Reshoring
+The Reshoring policy, as illustrated in Figure 1 B (d), aims to bring production and outsourcing ser-
+vices back to the home country (Godsell et al., 2017; Essletzbichler and Pintar, 2021). This policy
+was especially discussed during the COVID-19 pandemic since many countries could not rely on other
+countriesandinternationallogisticsandstarteddiversifyingtheireconomyandbringingbackathome
+production. In this analysis, we explore the extent to which each country can feasibly reshore its
+outsourced goods and services.
+RefertoFigure1B(d)foravisualexampleoftheReshoringpolicy,where,forillustrativepurposes,
+the scope is on a company in France, and the restoring policy process involves relocating suppliers to
+France.
+4 Results
+To evaluate the impact of the proposed policies on the EV supply chain network, we compute key
+topologicalmetricsbeforeandaftertheirimplementation. Webeginbyexaminingtheinitialstructural
+characteristics of the real-world supply chain network, followed by an analysis of the changes induced
+by the simulated policy interventions.
+4.1 Initial Network Properties
+The initial EV supply chain network, prior to policy implementation, exhibits several key character-
+istics. The network has a heavy-tailed structure in the firm-to-firm connections, which helps mitigate
+random failures. The nodes on average have 1.87 international and 1.86 domestic connections, which
+means firms rely on very few suppliers and customers, potentially making the network vulnerable.
+Additionally,therelativelybalancedinternational-to-domesticconnectionsindicatehigherexposureto
+global disruptions in the automotive sector compared to other industries (Acemoglu et al., 2012).
+The network’s modularity of 0.57 indicates a strong community structure, which may help contain
+disruptions within clusters and prevent spreading globally. Like other supply chain networks, the net-
+work exhibits negative degree assortativity (-0.12), meaning high-degree firms (hubs) tend to connect
+withlow-degreefirms. However,wealsoobservepositivelocationassortativity, suggestingfirmsprefer
+local connections.
+5
+
+--- Page 6 ---
+The clustering coefficient is 0.026, implying that firms are not strongly interconnected within local
+groups. The average shortest path length of 4.57 suggests that disruptions can propagate relatively
+quickly across the network, but not as fast as in highly interconnected small-world networks.
+The most central companies based on eigenvector and closeness centrality include Toyota, Volk-
+swagen,Honda,Stellantis,andMercedes-Benz,highlightingtheirdominantroleinthenetwork. These
+firms act as critical bridges and influencers in the supply chain, meaning disruptions at these nodes
+could have widespread effects.
+4.2 Policy Simulations
+Next, we analyze network changes under different policy applications. In the Geographical scope, we
+assesstheeffectsofChina+1(Country+1),Friendshoring,andReshoringontheAmerican,European,
+and Asian clusters. In the Geopolitical scope, we examine the impact of High Risk+1 (Country+1),
+Friendshoring, and Reshoring on the Low Risk and Low & Medium Risk clusters.
+We present our findings through multiple perspectives: changes in overall supply chain network
+metrics (Figure 2), the policy impact on each country by number of affected companies (Figure 3), as
+well as the top five most vulnerable industries (Table 1) across scopes and policies. Further results
+examining product- and country-level vulnerabilities are presented in Section A.4.
+4.2.1 Geographical Scope
+Tocomputetheresultsinthegeographicalscope, wefocusedonthreedistinctclusters: theAmerican,
+European and Asian. For a detailed list of the countries included in these clusters and our dataset,
+see Section A.3.
+Foreachcluster,weapplythreetradepolicies: China+1(Country+1),Friendshoring,andReshoring.
+First, we apply the Country+1 policy, where “Country” refers specifically to China. This policy is
+designed to reduce dependency on Chinese suppliers by incorporating additional suppliers from other
+countries.
+Under the China+1 policy, the American cluster contains 13 non-substitutable products—items
+that cannot be sourced from any company outside China (Figure 2A). These products are primarily
+concentrated in the Transportation Equipment, Industrial Intermediates, and Semiconductors sec-
+tors (Table 1). Notably, 21 American companies rely on these non-substitutable products, making the
+UStheonlycountrywithfirmsaffectedundertheChina+1policyintheAmericancluster(Figure3a).
+The European cluster shows 14 non-substitutable products, a number that remains unchanged
+after excluding mining products (Figure 2A). The top three industries contributing to these non-
+substitutableproductsareTransportationEquipment,Automotive,andTechnologyServices(Table1).
+The countries with the highest number of companies with products in the non-substitutable list are
+Germany (16 companies), France (6 companies), and Spain (3 companies) (Figure 3b).
+In the Asian cluster, 12 non-substitutable products are identified (Figure 2A). The most affected
+industriesareTransportationEquipment, Telecommunications, andConstructionMaterials(Table1).
+The countries with the highest number of companies with non-substitutable products are Taiwan (65
+companies), Japan (25 companies), and South Korea (10 companies) (Figure 3c).
+In the China+1 policy, we observe that the American cluster is the least dependent on China,
+while the Asian cluster, particularly Hong Kong and Taiwan, is the most dependent. Across all three
+clusters, there is a noticeable increase in international connections, a reduction in modularity, and an
+increase in the shortest path, particularly in the Asian cluster.
+Next, when applying the Friendshoring policy on the American cluster, we observe 503 non-
+substitutable products, where 54 are mining products (Figure 2A). The most impacted industries
+6
+
+--- Page 7 ---
+are Transportation Equipment, Oil & Gas Services & Equipment, and Industrial Intermediate Prod-
+ucts(Table 1). The United States has the highest number of affected companies, 369 in total, followed
+by Canada (70 companies) and then Mexico (21 companies) (Figure 3a).
+TheEuropeanclusterreveals552non-substitutableproducts,with58miningproducts(Figure2A).
+The most impacted industries are Cable & Satellite, Telecommunications, and Metals & Mining (Ta-
+ble 1). The countries with the highest number of companies affected are Germany (123 companies),
+the United Kingdom (99 companies), and Spain (51 companies) (Figure 3b).
+TheAsianclustershows307non-substitutableproducts,with26miningproducts(Figure2A).Key
+industries affected are Cable & Satellite, Telecommunications, and Industrial Intermediate Products
+(Table 1). China (224 companies), Japan (123 companies), and South Korea (81 companies) are the
+countries with the highest number of affected companies in the Asian cluster (Figure 3c).
+IntheFriendshoringpolicy,wenoticethattheAsianclusterexhibitsthemostresilienceamongthe
+threeclustersandhasthehighestincreaseininternationallinksandthehighestdecreaseinmodularity,
+whiletheEuropeanclusteristhemostvulnerable,withthehighestnumberofcompaniesandproducts
+being affected. The American Cluster, on the other hand, has a decrease in international connections
+and the highest increase in domestic connections.
+Lastly,whenapplyingtheReshoringpolicyontheAmericanclustercontains676non-substitutable
+products,with119miningproducts(Figure2A).Mining,Refining,andSmeltingindustriescontribute
+the most to the non-substitutable products (Table 1). The United States has the highest number of
+affected companies (460 companies), then Canada (148 companies) and Mexico (36 companies) (Fig-
+ure 3a).
+The European cluster has 769 non-substitutable products, with 133 mining products (Figure 2A).
+ThemostaffectedindustriesareMining,Refining,andSmelting(Table1). Countrieswiththehighest
+number of affected companies are Germany (192 companies), the United Kingdom (158 companies),
+and Spain (113 companies) (Figure 3b).
+In the Asian cluster, there are 780 non-substitutable products, with 136 mining products (Fig-
+ure2A).TheMining,Refining,andSmeltingindustriesshowthehighestproportionofnon-substitutable
+products (Table 1). The countries with the most company suppliers affected are China (378 compa-
+nies), Japan (287 companies) and Taiwan (237 companies) (Figure 3c).
+In the Reshoring policy, we notice an increase in domestic connections, an increase in modularity,
+and a decrease in international connections, which is expected. We notice that the countries in the
+European cluster are the most vulnerable, while the Asian cluster has substantially the least affected
+percentage of companies, yet we acknowledge that those companies act as bottlenecks which receive
+supplies of various products.
+When comparing the resilience of the different regional clusters to the China+1, Friendshoring,
+and Reshoring policies, we observe distinct patterns of impact. Our findings reveal that the European
+cluster demonstrates the least resilience to Friendshoring and Reshoring policies, with substantial
+disruption in key industries. In contrast, the American cluster shows the highest resilience to the
+China+1policy,withfewerproductsinthenon-substitutablelistacrosstheboard. TheAsiancluster,
+while being the most dependent on China, is the most resilient to Friendshoring with the lowest
+percentage of companies and number of products affected. In the case of Reshoring, while we notice
+thattheAsianclusterhasthelowestpercentageofcompaniesaffected,westillacknowledgethatthose
+companies act as bottlenecks which receive supplies of various products.
+4.2.2 Geopolitical Scope
+To compute the results within the geopolitical scope, we focused on two distinct clusters: Low Risk
+and Low & Medium Risk. The latter aggregates countries from both the Low Risk and Medium Risk
+groupstoprovideamorecomprehensiveglobalperspective. Foradetailedlistofthecountriesincluded
+7
+
+--- Page 8 ---
+Table 1: Top 5 most vulnerable industries under each policy scenario across different scopes.
+Scope / Policy China+1 Friendshoring Reshoring
+TransportationEquipment TransportationEquipment Mine,Refinery,Smelter
+IndustrialIntermediateProd Oil&GasServices&Equip Mine,Smelter
+American Semiconductors IndustrialIntermediateProd Mine
+TechnologyServices Steel Smelter
+RenewableEnergy Machinery Telecommunications
+TransportationEquipment Cable&Satellite Mine,Refinery,Smelter
+Automotive Telecommunications Mine,Smelter
+European TechnologyServices Metals&Mining Refinery,Smelter
+ConstructionMaterials IndustrialIntermediateProd Smelter
+IndustrialIntermediateProd Machinery Cable&Satellite
+TransportationEquipment Cable&Satellite Mine,Refinery,Smelter
+Telecommunications Telecommunications Mine,Smelter
+Asian ConstructionMaterials IndustrialIntermediateProd Refinery,Smelter
+Aerospace&Defense Transportation&Logistics Smelter
+Automotive Metals&Mining Smelter,Refinery
+Scope / Policy High Risk+1 Friendshoring Reshoring
+TransportationEquipment IndustrialIntermediateProd Mine,Refinery,Smelter
+Automotive Automotive Mine,Smelter
+LowRisk IndustrialIntermediateProd Machinery Refinery,Smelter
+ConstructionMaterials TransportationEquipment Smelter
+RenewableEnergy ElectricalEquipment Cable&Satellite
+TransportationEquipment Machinery Mine,Refinery,Smelter
+Automotive Automotive Mine,Smelter
+Low&MediumRisk ConstructionMaterials Telecommunications Refinery,Smelter
+TechnologyServices IndustrialIntermediateProd Smelter
+Semiconductors DiversifiedIndustrials Cable&Satellite
+in the two aforementioned clusters and our dataset, see Section A.3. For each of these clusters, we
+apply three trade policies: High Risk+1 (Country+1), Friendshoring, and Reshoring. These policies
+are analyzed to evaluate their respective impacts on the overall network and the clusters of supply
+chain networks.
+First, we apply the Country+1 policy, where “Country” refers to all companies within the High
+Risk cluster. The policy aims to reduce reliance on high risk suppliers by incorporating additional
+suppliers from outside this group. In this case, both Low Risk and Low & Medium Risk exhibit a
+similar number of non-substitutable products, 21 and 22, respectively (Figure 2A).
+The top industries contributing to these non-substitutable products in both cases are Transporta-
+tion Equipment and Automotive, while Mining, Refining, Smelting, Diversified Industrials, and Cable
+&Satelliteindustriesremainunaffected(Table1). Additionally,thecountrieswiththehighestnumber
+of companies in the non-substitutable list are Taiwan (65 companies), Japan (26 companies), and the
+United States (21 companies) (Figure 3d,e).
+Whilethepolicyincreasesglobalconnectionsandreducesmodularityinbothclusters,applyingthe
+High Risk+1 policy to the Low & Medium Risk cluster results in the highest increase in international
+linksandthelowestmodularityamongallcases(Figure2). Thisoutcomealignswithexpectations, as
+adding more suppliers enhances network robustness. However, companies in Taiwan appear to be the
+most vulnerable, indicating that while the policy diversifies the supplier base, certain countries, like
+Taiwan, remain highly dependent on suppliers from High Risk cluster.
+Next, when applying the Friendshoring policy, the Low Risk cluster reveals 367 non-substitutable
+products,with9.54%belongingtotheminingsector(Figure2A).ThemostimpactedindustriesareIn-
+dustrialIntermediateProducts,Automotive,andMachinery(Table1). Thecountrieswiththehighest
+8
+
+--- Page 9 ---
+number of affected companies are the United States (170 companies), Japan (118 companies), South
+Korea (73 companies), and Germany (73 companies) (Figure 3d).
+In the Low & Medium Risk cluster, the number of non-substitutable products decreases to 256,
+withminingproductsaccountingfor8.59%(Figure2A).ThemostimpactedindustriesareMachinery,
+Automotive, and Telecommunications, while Mining, Refining, and Smelting remain unaffected (Ta-
+ble 1). The highest number of affected suppliers have the companies in Japan (77 companies), the US
+(75 companies) and Germany (52 companies) (Figure 3e).
+Notably, expanding from Low Risk to Low & Medium Risk significantly reduces the number of
+affected products and companies, mitigating the vulnerability of the United States and Japan by
+broadening their supplier base. Interestingly, although this policy restructures supplier relationships
+within a predefined cluster of countries, it still promotes internationalization as evidenced by the sig-
+nificant increase in international links, while decreasing modularity in the supply network.
+Lastly, when applying the Reshoring policy, the Low Risk cluster contains 831 non-substitutable
+products, with 137 mining products (Figure 2A). The most affected industries are Mining, Refining,
+and Smelting, and Cable & Satellite (Table 1). The countries with the highest number of companies
+with non-substitutable products are the United States (460 companies), Japan (287 companies), and
+Taiwan (237 companies) (Figure 3d).
+In the Low & Medium Risk cluster, the number of non-substitutable products slightly increases to
+840, with mining products accounting for 16.31% (Figure 2A). The most affected industries remain
+Mining, Refining, Smelting(Table1). TheUnitedStates, Japan, andTaiwancontinuetobethecoun-
+tries with the highest number of affected companies (Figure 3e).
+ExtendingtheapplicationoftheReshoringpolicyfromLowRisktoLow&MediumRiskincreases
+the number of affected products and companies, though the most vulnerable countries remain un-
+changed. Notably,thispolicyreducesinternationalconnectionswhileincreasingdomesticones. Italso
+results in the highest network modularity and the longest average shortest path, reinforcing company
+clustering. Additionally, we observe that mining products and raw materials emerge as the most vul-
+nerable category under this policy, highlighting the risks associated with localizing supply chains for
+critical resources.
+5 Discussion and Conclusions
+Inthispaper,weseektobridgethegapbetweennetworkanalysisandtheconsequencesofpolicyinter-
+ventionsbyexamininghowlocalizedsupplynetworkdesignchangesimpactbroadernetworkstructures.
+We aim to identify patterns that emerge at a systemic level, shedding light on how these policies re-
+shape global supply chains.
+Existingstudiesthatexplorethesystemicimplicationsoflocalized,geopoliticallymotivatedsupply
+chain policies are relatively scarce, and those that do exist often lack firm- and product-level data. To
+address this gap, we collected large-scale data on critical minerals in the electric vehicle sector and
+tested the extremes of three key policies: Country+1, Friendshoring, and Reshoring.
+We find that, contrary to common intuition, Friendshoring leads to greater globalization. As firms
+replace supplier links with companies outside their scope that have a wide product range, countries
+pursuing the policy form more links across a network of “friendly” nations to replace all the products,
+leadingtoahigherdensityofconnections. Thismayleadtoconsequencessuchasincreasedtransaction
+costs, as firms need to manage additional supply chain relationships.
+The Country+1 policy, which aims to introduce redundancy into supply chains, also results in
+increased connectivity and higher network density. However, as expected, it does not generate a
+substantial number of non-substitutable products. In contrast, an extreme implementation of the
+ReshoringpolicyappearsinfeasibleinthecurrentEVbatterysector,giventheprevalenceofirreplace-
+9
+
+--- Page 10 ---
+able products—particularly in upstream segments such as mining.
+Moreover, there is a significant heterogeneity in how these policies affect different industries, in-
+fluenced by the tiered structure of the global supply network. For instance, mining products are less
+affectedbytheCountry+1policy,astheytendtobepreserved,whereastheyaresignificantlyimpacted
+by Reshoring.
+Inconclusion,ourstudyhighlightstheneedforgreaternuanceinunderstandingtheeffectsofthese
+policies. Product-level data is crucial to determine how systemic structures evolve at the global scale.
+Given the variability in product spaces and firm-level connections across industries, we believe our
+findings have broader implications. Future research should expand this analysis beyond the electric
+vehicle sector and examine how regionalization impacts the robustness of global supply chains. Fur-
+thermore, studies exploring the changes in firms’ transaction costs due to policy shifts and analyzing
+the trade-offs between regionalization and supply chain resilience are necessary.
+While our analysis is focused on a subset of supply chains within the EV sector and a specific time
+period, this work serves as an initial attempt to quantify and provide insights into the effects of the
+three supply chain intervention policies: Country+1, Friendshoring, and Reshoring. The variations
+in resilience observed across different regional clusters underscore the complexity of these policies and
+highlight the need for a deeper understanding of their impact on global supply chains. We hope that
+thisresearchlaysthegroundworkforfuturestudiesthatexpandtheanalysistoothersupplychainsand
+more comprehensive datasets, ultimately offering a broader perspective on how such policies reshape
+global supply network dynamics.
+5.1 Data Availability
+ThedatausedinthisanalysisincludesproprietarydatasetsfromBloombergandMarklines. Whilewe
+areunabletosharethesedatasetsdirectlyduetolicensingrestrictions,theyarecommerciallyavailable
+and can be obtained through the respective providers. Additionally, we use the Mining Sites dataset,
+which is publicly available as part of the study by Jasansky et al. (2023).
+5.2 Code Availability
+We provide pseudocode (Section A.2) to illustrate the policy simulation framework. The code imple-
+mentation can be shared upon reasonable request.
+10
+
+--- Page 11 ---
+Figure 1: A) Illustration of the two groups of clusters used in the analysis: (a) geographical clus-
+ters composed of a subset of American, Asian and European countries and (b) geopolitical clusters
+composed of Low Risk cluster and Low & Medium Risk cluster countries. B) Examples illustrating
+the three policies: (a) an initial supplier network to a company in France, (b) Country+1 where the
+Country=Germany therefore France supplies from Germany and supplies the same products from a
+company outside of Germany, (c) application of the policy Friendshoring where the company from
+France only supplies from neighbouring countries, and (d) Reshore policy where the company only
+supplies from companies within the country. C) Dataset statistics: (a) average number of firms and
+products per firm, (b) number of unique products, and (c) in- and out-degrees, and specialisation of
+each cluster.
+11
+
+--- Page 12 ---
+Figure2: A)Visualizationofresultsacrossfivenetworkmetrics: shortestpath,domesticandinterna-
+tional connections, modularity, size of non-substitutable products and companies’ suppliers across five
+clusters (American, European, Asian, Low Risk, and Low & Medium Risk). The results are displayed
+as box plots for indeterministic metrics (metrics that change due to the randomness of our policy
+applications) and as bar plots for those with deterministic behaviour. The grey dotted line represents
+the parameter value in the initial network before any policy application. B) Illustration of the initial
+mapping (a) and the remapping (b, c, d) after the application of each policy on the Low Risk scope
+between firms of different countries grouped by the geopolitical clusters.
+12
+
+--- Page 13 ---
+Percentage of Affected Companies by Country
+a) Geographical Scope: American
+b) Geographical Scope: European
+c) Geographical Scope: Asian
+d) Geopolitical Scope: Low Risk
+e) Geopolitical Scope: Low & Medium Risk
+Figure 3: Visualization of the number of affected companies by country after the application of the
+policiesCountry+1(China+1andHighRisk+1),FriendshoringandReshoringacrosstheGeographical
+scope (American, European, Asian) and Geopolitical scope (Low Risk, and Low & Medium Risk).
+13
+
+--- Page 14 ---
+References
+Daron Acemoglu, Vasco M Carvalho, Asuman Ozdaglar, and Alireza Tahbaz-Salehi. The network
+origins of aggregate fluctuations. Econometrica, 80(5):1977–2016, 2012.
+SaraAlMahri, LimingXu,andAlexandraBrintrup. Enhancingsupplychainvisibilitywithknowledge
+graphs and large language models. arXiv preprint arXiv:2408.07705, 2024.
+Clarissa Amico, Mattia Brambilla, and Roberto Cigolini. Quantitative assessment of the profitability
+ofnextshoringstrategyinglobalsupplychains. Flexible Services and Manufacturing Journal,pages
+1–44, 2024.
+AndreaBacilieri,Andr´asBorsos,PabloAstudillo-Estevez,andFran¸coisLafond. Firm-levelproduction
+networks: what do we (really) know. INET Oxford Working Paper, 2023, 2023.
+Alexandra Brintrup, Jose Barros, and Ashutosh Tiwari. The nested structure of emergent supply
+networks. IEEE Systems Journal, 12(2):1803–1812, 2015a.
+AlexandraBrintrup,YuWang,andAshutoshTiwari. Supplynetworksascomplexsystems: anetwork-
+science-based characterization. IEEE Systems Journal, 11(4):2170–2181, 2015b.
+AlexandraBrintrup,AnnaLedwoch,andJoseBarros. Topologicalrobustnessoftheglobalautomotive
+industry. Logistics Research, 9(1):1, 2016.
+Anna Corinna Cagliano, Alberto De Marco, C. Rafele, and Marco Arese. A decision-making approach
+for investigating the potential effects of near sourcing on supply chain. Strategic Outsourcing: An
+International Journal, 5:100–120, 06 2012.
+Peter Enderwick. A ’China-Plus-One’ strategy: The best of both worlds? Human Systems Manage-
+ment, 30:85–96, Jan 2011.
+Werner Raza; Jan Grumiller; Hannes Grohs; Ju¨rgen Essletzbichler and Nico Pintar. Post
+covid-19 value chains: options for reshoring production back to europe in a globalised econ-
+omy. Policy Department for External Relations Directorate General for External Policies of
+the Union, 2021. URL https://www.europarl.europa.eu/RegData/etudes/STUD/2021/653626/
+EXPO_STU(2021)653626_EN.pdf. Accessed 07/04/2025.
+Joseph Galaskiewicz. Studying supply chains from a social network perspective. Journal of Supply
+Chain Management, 47(1):4–8, 2011.
+Jan Godsell, Joshua Ignatius, Antonios Karatzas, John King, Di Li, and Julia Moore. Realities of
+reshoring: A UK perspective. Loughborough University, 2017. URL https://hdl.handle.net/
+2134/24114444.v1. Accessed 07/04/2025.
+Manfred Hafner and Simone Tagliapietra. The Geopolitics of the Global Energy Transition. Springer
+Nature, Jan 2020. ISBN 978-3-030-39065-5.
+Mackenzie Hawkins and Jenny Leonard. Biden to further limit Nvidia AI chip exports
+in final push. Bloomberg, Jan 2025. URL https://www.bloomberg.com/news/articles/
+2025-01-08/biden-to-further-limit-nvidia-amd-ai-chip-exports-in-final-push. Ac-
+cessed 21/03/2025.
+YukaHayashi. Nationsaimtosecuresupplychainsbyturningoffshoringintofriend-shoring. The Wall
+Street Journal, 2022.
+Dmitry Ivanov. Supply chain resilience: Conceptual and formal models drawing from immune system
+analogy. Omega, 127:103081, 2024.
+Lewis Jackson. China export controls freeze antimony shipments to EU from oc-
+tober. Reuters, Mar 2025. URL https://www.reuters.com/markets/commodities/
+china-export-controls-freeze-antimony-shipments-eu-october-2025-03-20/. Accessed
+07/04/2025.
+14
+
+--- Page 15 ---
+SimonJasansky, MirkoLieber, StefanGiljum, andVictorMaus. Anopendatabaseonglobalcoaland
+metal mine production. Scientific Data, 10(1):52, Jan 2023.
+Yusoon Kim, Thomas Y Choi, Tingting Yan, and Kevin Dooley. Structural investigation of supply
+networks: A social network analysis approach. Journal of operations management, 29(3):194–211,
+2011.
+Tomomi Kito, Alexandra Brintrup, Steve New, and Felix Reed-Tsochas. The structure of the toyota
+supply network: an empirical analysis. Sa¨ıd Business School WP, 3, 2014.
+Vasudha Mukherjee. Western tech firms adopt ’anything but china’ approach amid global ten-
+sions. Business Standard, 2025. URL https://www.business-standard.com/world-news/
+anything-but-china-us-tech-companies-supply-chain-shift-away-trump-125021700365_
+1.html. Accessed 07/04/2025.
+Anton Pichler, Christian Diem, Alexandra Brintrup, Fran¸cois Lafond, Glenn Magerman, Gert Buiten,
+Thomas Y Choi, Vasco M Carvalho, J Doyne Farmer, and Stefan Thurner. Building an alliance to
+map global supply networks. Science, 382(6668):270–272, 2023.
+Maciel Queiroz, Dmitry Ivanov, Alexandre Dolgui, and Samuel Fosso Wamba. Impacts of epidemic
+outbreaks on supply chains: mapping a research agenda amid the covid-19 pandemic through a
+structured literature review. Annals of Operations Research, 319, Jun 2020.
+Linda R Rowan. Critical mineral resources: National policy and critical minerals list. Library of
+Congress, 2025. URL https://www.congress.gov/crs-product/R47982. Accessed 07/04/2025.
+EdwinVanHassel,ThierryVanelslander,KrisNeyens,HansVandeborre,DominiqueKindt,andStefan
+Kellens. Reconsidering nearshoring to avoid global crisis impacts: Application and calculation of
+the total cost of ownership for specific scenarios. Research in Transportation Economics, 93:101089,
+2022.
+Stuart Witchell and Philippa Symington. China plus one. FTI Consulting, 2013. URL
+https://www.fticonsulting.com/~/media/Files/us-files/insights/journal-articles/
+china-plus-one.pdf. Accessed 07/04/2025.
+Efpraxia D. Zamani, Conn Smyth, Samrat Gupta, and Denis Dennehy. Artificial intelligence and
+big data analytics for supply chain resilience: a systematic literature review. Annals of Operations
+Research, 327(2):605–632, Aug 2023.
+6 Acknowledgments
+Contribution: We thank Dimitris Skarlatoudis, Bang Xiang Yong, Alex Clinton, and Yunbo Long
+for assistance with data collection and validation. We also thank the members of the Supply Chain
+AI Lab and the participants of the 5th Interdisciplinary Workshop on Firm-Level Supply Networks in
+Oxford for their valuable input and comments.
+7 Author Contributions
+L.K.: Led the writing, implemented and simulated the policies, and created the visualisations. L.X.:
+Contributed to the data cleaning and the writing. Z.D.: Developed the initial code for simulating
+policy applications and contributed to the data cleaning. S.A.: Completed the missing product data
+using her LLM-based software. A.B.: Contributed to refining the writing and guided research ideas
+and overall direction.
+15
+
+--- Page 16 ---
+A Appendix
+A.1 Dataset
+Inourdataset,asshowninFigure4(a),Chinahasthehighestnumberofcompanies(i.e.,2111compa-
+nies),followedbyJapan(1325)andtheUS(1322). Onaverage,companiesinthisdatasetmanufacture
+around 5 products. In terms of supplier-customer relationships, trade tends to occur domestically
+within countries. Regarding country-product specialisation, companies from the US predominantly
+supply electric utility products, while firms from Japan and China tend to focus on automotive prod-
+ucts. The distribution of the number of products across industries is presented in Figure 4(c), with
+the Automotive and Machinery industries containing the largest number of products.
+A.2 Policy Pseudocode
+Toenhanceclarity,thissectiondetailsthespecificalgorithmicproceduresemployedtoimplementeach
+of the four policies.
+A.2.1 Country+1 Policy
+The Country+1 policy, as presented in Algorithm 1, takes two input arguments: sets of countries X
+and S, where companies in S aim to reduce their dependence on suppliers from X. The algorithm
+begins by extracting two sets of companies: C , comprising companies located in risky countries X
+X
+(e.g.,suppliersfromChinaandRussia);C ,representingcompaniesoperatinginS. Tomonitorsupply
+S
+chain vulnerabilities, the algorithm utilises two sets: NS , which stores non-substitutable products,
+p
+and NS , which contains companies that cannot find alternative suppliers within S.
+c
+The main process involves iterating over each supplier x in C to check whether companies in
+X
+C rely on it. For each company c in C , the algorithm retrieves the products P supplied by x. It
+S S
+then examines whether each product p in P can be sourced from an alternative supplier in friendly
+countries S. If at least one alternative supplier exists, it is added to c’s supplier list (unless it already
+exists). If no suitable alternative supplier is found, the product is marked as non-substitutable and
+added to NS and the company is added to NS , flagging its reliance on suppliers from X. After
+p c
+enforcing this policy, companies in S will have alternative suppliers wherever possible, thus reducing
+their dependency on X. As a byproduct, this algorithm would provide insights into supply chain risks
+by identifying non-substitutable products and companies that remain reliant on suppliers from risky
+countries, enabling the development of more targeted risk mitigation strategies.
+A.2.2 Friendshoring Policy
+The Friendshoring (Algorithm 2) policy enforces companies in a given set of allied or neighbouring
+countriesS toreplaceforeignsupplierswithlocalalternativeswhereverpossible. Thealgorithmbegins
+by retrieves all companies in S, and initialises sets to track non-substitutable products and companies
+that cannot find their alternative suppliers. For each company c in S, the algorithm examines its
+suppliersandidentifiesthoselocatedoutsideofS. Itthencheckswhethereachproductsuppliedbyan
+externalsupplierhasatleastonealternativesupplierwithinS. Ifsuchasubstituteexists,thecompany
+updates its supply chain to add this new local supplier; otherwise, the product and the associated
+company are flagged as non-substitutable. To ensure minimal disruption, an external supplier is only
+removed if all its products can be replaced. The output of this algorithm is a refined supply chain
+where companies have increased reliance on local suppliers, while non-substitutable products and
+dependencies are tracked for further intervention.
+A.2.3 Reshoring Policy
+TheReshoring(Algorithm3)aimstoreplaceforeignsupplierswithdomesticalternativesforcompanies
+operating in a given set of countries S1. It first retrieves all companies in S1 and initializes sets to
+track non-substitutable products and companies that cannot replace their foreign suppliers. For each
+company c in S1, it identifies its home country and examines its current suppliers. If a supplier s is
+foreign (i.e., located outside c’s home country), the algorithm checks whether each product supplied
+A1
+
+--- Page 17 ---
+Algorithm 1: Procedure of Enforcing the Country+1 Policy
+input : X is the countries with risks, e.g., Russia and China; S is friendly countries (excluding X)
+for seeking additional suppliers
+output: Remapped network after enforcing Country+1 policy
+1 C X ←GetCompanies(X)
+2 C S ←GetCompanies(S)
+3 NS p ←∅ // a set of non-substitutable products
+4 NS c ←∅ // a set of companies with non-substitutable suppliers
+5 for x∈C X do
+6 for c∈C S do
+7 for x∈GetSuppliers(c) do
+8 P ←GetProducts(x) // Products supplied by company x
+9 for p∈P do
+10
+alternativeSuppliers←∅
+11 for s∈C S do
+12 if s̸=c & p∈GetProducts(s) then
+13 add c to alternativeSuppliers
+14 if alternativeSuppliers=∅ then
+15 add p to NS p
+16 add c to NS c
+17 else
+18 for s∈alternativeSuppliers do
+19 if s∈/ GetSuppliers(c) then
+20 add s as a supplier of c // add alternative supplier
+by s has at least one alternative domestic supplier within S1. If a substitute exists, the company adds
+the new local supplier; otherwise, the product and company are marked as non-substitutable. Finally,
+a foreign supplier is only removed if all its products can be replaced, ensuring minimal disruption.
+The output provides a refined supply chain where companies depend more on local suppliers, while
+non-substitutable products and dependencies are tracked for further intervention.
+A.3 Scenario Scopes
+Table 2 presents the complete set of countries in the Asian, American, European, Low Risk, Medium
+Risk, and High-Risk clusters used in our experiments.
+A2
+
+--- Page 18 ---
+Algorithm 2: Procedure of Enforcing the Friendshoring Policy
+input : A set of countries that are allies or friendsS
+output: Remapped network after intervention
+1 C ←GetCompanies(S) // Get all companies in countries S
+2 NS p ←∅ // Non-substitutable products
+3 NS c ←∅ // Companies with non-substitutable suppliers
+4 for c∈C do
+5 for s∈GetSuppliers(c) do
+6 if s∈/ C then
+7 P ←GetProducts(s) // Get products supplied by s and assign them to P
+8 substitutable←true
+9
+alternativeSuppliers←∅
+10 for p∈P do
+// Check if this product can be substituted; if so, find alternative suppliers
+11 for k∈C do
+12 if k̸=c & p∈GetProducts(k) then
+13 add k to alternativeSuppliers
+14 if alternativeSuppliers=∅ then
+15 add p to NS p
+16 add c to NS c
+17 substitutable←false
+18 else
+19 for k∈alternativeSuppliers do
+// Add k as a supplier of c
+20 if k∈/ GetSuppliers(c) then
+21 add k as a supplier of c
+// If substitution exists, remove this supplier s
+22 if substitutable=true then
+23 remove s as a supplier of c
+A3
+
+--- Page 19 ---
+Figure 4: Visualisation of our dataset. (a) Scatter plot showing the number of firms (x-axis) and
+the average number of products per firm (y-axis) for all locations with more than 10 firms. (b)
+Heatmaps: the left panel illustrates bilateral customer-supplier relationships between countries, and
+the right panel depicts country-industry specialisation in production. (c) Distribution of the number
+of products across industries.
+A4
+
+--- Page 20 ---
+Algorithm 3: Procedure of Enforcing the Reshoring Policy
+input : A set of countries S1
+output: Remapped network after reshoring intervention
+1 C ←GetCompanies(S1) // Get all companies in S1
+2 NS p ←∅ // Non-substitutable products
+3 NS c ←∅ // Companies with non-substitutable suppliers
+4 for c∈C do
+5 home←GetCountry(c)
+6 for s∈GetSuppliers(c) do
+7 if GetCountry(s)̸=home then
+8 P ←GetProducts(s)
+9 substitutable←true
+10 for p∈P do
+11
+alternatives←∅
+12 for k∈C do
+13 if k̸=c & GetCountry(k)=home & p∈GetProducts(k) then
+14 add k to alternatives
+15 if alternatives=∅ then
+16 add p to NS p
+17 add c to NS c
+18 substitutable←false
+19 else
+20 for k∈alternatives do
+21 if k∈/ GetSuppliers(c) then
+22 AddSupplier(c,k)
+23 if substitutable=true then
+24 RemoveSupplier(c,s)
+A5
+
+--- Page 21 ---
+,sretsulc
+)naeporuE
+dna
+,naciremA
+,naisA(
+lacihpargoeG
+dna
+)ksiR
+hgiH
+dna
+,muideM
+,woL(
+lacitilopoeG
+rieht
+yb
+dezirogetac
+seirtnuoc
+fo
+tsiL
+:2
+elbaT
+.tesatad
+eht
+ni ynapmoc
+reilppus
+ro
+remotsuc
+eno
+tsael
+ta
+evah
+hcihw
+sretsulC
+lacihpargoeG
+sretsulC
+lacitilopoeG
+)13(
+naeporuE
+)3(
+naciremA
+)01(
+naisA
+)51(
+ksiR
+hgiH
+)701(
+ksiR muideM
+)91(
+ksiR
+woL
+airtsuA
+adanaC
+anihC
+suraleB
+aibimaN
+anahG
+aireglA
+ailartsuA
+muigleB
+ocixeM
+gnoKgnoH
+aidobmaC
+ainodelaCweN
+eceerG
+alognA
+muigleB
+airagluB
+setatSdetinU
+aidnI
+anihC
+airegiN
+alametauG
+anitnegrA
+adanaC
+aitaorC
+aisenodnI
+ognoCRD
+namO
+aeniuG
+aburA
+kramneD
+surpyC
+napaJ
+abuC
+natsikaP
+anayuG
+airtsuA
+dnalniF
+cilbupeRhcezC
+aisyalaM
+narI
+amanaP
+sarudnoH
+najiabrezA
+ecnarF
+kramneD
+eropagniS
+narI
+aeniuGweNaupaP
+gnoKgnoH
+niarhaB
+ynamreG
+ainotsE
+aeroKhtuoS
+qarI
+ureP
+yragnuH
+hsedalgnaB
+dnalerI
+dnalniF
+nawiaT
+nonabeL
+senippilihP
+dnalecI
+adumreB
+ylatI
+ecnarF
+manteiV
+aybiL
+dnaloP
+aidnI
+natuhB
+napaJ
+ynamreG
+ramnayM
+lagutroP
+aisenodnI
+aiviloB
+sdnalrehteN
+eceerG
+aeroKhtroN
+ociRotreuP
+learsI
+anivogezreH-ainsoB
+dnalaeZweN
+yragnuH
+noitaredeFnaissuR
+rataQ
+aciamaJ
+lizarB
+yawroN
+dnalerI
+aleuzeneV
+ainamoR
+nadroJ
+airagluB
+aeroKhtuoS
+ylatI
+ewbabmiZ
+aibarAiduaS
+natshkazaK
+osaFanikruB
+niapS
+aivtaL
+aibreS
+ayneK
+nooremaC
+nedewS
+ainauhtiL
+eropagniS
+tiawuK
+sdnalsInamyaC
+nawiaT
+gruobmexuL
+aikavolS
+natszygryK
+dahC
+modgniKdetinU
+atlaM
+ainevolS
+soaL
+elihC
+setatSdetinU
+sdnalrehteN
+acirfAhtuoS
+aivtaL
+aibmoloC
+yawroN
+aknaLirS
+airebiL
+aciRatsoC
+dnaloP
+emaniruS
+nietsnethceiL
+aitaorC
+lagutroP
+dnalreztiwS
+ainauhtiL
+oac¸aruC
+ainamoR
+ainaznaT
+gruobmexuL
+surpyC
+aikavolS
+dnaliahT
+racsagadaM
+cilbupeRhcezC
+ainevolS
+aisinuT
+aisyalaM
+aihcezC
+niapS
+eyikru¨T
+ilaM
+eriovI’detˆoC
+nedewS
+adnagU
+atlaM
+acinimoD
+dnalreztiwS
+eniarkU
+sdnalsIllahsraM
+cilbupeRnacinimoD
+modgniKdetinU
+setarimEbarAdetinU
+ainatiruaM
+rodaucE
+yaugurU
+suitiruaM
+tpygE
+natsikebzU
+ocixeM
+rodavlaSlE
+manteiV
+avodloM
+ainotsE
+sdnalsInigriV
+ailognoM
+aipoihtE
+aibmaZ
+occoroM
+ijiF
+euqibmazoM
+anahG
+A6
+
+--- Page 22 ---
+A.4 Additional Results
+To complement the results discussed above, we report in Table 3, Table 4, and Table 5 the global
+network metrics for the Geographical Scope, and in Table 6 and Table 7 for the Geopolitical Scope,
+comparing the networks before and after policy-induced rewiring. These metrics provide a structural
+overview of how each policy reshapes the supply chain. Building on this, Table 8 identifies the five
+most vulnerable products across all policy–scope combinations, highlighting where disruptions may
+concentrate. The broader vulnerability patterns at the country level are shown in Figure 5, which
+plots the share of companies to find an alternative supplier under the respective policy constraints.
+Finally, Figure 6 examines whether such vulnerabilities are more prevalent among highly connected
+hubs or smaller firms, by comparing the degree distribution of all companies to that of the affected
+subset.
+A.4.1 Geographical Scope
+Table 3: Network measures before and after enforcing the three policies in the American cluster.
+After enforcing policy
+Network Measures Initial China+1 Friendshoring Reshoring
+Avg. No. Edges 56339 59287.2 61931 61478
+Density 0.000243 0.000256 0.000268 0.000266
+Degree Assortativity -0.121478 -0.124697 -0.112675 -0.109282
+Location Assortativity 0.428589 0.410186 0.47501 0.52449
+Avg. Shortest Path Length 4.575134 4.597169 4.745798 4.753068
+Avg. Domestic connections 1.836291 1.870452 2.212053 2.372831
+Avg. International Connections 1.866325 2.02592 1.85807 1.667521
+Clustering Coefficient 0.025749 0.02649 0.025562 0.026149
+Modularity 0.565294 0.539261 0.559002 0.578745
+No. Communities 1438 1269.6 1457.2 1450.4
+No. Non-Substitutable Products (Mines %) 0 13 (0%) 503 (10.74%) 676 (17.6%)
+No. Non-Substitutable Companies 0 21 476 664
+Table 4: Network measures before and after enforcing the three policies in the European cluster.
+After enforcing policy
+Network Measures Initial China+1 Friendshoring Reshoring
+Avg. No. Edges 56339 61148 62989 59018
+Density 0.000243 0.000264 0.000272 0.000255
+Degree Assortativity -0.121478 -0.133112 -0.111633 -0.112158
+Location Assortativity 0.428589 0.395352 0.409187 0.525181
+Avg. Shortest Path Length 4.575134 4.624493 4.602967 4.661914
+Avg. Domestic Connections 1.836291 1.849501 1.926354 2.235673
+Avg. International Connections 1.866325 2.169164 2.213302 1.643007
+Clustering Coefficient 0.025749 0.027267 0.030633 0.029528
+Modularity 0.56117 0.527753 0.562455 0.569449
+No. Communities 1440 1205.4 1472.2 1445.2
+No. Non-Substitutable Products (Mines %) 0 14 (0%) 552 (10.51%) 769 (17.3%)
+No. Non-Substitutable Companies 0 32 519 993
+A.4.2 Geopolitical Scope
+A7
+
+--- Page 23 ---
+Table 5: Network measures before and after enforcing the three policies in the Asian cluster.
+After enforcing policy
+Network Measures Initial China+1 Friendshoring Reshoring
+Avg. No. Edges 56339 62015.8 67732 68218
+Density 0.000243 0.000268 0.000293 0.000295
+Degree Assortativity -0.121478 -0.124529 -0.112532 -0.105941
+Location Assortativity 0.428589 0.390959 0.37841 0.633812
+Avg. Shortest Path Length 4.575134 4.662426 4.621184 4.933708
+Avg. Domestic Connections 1.836291 1.86969 2.036909 3.055271
+Avg. International Connections 1.866325 2.206007 2.414458 1.428036
+Clustering Coefficient 0.025749 0.026326 0.02671 0.033874
+Modularity 0.569907 0.521519 0.491539 0.661074
+No. Communities 1446 1147.8 1427.6 1454.4
+No. Non-Substitutable Products (Mines %) 0 12 (0%) 307 (8.47%) 780 (17.44%)
+No. Non-Substitutable Companies 0 128 634 1558
+Table 6: Network measures before and after enforcing the three policies in the Low Risk cluster.
+After enforcing policy
+Network Measures Initial High Risk+1 Friendshoring Reshoring
+Avg. No. Edges 56339 68467.2 68161 69999
+Density 0.000243 0.000296 0.000294 0.000302
+Degree Assortativity -0.121478 -0.13027 -0.103142 -0.093862
+Location Assortativity 0.428589 0.356546 0.372094 0.699809
+Avg. Shortest Path Length 4.575134 4.569131 4.729862 4.957766
+Avg. Domestic Connections 1.836291 1.915142 1.984569 3.381572
+Avg. International Connections 1.866325 2.584543 2.494992 1.218783
+Clustering Coefficient 0.025749 0.029307 0.027382 0.03714
+Modularity 0.563223 0.484677 0.483396 0.677027
+No. Communities 1438 1029.6 1408.8 1438
+No. Non-Substitutable Products (Mines %) 0 21 (0%) 367 (9.54%) 831 (16.49%)
+No. Non-Substitutable Companies 0 157 703 2243
+Table 7: Network measures before and after enforcing the three policies in the Low & Medium Risk
+cluster.
+After enforcing policy
+Network Measures Initial High Risk+1 Friendshoring Reshoring
+Avg. No. Edges 56339 72863.8 64989 72665
+Density 0.000243 0.000315 0.000281 0.000314
+Degree Assortativity -0.121478 -0.122476 -0.109138 -0.078241
+Location Assortativity 0.428589 0.334296 0.380879 0.752534
+Avg. Shortest Path Length 4.575134 4.563405 4.742278 5.093038
+Avg. Domestic Connections 1.836291 1.91873 1.892574 3.721215
+Avg. International Connections 1.866325 2.8699 2.378523 1.054351
+Clustering Coefficient 0.025749 0.029051 0.026587 0.040796
+Modularity 0.566948 0.458832 0.498373 0.700344
+No. Communities 1438 939.8 1248.8 1387.2
+No. Non-Substitutable Products (Mines %) 0 22 (0%) 256 (8.59%) 840 (16.31%)
+No. Non-Substitutable Companies 0 204 529 3508
+A8
+
+--- Page 24 ---
+Table 8: Top 5 most vulnerable products under each policy-scope scenario.
+Scope / Policy China+1 Friendshoring Reshoring
+Rear Axle Module Transmission Alumina
+ABS ECU Rebar Transmission
+American Brake Pedal Brake Rebar
+Air Bag Fabric Steel billets Software
+Engine Cooling Module Wheel Hub Wire rods
+Engine Cooling Module Dolomite Steel meshes
+Engine Mount Rubber Automatic Transmission Steel
+European Rear Axle Module Lead Software
+Brake Pedal Heat treatment Sinter
+Vehicle Dynamic Control System Semi-soft coking coal Steel plates
+ABS ECU Rebar Flat bars
+Brake Pedal Hydrogen tank Tin
+Asian Exhaust Module Assembly Tin plates
+Air Bag Fabric Refined lead Remelt
+Rear Axle Module Hot-rolled strip Rebar
+Scope / Policy High Risk+1 Friendshoring Reshoring
+Engine Cooling Module Rebar Steel meshes
+Rear Axle Module Sodium tripolyphosphate Steel
+Low Risk ABS ECU Wheel Hub Software
+Brake Pedal Brake Alumina
+Air Bag Fabric Intake Manifold Remelt
+Brake Pedal Rebar Steel meshes
+Rear Axle Module Electrolyte for Lith. Ion Battery Sinter
+Low & Medium Risk ABS ECU Wheel Hub Software
+Engine Cooling Module Zinc ingots Steel
+Air Bag Fabric Brake Caliper Remelt
+A9
+
+--- Page 25 ---
+Number of Affected Companies by Country
+a) Geographical Scope: American
+b) Geographical Scope: European
+c) Geographical Scope: Asian
+d) Geopolitical Scope: Low Risk
+e) Geopolitical Scope: Low & Medium Risk
+Figure5: Visualizationofthepercentageofaffectedcompaniesbycountryaftertheapplicationofthe
+policiesCountry+1(China+1andHighRisk+1),FriendshoringandReshoringacrosstheGeographical
+scope (American, European, Asian) and Geopolitical scope (Low Risk, and Low & Medium Risk).
+A10
+
+--- Page 26 ---
+Figure 6: Visualization of the degree of the affected companies after the application of the policies
+Country+1 (China+1 and High Risk+1), Friendshoring and Reshoring across the Geographical and
+Geopolitical scope A11

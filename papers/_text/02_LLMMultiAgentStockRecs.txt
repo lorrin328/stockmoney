@@ -1,0 +1,1190 @@
+--- Page 1 ---
+Signal or Noise in Multi-Agent LLM-based
+Stock Recommendations?
+George Fatouros and Kostas Metaxas
+Alpha Tensor Technologies
+george@alpha-tensor.ai kostas@alpha-tensor.ai
+April 2026
+Abstract
+Wepresentthefirstportfolio-levelvalidationofMarketSenseAI1,adeployedmulti-agent
+LLM equity system. All signals are generated live at each observation date, eliminating
+look-ahead bias. The system routes four specialist agents—News, Fundamentals, Dynam-
+ics, and Macro—through a synthesis agent that issues a monthly equity thesis and ordinal
+recommendation for each stock in its coverage universe, and we ask two questions: do its
+buy recommendations add value over both passive benchmarks and random selection, and
+what does the internal agent structure reveal about the source of the edge?
+OntheS&P500cohort(19months)thestrong-buyequal-weightportfolioearns+2.18%/
+monthagainstapassiveequal-weightbenchmarkof+1.15%(approximatingRSP2),a+25.2
+percentage-pointcompoundexcess,andranksatthe99.7thpercentileof10,000MonteCarlo
+null portfolios (p = 0.003). The S&P 100 cohort (35 months) delivers a +30.5 percentage-
+point compound excess over EQWL3 with consistent direction but formal significance not
+reached (p=0.17), limited by the small average selection of ∼10 stocks per month.
+Non-negative least-squares (NNLS) projection of thesis embeddings onto agent em-
+beddings reveals an adaptive-integration mechanism rather than a dominant-agent effect.
+Agent contributionsrotate withmarketregime (Fundamentals leadson S&P500, Macro on
+S&P100, Dynamicsactsasanepisodicmomentumsignal)andthisagentrotationmovesin
+lockstep with both the sector composition of strong-buy selections and identifiable macro-
+calendar events—three independent views of the same underlying adaptation. The ordinal
+recommendation’s cross-sectional Information Coefficient (IC) is statistically significant on
+S&P 500 (ICIR = +0.489, p = 0.024). These results suggest that multi-agent LLM equity
+systems can identify sources of alpha beyond what classical factor models capture, and that
+the strong-buy signal functions as an effective universe-filter that can sit upstream of any
+portfolio-construction process.
+Keywords: large language models, multi-agent systems, equity alpha, portfolio attribution,
+information coefficient, universe filtering, MarketSenseAI
+1 Introduction
+1.1 Research Question and Motivation
+Multi-agent LLM systems are increasingly deployed in equity research, yet rigorous out-of-
+sample evidence on whether their signals translate into portfolio-level performance remains
+1https://marketsense-ai.com
+2Invesco S&P 500 Equal Weight ETF
+3Invesco S&P 100 Equal Weight ETF
+1
+6202
+rpA
+91
+]MP.nif-q[
+1v72371.4062:viXra
+
+--- Page 2 ---
+scarce. Thispaperaddressesonefocusedquestion: do the strong-buy recommendations produced
+by a deployed multi-agent LLM equity system beat random stock selection?
+We study MarketSenseAI, a system that synthesises specialist agent analyses—News, Funda-
+mentals, Dynamics, and Macro—into a unified thesis and ordinal recommendation for each
+stock. We test performance using a Monte Carlo benchmark that matches the actual portfo-
+lio on every dimension except selection: same universe, same dates, same number of holdings,
+same equal weighting. We then decompose thesis embeddings via Non-Negative Least Squares
+(NNLS) attribution to characterise how the four agents contribute collectively, finding that
+their contributions are heterogeneous and context-dependent—consistent with the synthesis
+agent adaptively weighting agents by sector and market regime.
+The paper makes no claim that LLM systems generically outperform markets. It provides a
+transparent empirical case study of one deployed system, including transparent reporting of
+where statistical evidence is and is not sufficient to draw conclusions.
+1.2 Related Work
+LLMs in financial analysis: Fatourosetal.[5],Lopez-LiraandTang[12]showthatgeneral-
+purposeLLMsencodemarket-relevantinformation,whiledomain-adaptedmodels(BloombergGPT
+[23], FinGPT[25]) improve on financial tasks. Fatouros et al. [6] and Papasotiriou et al. [17]
+establish that LLM-generated sentiment correlates with short-horizon equity returns.
+Multi-agent and agentic systems: Recent work moves beyond single-model approaches.
+TradingAgents [24] and AlphaAgents [27] coordinate specialist LLM agents for portfolio con-
+struction. Mixture-of-experts architectures [21] dynamically route inputs across specialised
+sub-models, while regime-aware approaches [26] adapt factor weights to market conditions.
+Expert-team frameworks [14] decompose complex financial tasks across LLM agents with struc-
+tured synthesis.
+LLM signal evaluation: A growing literature cautions against over-claiming. Li et al. [11]
+identify data-snooping biases in LLM backtests; Shergadwala [19] document instability across
+prompts; AlMarri et al. [1] and Han et al. [9] measure LLM overconfidence in financial contexts.
+Satapathy et al. [18] and Geng et al. [7] assess LLM performance on earnings forecasting.
+Fatouros et al. [4] describe the MarketSenseAI system architecture evaluated here.
+Embedding-based attribution: SPLICE [2] and Atlas [16] apply non-negative decompo-
+sitions to financial text embeddings. Tatsat and Shater [20] provide interpretability methods
+for LLM-generated financial signals. Prompt sensitivity in financial embeddings is studied by
+Wang et al. [22] and Kulpa and Wojarnik [10].
+Factor models and IC: Our attribution methodology connects to classical factor-model
+practice [3, 8, 13], with the information coefficient as a performance measure following Gri-
+nold and Kahn [8] and cross-sectional dependence corrections following Northfield Information
+Services [15].
+1.3 Contributions
+This paper makes three empirical contributions:
+1. Portfolio selection skill (primary):We provide the first Monte Carlo validation of a
+deployedmulti-agentLLMequitysystemattheportfoliolevel,testingwhetherstrong-buy
+selections outperform random same-sized portfolios drawn from the same universe on the
+2
+
+--- Page 3 ---
+same dates. The Monte Carlo design controls for universe composition, date-timing, and
+position count; only stock selection differs.
+2. Agent-level attribution (secondary):NNLS decomposition of thesis embeddings re-
+covers a panel of per-stock-date agent contribution weights, validated by cosine diagnos-
+tics. Agent contributions are heterogeneous and context-dependent: no single agent dom-
+inates across all dates and sectors, and the dominant agent rotates with market regime,
+consistent with the synthesis agent exploiting each agent’s comparative advantage.
+3. Implicitvsexplicitrecommendationsignal(secondary):Wecomparethepredictive
+content of the continuous NNLS agent weights against the discrete ordinal recommenda-
+tion within the actionable buy+strong-buy universe. Both the explicit recommendation
+label and the implicit agent weights carry genuine predictive content, with the continuous
+weightsencodingcross-sectionalreturninformationatafinergrainthanthediscretelabel.
+The remainder of this paper is organised as follows. Section 2 describes the MarketSenseAI
+system and the two fixed cohorts. Section 3 develops the Monte Carlo portfolio test, the
+NNLS attribution methodology, and the information-coefficient framework. Section 4 presents
+descriptive statistics for the signal panel. Section 5 presents the empirical results: Monte Carlo
+selection skill, NNLS attribution diagnostics, risk and return profile, and agent IC analysis,
+followed by sector heterogeneity. Section 6 discusses limitations and a market-beta robustness
+check, and Section 7 concludes.
+2 System Overview
+MarketSenseAI is an operational equity-research platform developed by Alpha Tensor Tech-
+nologies.4 It ingests financial news, fundamentals, price dynamics, and macro data to produce
+a structured investment thesis and an ordinal recommendation for each stock in its coverage
+universe on a fixed frequency.
+Four specialised agents: Thefouragentsare: News–ticker-specificprogressivenewsanal-
+ysis capturing recent company-level developments; Fundamentals – quantitative financials,
+filings and earning transcripts; Dynamics – price-action and technical signals; and Macro –
+sector-level and macroeconomic context.
+Eachagentindependentlyproducesatextanalysisforagivenstockanddate. Asynthesisagent
+reads all four expert analyses and generates a free-text equity thesis together with a five-point
+ordinal recommendation: strong sell, sell, hold, buy, strong buy. The ordinal recommendation
+is the synthesis agent’s explicit sentiment assessment of the stock: it distils the thesis into a
+discrete conviction label ranging from the most bearish (strong sell) to the most bullish (strong
+buy). For quantitative analysis we encode the recommendation as a numerical ordinal score;
+within the actionable buy+strong-buy subset this maps buy → 1 and strong buy → 2.
+Pipeline: Figure 1 illustrates the architecture. All text outputs—agent summaries and the
+synthesised thesis—are encoded with OpenAI’s text-embedding-3-small (D = 1536) model
+without any post-processing.
+Live generation and data integrity: Allagentoutputsareproducedthroughliveexecution
+of MarketSenseAI at each observation date, not generated retroactively. For observation dates
+beyond the training cut-off of the underlying LLMs—which covers the entirety of the S&P 500
+cohort (Sep 2024 onward) and the large majority of the S&P 100 cohort—news, earnings, and
+4https://www.alpha-tensor.ai
+3
+
+--- Page 4 ---
+price data are necessarily absent from the models’ pre-training corpus, eliminating knowledge
+leakage as a potential source of apparent outperformance. This live-generation design is the
+primary safeguard against look-ahead bias and is also why the empirical analysis is anchored
+to these two specific fixed cohorts and observation dates.
+Stage 1 — Generation
+News agent
+Market Data Fundamentals agent Synthesis Agent
+news·fundamentals thesis
+Dynamics agent
+dynamics·macro +recommendation
+Macro agent
+thesis text
+NNLS Attribution t i,d ∈R1536 Text Embedding
+wˆ i,d =(wˆN,wˆF,wˆD,wˆM)⊤ text-emb-3-small
+Stage 2 — Attribution
+Figure 1: MarketSenseAI pipeline. Stage 1 (Generation): four specialist agents independently analyse
+market data and produce focused text analyses; the synthesis agent reads all four summaries and gener-
+atesafree-textequitythesistogetherwithanordinalrecommendation—itsexplicitsentimentassessment
+of the stock. Stage 2 (Attribution): the thesis text is encoded with text-embedding-3-small into a
+vector t ∈R1536; NNLS attribution then decomposes this embedding onto the four agent embeddings,
+i,d
+recovering per-stock-date contribution weights wˆ =(wˆ ,wˆ ,wˆ ,wˆ )⊤.
+i,d N F D M
+Fixed-cohort design: To avoid survivorship and look-ahead biases we use two fixed co-
+horts (Table 1). The S&P 500 cohort comprises the 467 stocks present in the index from the
+post-expansion date onward; the S&P 100 cohort comprises 94 stocks over a longer horizon.
+Observation dates follow a first-Friday-of-the-month cadence; forward returns are one-month
+buy-and-hold returns.
+Table 1: Fixed-cohort design.
+Cohort Stocks Dates Obs. rows Period
+S&P 500 467 19 8,873 Sep 2024 – Mar 2026
+S&P 100 94 35 3,290 May 2023 – Mar 2026
+3 Methodology
+3.1 Monte Carlo Portfolio Test
+Let U denote the full universe of stocks on date d and let S ⊆ U be the set of stocks assigned
+d d d
+strongbuy onthatdate,with|S | = n . Theactualportfolioreturnondatedistheequal-weight
+d d
+mean:
+RSB = 1 (cid:88) r (1m) ,
+d n i,d
+d
+i∈S
+d
+(1m)
+where r is the one-month forward return for stock i.
+i,d
+We also define the equal-weight (EW) universe benchmark on date d as the mean return of all
+4
+
+--- Page 5 ---
+stocks in U :
+d
+REW = 1 (cid:88) r (1m) .
+d |U | i,d
+d
+i∈U
+d
+This is the passive “hold everything equally” return for the covered universe, approximating
+the RSP ETF (S&P 500 cohort) and the EQWL ETF (S&P 100 cohort). By linearity of
+expectation, REW equals the expected value of any random equal-weight draw from U , so the
+d d
+EW benchmark and the MC null mean are mathematically equivalent; any deviation in practice
+is Monte Carlo noise.
+The Monte Carlo null distribution is constructed by, for each simulation k = 1,...,K (K =
+10,000), drawing n stocks uniformly at random without replacement from U and comput-
+d d
+(k)
+ing their equal-weight return R . Sampling without replacement from the same universe on
+d
+the same date controls for universe composition, market timing, and position count; the only
+variable across simulations is which stocks are selected.
+We aggregate across dates in two ways. The mean-monthly approach takes the arithmetic
+average across dates:
+T T
+R¯SB = 1 (cid:88) RSB, R¯(k) = 1 (cid:88) R (k) .
+T d T d
+d=1 d=1
+The compound approach takes the product of gross returns:
+T T
+CSB = (cid:89) (1+RSB)−1, C(k) = (cid:89) (1+R (k) )−1.
+d d
+d=1 d=1
+One-tailedempiricalp-valuesarep = K−1(cid:80) 1[R¯(k) ≥ R¯SB]andanalogouslyforcompound
+mean k
+returns. All results use K = 10,000 and a fixed random seed for reproducibility.
+3.2 NNLS Attribution
+Let t ∈ RD be the thesis embedding for stock i on date d, and a (k) ∈ RD the embedding of
+i,d i,d
+agentk’ssummary, wherek ∈ {news,fund,dyn,macro}. FormtheagentmatrixA = [a(news) |
+i,d
+a(fund) | a(dyn) | a(macro)] ∈ RD×4.
+The NNLS problem
+(cid:13) (cid:13)2
+wˆ
+i,d
+= arg
+w
+m
+≥
+in
+0
+(cid:13)t
+i,d
+−A
+i,d
+w(cid:13)
+2
+(1)
+yields non-negative weights wˆ = (wˆ ,wˆ ,wˆ ,wˆ )⊤ that represent each agent’s contribution
+i,d N F D M
+to the synthesis thesis. Weights are normalised to sum to one; if no feasible positive solution is
+found the fallback is uniform weights. Zero observations trigger this fallback in either cohort.
+Why joint fitting rather than cosine alone: Since agent embeddings are mutually corre-
+lated (mean pairwise cosines 0.46–0.79; Figure 2), cosine similarity of the thesis with a single
+agent conflates genuine agent influence with shared semantic content. NNLS jointly regresses
+the thesis onto all four agents simultaneously, so the News agent’s weight is reduced when
+Fundamentals explains the same semantic mass more efficiently. Figure 2 illustrates this con-
+cretely: the News agent has the highest mean thesis cosine but a near-zero pooled IC, while
+NNLS correctly reallocates weight to Fundamentals and Macro, which carry positive IC.
+Attribution workflow: The NNLS analysis proceeds in two distinct stages. In the extrac-
+tion stage, Equation (1) is solved independently for every stock–date pair, yielding a panel of
+normalisedagentcontributionweightswˆ thatrepresenthowmucheachagentshapedthesyn-
+k,i,d
+thesis thesis. In the validation stage, these extracted weights are treated as continuous signals
+5
+
+--- Page 6 ---
+Embedding Cosine Similarity
+1.0
+Thesis 1.000 0.903 0.828 0.809 0.549
+0.8
+News 0.903 1.000 0.786 0.748 0.482
+0.6
+Fundamentals 0.828 0.786 1.000 0.674 0.463
+0.4
+Dynamics 0.809 0.748 0.674 1.000 0.459
+0.2
+Macro 0.549 0.482 0.463 0.459 1.000
+0.0
+Thesis
+Ne
+ws
+Funda
+mentals
+Dyna
+mics Macro
+Figure2: Cosinesimilarityheatmap(S&P500cohort): thesis–agentcosinesCTA (toprow),agent–agent
+k
+cosines CAA (lower block), and mean thesis–reconstruction cosine CTR = 0.944. High pairwise agent
+k,ℓ
+cosines (0.46–0.79) motivate joint NNLS fitting over univariate cosine attribution. The News agent’s
+high thesis cosine (0.903) but near-zero pooled IC (+0.004, buy+strong-buy universe) illustrates why
+cosine alone is an insufficient attribution signal.
+and evaluated against one-month forward returns via Spearman rank correlation—both pooled
+across all stock–date pairs (pooled IC) and cross-sectionally for each date (date-level IC and
+ICIR). This two-stage structure cleanly separates the unsupervised embedding decomposition
+from the downstream test of whether the recovered weights carry predictive return information,
+ensuring that the attribution and evaluation steps are methodologically independent.
+3.3 Cosine Diagnostics
+Three cosine families provide diagnostic checks on the NNLS attribution. Thesis–agent cosines
+CTA(i,d) = cos(t ,a (k) )measureunivariatesemanticproximity. Agent–agentcosines CAA(i,d)
+k i,d i,d k,ℓ
+quantifycollinearity,motivatingjointfitting. Thesis–reconstructioncosines CTR = cos(t ,ˆt )
+i,d i,d i,d
+assess how well the four-agent subspace spans the thesis embedding, where ˆt = A wˆ .
+i,d i,d i,d
+Spearman rank correlation between CTA and wˆ across the panel validates that NNLS weights
+k k
+agree directionally with cosine rankings while correcting for collinearity.
+3.4 Information Coefficient and ICIR
+Thepooled ICistheSpearmanrankcorrelationbetweenasignalx andtheone-monthforward
+i,d
+(1m)
+returnr ,computedoverallN stock–datepairs. Thistreatseachobservationasindependent.
+i,d
+However, stocks within a date share common factor exposures (market beta, sector), so returns
+6
+
+--- Page 7 ---
+within a date are cross-sectionally correlated. Pooled IC therefore conflates stock-level fixed
+effects with genuine timing signal; we use it directionally only.
+The date-level IC computes one cross-sectional Spearman correlation per date d using all stocks
+in the cohort. The T date-level ICs are approximately independent (non-overlapping monthly
+return windows) and are tested with a one-sample t-test:
+1 (cid:88) T IC √
+IC = IC , ICIR = , t = ICIR· T. (2)
+d
+T std(IC )
+d
+d=1
+With T = 19 (S&P 500) the threshold for p = 0.05 is |ICIR| > 0.47; with T = 35 (S&P 100) it
+is |ICIR| > 0.34.
+Actionable-universe scope: AllICanalysisinthispaperisrestrictedtothebuy and strong-
+buy observations only: the two signal classes for which MarketSenseAI recommends a long po-
+sition. Hold, sell, and strong-sell observations are excluded from every IC computation. The
+rationale is direct: for non-actionable observations no portfolio position is taken, so testing
+whether agent weights or the ordinal score rank those stocks is irrelevant to portfolio perfor-
+mance. This scope fully aligns the IC test with the Monte Carlo test, which also operates on
+the actionable universe. The ordinal score (defined in Section 2) is the explicit signal tested
+against forward returns in the date-level IC analysis. The average per-date sample size in this
+subset is ∼74 stocks (S&P 500) and ∼19 stocks (S&P 100).
+4 Data and Descriptive Statistics
+The two fixed cohorts introduced in Section 2 form the basis of all empirical analysis. Be-
+fore presenting performance results we characterise the composition of the signal panel across
+both cohorts, establishing baseline distributional facts that contextualise the portfolio-level and
+attribution findings.
+Signal class distribution: Table2showsthedistributionofordinalrecommendationsacross
+both cohorts. Hold dominates (∼79% in S&P 500, ∼76% in S&P 100), with strong-buy con-
+stituting 7.5% and 10.5% respectively. The relative scarcity of strong-buy signals is important
+context for the Monte Carlo test: the system concentrates its highest-conviction calls on a small
+fraction of the universe, and it is precisely this concentrated selection that the null distribution
+tests.
+Table 2: Signal class distribution across both cohorts.
+Signal class S&P 500 S&P 100
+Count % Count %
+Strong sell 180 2.0 48 1.5
+Sell 286 3.2 77 2.3
+Hold 6,992 78.8 2,508 76.2
+Buy 749 8.4 310 9.4
+Strong buy 666 7.5 347 10.5
+Total 8,873 100 3,290 100
+Sector distribution of strong-buy signals: Strong-buy signals are not uniformly dis-
+tributed across the eleven S&P 500 GICS sectors, nor is the sector composition stable over
+7
+
+--- Page 8 ---
+time. Figure 3 shows the sector share of each monthly strong-buy basket (equal-weight; one
+bar per observation date) alongside the equal-weight sector composition of the full universe
+as a reference. Pooled over the full 19-month period, Financials account for 21.8% of strong-
+buy picks, +6.7 percentage points above their 15.1% universe weight. Information Technology
+(17.0% vs 14.2% in the universe) is modestly over-represented in aggregate, while Energy (1.8%
+vs 4.4%), Materials (2.2% vs 5.1%), and Consumer Staples (4.7% vs 7.4%) are persistently
+under-represented. The temporal pattern demonstrates the sector rotation over the period and
+confirms that the strong-buy selection is not a static bet on a single sector (see Section 5.5).
+100%
+80%
+60%
+40%
+20%
+0%
+Sep Oct Nov Dec Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec Jan Feb Mar
+'24 '24 '24 '24 '25 '25 '25 '25 '25 '25 '25 '25 '25 '25 '25 '25 '26 '26 '26
+)%(
+slangis
+yub-gnorts
+fo
+erahS
+Sector composition of strong-buy signals per month S\&P~500 cohort (Sep~2024Mar~2026) Reference
+n=48 n=58 n=55 n=74 n=41 n=55 n=30 n=18 n=25 n=19 n=21 n=29 n=35 n=27 n=37 n=25 n=21 n=37 n=27
+100%
+80%
+60%
+40%
+20%
+0%
+Equal-weight
+universe
+Financials Industrials Cons Discr Utilities Cons Staples Energy
+Info Tech Health Care Real Estate Comm Svc Materials
+Figure 3: Sector composition of the equal-weight strong-buy basket per month (S&P 500 cohort,
+Sep 2024–Mar 2026) alongside the equal-weight universe as a reference (rightmost bar). Each stacked
+bar sums to 100%; n labels show the number of strong-buy picks that month. Financials dominate the
+earlyperiod(Sep2024–Feb2025; ∼24.8%sharevs15.1%intheuniverse),whileInformationTechnology
+becomes the largest sector from Mar 2025 onward (∼21.7%). Energy (1.8% vs 4.4%), Materials (2.2%
+vs 5.1%), and Consumer Staples (4.7% vs 7.4%) are persistently under-represented.
+5 Results
+5.1 Monte Carlo: Strong-Buy Portfolio vs Random Selection
+Table 3 and Figures 4–5 present the Monte Carlo results.
+S&P 500 cohort (primary result): The strong-buy portfolio earns +2.18%/month versus
+the EW universe benchmark of +1.15% (approximating RSP), an excess of +1.02%/month.
+The result sits at the 99.7th percentile of 10,000 Monte Carlo alternatives (p = 0.003). The
+compound return of +46.8% over 19 months is +25.2 percentage points above the EW bench-
+mark of +21.6%, and the MC null median is +21.4% (p = 0.003). Strong-buy picks beat the
+EW benchmark in 11 of 19 months (57.9%).
+Figure 4 shows the null distribution of mean monthly returns for both cohorts. The actual
+S&P 500 strong-buy return (red dashed line) sits deep in the right tail, clearly separated from
+the bulk of the null.
+S&P 100 cohort (robustness): The directional pattern holds: +0.55%/month above the
+EW benchmark of +1.47% (approximating EQWL), 83rd MC percentile, compound return
++93.2% versus the EW benchmark of +62.7% (+30.5 percentage points) and the MC null
+8
+
+--- Page 9 ---
+Table3: MonteCarloresults: strong-buyequal-weightportfoliovs(i)apassiveequal-weightbenchmark
+of all covered stocks (EW universe, approximating RSP for S&P 500 and EQWL for S&P 100) and (ii)
+10,000 random same-sized portfolios from the same universe. p-values are one-tailed empirical (fraction
+of MC simulations ≥ actual).
+Metric S&P 500 (19 dates) S&P 100 (35 dates)
+Avg. strong-buy picks / month 35.1 9.9
+Mean-monthly approach
+Strong-buy mean monthly return +2.18% +2.02%
+EW benchmark (RSP / EQWL) +1.15% +1.47%
+MC null median monthly return +1.15% +1.47%
+Excess vs EW benchmark +1.02% +0.55%
+Percentile rank in MC null 99.7th 83.4th
+p-value (vs MC null) 0.003 0.166
+Compound return (full period)
+Strong-buy compound return +46.8% +93.2%
+EW benchmark compound return +21.6% +62.7%
+MC null median compound return +21.4% +60.7%
+Excess vs EW benchmark +25.2pp +30.5pp
+p-value (vs MC null) 0.003 0.163
+Win rate
+Months where SB > EW benchmark 11/19 (57.9%) 20/35 (57.1%)
+median of +60.7%. Formal significance is not reached (p = 0.17). The wider null distribution
+reflectsthesmallaverageselectionof∼10stocksperdate: drawing10stocksatrandomfrom94
+produces high variance in monthly returns, reducing statistical power. The result is consistent
+with the S&P 500 finding but does not independently confirm it.
+Figure 5 plots compound growth paths for both cohorts. The actual strong-buy trajectory
+lies above the null median throughout most of the S&P 500 period and comfortably above for
+S&P 100, though the S&P 100 CI is wide.
+Interpretation: The EW universe benchmark provides a concrete passive reference: buying
+allcoveredstockswithequalweightoneverydate(approximatingRSPforS&P500andEQWL
+for S&P 100). The Monte Carlo null formalises this further by testing whether the strong-buy
+selection adds value beyond passive EW; because the MC null’s expected value equals the EW
+benchmark,thetwobenchmarksareequivalentinexpectationandbothconfirmthesameexcess
+return. Market-level and sector-level returns cancel in the comparison since both actual and
+simulated portfolios are drawn from the same universe on the same dates with the same equal
+weighting. TheS&P500resultisrobustacrossbothaggregationapproaches(mean-monthlyand
+compound) with the same p-value (0.003). To contextualise the magnitude, the +1.02%/month
+gross excess return corresponds to an annualised alpha of approximately +12.4%. At a monthly
+rebalancing frequency across ∼35 large-cap equal-weight positions, typical implementation drag
+(bid-ask spread, market impact) would be well below 30 bps/month, leaving substantial head-
+room before the signal becomes unprofitable net of costs.
+Note that the MC test and the IC analysis address different questions. IC measures whether
+the agent weights rank individual stocks correctly in the cross-section on a given date. The MC
+test measures whether the subset of stocks selected as strong-buy outperforms an equally-sized
+random subset. Both can be informative simultaneously: the IC can be near-zero because most
+9
+
+--- Page 10 ---
+1.0
+0.8
+0.6
+0.4
+0.2
+0.0
+0.5 0.0 0.5 1.0 1.5 2.0 2.5
+Mean monthly return (%)
+ytisneD
+SP500 MC Null Distribution
+(Mean Monthly Return)
+Random portfolio (MC null) p = 0.003
+Strong-buy (+2.18%/mo) 100th pct
+EW universe ( RSP) (+1.15%/mo)
+Null mean (+1.15%/mo)
+8
+6
+4
+2
+0
+2
+4
+2024-09 2024-11 2025-01 2025-03 2025-05 2025-07 2025-09 2025-11 2026-01 2026-03
+)%(
+WE
+sv
+nruter
+ssecxE
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0.0
+1 0 1 2 3
+Mean monthly return (%)
+SP500 Monthly Excess Return
+vs EW Universe Benchmark
+Mean = +1.03%/mo Wins: 11/19 months
+ytisneD
+SP100 MC Null Distribution
+(Mean Monthly Return)
+Random portfolio (MC null) p = 0.166
+Strong-buy (+2.02%/mo) 83th pct
+EW universe ( EQWL) (+1.47%/mo)
+Null mean (+1.47%/mo)
+12.5
+10.0
+7.5
+5.0
+2.5
+0.0
+2.5
+5.0
+7.5
+2023-05 2023-09 2024-01 2024-05 2024-09 2025-01 2025-05 2025-09 2026-01
+)%(
+WE
+sv
+nruter
+ssecxE
+Monte Carlo: Strong-Buy Equal-Weight Portfolio vs Random Picks
+EW universe benchmark approx. RSP (S&P 500 EW) / EQWL (S&P 100 EW) · 10,000 simulations · same n per date · without replacement
+SP100 Monthly Excess Return
+vs EW Universe Benchmark
+Mean = +0.55%/mo Wins: 20/35 months
+Figure 4: Monte Carlo null distributions of mean monthly equal-weight portfolio returns (10,000 simu-
+lations). Top panels: S&P 500 (left) and S&P 100 (right). Red dashed line: actual strong-buy portfolio
+return; green dash-dot line: equal-weight universe benchmark (≈RSP / EQWL). Black dotted: MC
+null mean, which is mathematically equivalent to the EW benchmark (see Section 3.1). Bottom panels:
+month-by-month excess return of the strong-buy portfolio relative to the EW benchmark; green bars in-
+dicateoutperformingmonths. TheS&P500resultsitsatthe99.7thMCpercentile(p=0.003);S&P100
+at the 83rd (p=0.17).
+of the cross-section is holds (rank correlation diluted), while the extreme tail of strong-buys still
+earns a meaningful average return premium.
+5.2 NNLS Reconstruction Quality and Cosine Validation
+Having established portfolio-level selection skill, we turn to NNLS attribution to characterise
+how the four agents collectively shape the thesis and whether their contributions vary across
+sectors and regimes.
+Reconstruction quality: The four-agent subspace reconstructs thesis embeddings with high
+fidelity: mean CTR = 0.944 (S&P 500) and 0.936 (S&P 100). These figures confirm that the
+NNLS problem is well-posed and that the agent summaries collectively span nearly all semantic
+variance in the synthesis thesis.
+10
+
+--- Page 11 ---
+50
+40
+30
+20
+10
+0
+10
+2024-09 2025-01 2025-05 2025-09 2026-01
+Observation date
+)%(
+nruter
+dnuopmoc
+evitalumuC
+SP500
+S&P 500 (n=467, 19 months)
+MC null 90% CI +25.2pp vs EW
+MC null 50% IQR 120
+MC null median (+21.4%)
+EW universe ( RSP) (+21.6%)
+Strong-buy (+46.8%) 100
+80
+60
+40
+20
+0
+2023-05 2023-11 2024-05 2024-11 2025-05 2025-11
+Observation date
+)%(
+nruter
+dnuopmoc
+evitalumuC
+Compound Return: Strong-Buy Portfolio vs EW Benchmark & MC Null
+EW benchmark approx. RSP (S&P 500 EW) / EQWL (S&P 100 EW) · 10,000 MC simulations
+SP100
+S&P 100 (n=94, 35 months)
+MC null 90% CI
+MC null 50% IQR
+MC null median (+60.7%)
+EW universe ( EQWL) (+62.7%)
+Strong-buy (+93.2%) +30.5pp vs EW
+Figure 5: Compound growth of the strong-buy equal-weight portfolio (red solid line) versus the equal-
+weightuniversebenchmark(greendash-dot;≈RSP/EQWL)andtheMonteCarlonull(cohort-coloured
+dashed: median; shaded bands: 50% IQR and 90% CI from 10,000 simulations). Left: S&P 500; right:
+S&P 100. Annotations show final excess over the EW benchmark. The EW benchmark and MC null
+medianarenearlyidentical,confirmingthenullcapturespassiveEWperformance. TheS&P500strong-
+buy trajectory exceeds the 90th-percentile null boundary for the majority of the sample.
+Cosine–weight agreement: Table 4 reports the Spearman correlation between CTA and
+k
+wˆ across the panel. All correlations are strongly positive (up to ρ = 0.826, all p < 10−85),
+k s
+confirming that NNLS weights agree directionally with cosine rankings while correcting for
+inter-agent collinearity.
+Table 4: Spearman ρ between thesis–agent cosine CTA and normalised NNLS weight wˆ , across all
+s k k
+stock–date pairs. All p<10−85.
+S&P 500 S&P 100
+Agent ρ n ρ n
+s s
+News 0.571 8,873 0.534 3,290
+Fundamentals 0.826 8,873 0.795 3,290
+Dynamics 0.724 8,873 0.701 3,290
+Macro 0.648 8,873 0.631 3,290
+Thesis reconstruction (CTR, mean) 0.944 – 0.936 –
+5.3 Downside Behaviour of Long Signals
+Table 5 reports the equal-weight mean return for positive-return months (upside), negative-
+returnmonths(downside), hitrate, andtheupside/downsideratio, brokendownbysignalclass.
+A bootstrap confidence interval on the ratio difference ∆UpDn = UpDn −UpDn is
+strongbuy hold
+computed from 5,000 resamples.
+Strong-buy stocks show a smaller mean loss on negative months (−5.95% vs −6.71% for hold)
+without a corresponding reduction in upside (+6.39% vs +5.27%). The bootstrap ∆UpDn con-
+11
+
+--- Page 12 ---
+Table 5: Signal risk profile (S&P 500 cohort, 1-month horizon). Upside (Upside ): mean return on
++
+months where signal class has positive returns. Downside (Down ): mean return on negative months
+−
+(shown as negative). Hit rate: fraction of months with positive return. UpDn: |r¯+/r¯−|. Bootstrap CI
+on ∆UpDn (strong buy − hold) from 5,000 resamples.
+Signal Upside Down Hit% UpDn ∆UpDn 95% CI
++ −
+Strong buy +6.39% −5.95% 58.4 1.07 +0.17 [−0.03, +0.37]
+Buy +5.93% −6.00% 52.1 0.99 +0.09 [−0.11, +0.28]
+Hold +5.27% −6.71% 53.4 0.79 ref. –
+fidence interval is [−0.03,+0.37] with one-tailed p = 0.050— directionally positive but spanning
+zero, so this result should be read as a descriptional regularity from the available data rather
+than a formally established effect.
+Figure 6 uses empirical CDFs to compare the return distributions of the strong-buy and hold
+signal classes. The CDF is the natural tool for this comparison: at any loss threshold on the
+left tail, the strong-buy curve lies below the hold curve, meaning a strictly lower probability of
+incurring losses of that magnitude. The left-tail zoom (right panel) makes this gap concrete—
+at −10%, strong-buy has a 7.5% exceedance probability versus 10.2% for hold—confirming
+that the upside/downside asymmetry in Table 5 is driven by truncation of extreme negative
+returns rather than by elevated return magnitudes at the right tail, where the two distributions
+converge.
+100%
+80%
+60%
+40%
+20%
+0%
+−40 −20 0 20 40
+One-month forward return (%)
+ytilibaborp
+evitalumuC
+Strong Buy (n=682) 40%
+Hold (n=7,161)
+SB mean = 1.4% 35%
+Hold mean = 1.0%
+30%
+At −10 %:
+Hold 10.2% 25%
+SB 7.5%
+20%
+15%
+10%
+5%
+0%
+−40 −30 −20 −10 0
+One-month forward return (%)
+ytilibaborp
+evitalumuC
+Left-tail zoom
+Gap at −15 %:
+1.7% fewer losses
+in Strong Buy
+Figure6: EmpiricalCDFcomparisonofone-monthforwardreturnsforstrong-buy(blue)andhold(grey)
+signalclasses(S&P500cohort,n=682andn=7,161respectively). Leftpanel: fullCDF;dashedvertical
+lines mark the respective means; the shaded region highlights the left-tail gap (returns < 0) where the
+two curves diverge most. Right panel: left-tail zoom (returns ≤ +5%); the blue shading quantifies
+the probability mass by which strong-buy undercuts hold at each loss level. At −10% the strong-buy
+exceedance probability is 7.5% vs 10.2% for hold—a 2.7pp reduction in left-tail risk consistent with
+the upside/downside ratio in Table 5. The right tails converge, confirming the edge is concentrated in
+downside protection rather than higher return magnitudes.
+The Mann–Whitney one-sided test comparing |r| distributions of long signals vs hold is not
+significant (p = 0.93 for S&P 500, p = 0.60 for S&P 100), confirming that the edge is not driven
+by higher return magnitudes among long signals.
+12
+
+--- Page 13 ---
+Sell-side note: Sellandstrong-sellstocksshowpositivemeanone-monthreturns(+1.65%and
++2.98% respectively for S&P 500), indicating contrarian bearish calls over this period. One
+plausible contributing mechanism is that fundamentally weak stocks—precisely those flagged
+bearishly by the system—are often prone to short squeezes in risk-on environments, where high
+shortinterestandforcedcoveringcangeneratestrongshort-horizonreturnsthatareindependent
+of underlying quality. The sample is too small (n < 470 total sell/strong-sell observations) for
+formal testing; this pattern is flagged but not treated as an established result.
+5.4 Agent Weights Carry Forward-Return Information
+All IC analysis in this section is restricted to the buy and strong-buy universe (Section 3.4):
+observations where MarketSenseAI issues an actionable bullish signal.
+Mean one-month forward returns are monotone in both cohorts: buy +1.35% < strong-buy
++1.47% (S&P 500); and buy +1.39% < strong-buy +1.67% (S&P 100), confirming that the
+ordinal label carries a directional return signal within the actionable subset.
+Figure 7 plots date-level IC for the ordinal score in both cohorts. Table 6 reports pooled IC,
+date-level mean IC, ICIR, and the date-level t-test for all agents and the score, all computed in
+the buy+strong-buy universe.
+0.25
+0.20
+0.15
+0.10
+0.05
+0.00
+−0.05
+−0.10
+−0.15
+2024-09 2024-11 2025-01 2025-03 2025-05 2025-07 2025-09 2025-11 2026-01 2026-03
+CI
+namraepS
+SP500
+avg n=74/date Mean IC = +0.051 0.4
+score (buy+strong\_buy)
+0.2
+0.0
+−0.2
+−0.4
+−0.6
+2023-05 2023-09 2024-01 2024-05 2024-09 2025-01 2025-05 2025-09 2026-01
+CI
+namraepS
+Date-level cross-sectional IC for ordinal score (buy – strong\_buy subset only)
+SP100
+avg n=19/date Mean IC = +0.018
+score (buy+strong\_buy)
+Figure 7: Date-level cross-sectional IC for the ordinal score computed on the buy and strong-buy subset
+(neutral/hold, sell, and strong-sell observations excluded). Left panel: S&P 500 (19 dates, avg 74
+stocks/date); right panel: S&P 100 (35 dates, avg 19 stocks/date). Bars show per-date IC; bars shaded
+in colour indicate positive-IC dates; the horizontal line marks the date-level mean (S&P 500: +0.051,
+S&P 100: +0.018). The S&P 500 ICIR of +0.489 exceeds the p=0.05 significance threshold (|ICIR|>
+0.47 at T =19), yielding p=0.024 (t=+2.13).
+Pooled IC: Within the buy+strong-buy universe, Fundamentals (+0.052, p = 0.049) carries
+the largest positive pooled IC on S&P 500; Macro dominates on S&P 100 (+0.079, p = 0.042),
+reflecting the greater relevance of macroeconomic context in a concentrated 94-stock universe.
+Dynamics shows a significantly negative pooled IC on S&P 500 (−0.069, p = 0.009) yet leads
+as the best agent on 5 of 19 dates (Figure 8), revealing a regime-conditional role: when price-
+action signals are aligned with the broader trend the synthesis elevates Dynamics weight and it
+contributespositively; inaggregateacrossalldatesitisadrag,consistentwithmomentumbeing
+an episodic rather than persistent predictor. This divergence between pooled and date-level
+behaviour illustrates why no single agent can be evaluated in isolation. As noted in Section 3.4,
+13
+
+--- Page 14 ---
+Table 6: Pooled and date-level IC for agent NNLS weights and the ordinal score, computed on the buy
+and strong-buy universe only (hold, sell, and strong-sell excluded; avg 74 stocks/date on S&P 500, 19
+on S&P 100). Pooled IC: Spearman over all stock–date pairs (conflates stock fixed effects with timing;
+directional). Date-level IC: mean of T per-date cross-sectional correlations; t-test against zero; ICIR =
+mean/std. Bold: entries with p<0.05.
+Panel A: S&P 500 cohort (T = 19 dates)
+Agent / Signal Pool IC Pool p DL mean IC ICIR t p
+t
+News +0.004 0.887 −0.035 −0.327 −1.42 0.086
+Fundamentals +0.052 0.049 +0.012 +0.092 +0.40 0.346
+Dynamics −0.069 0.009 +0.019 +0.135 +0.59 0.282
+Macro +0.030 0.257 +0.016 +0.113 +0.49 0.314
+Score +0.006 0.822 +0.051 +0.489 +2.13 0.024
+Panel B: S&P 100 cohort (T = 35 dates)
+Agent / Signal Pool IC Pool p DL mean IC ICIR t p
+t
+News +0.016 0.688 +0.047 +0.189 +1.12 0.135
+Fundamentals −0.025 0.529 −0.062 −0.218 −1.29 0.103
+Dynamics −0.040 0.311 −0.035 −0.150 −0.89 0.191
+Macro +0.079 0.042 +0.033 +0.138 +0.82 0.210
+Score +0.013 0.749 +0.018 +0.080 +0.48 0.319
+pooled IC is partly driven by stock-level fixed effects and should be read directionally.
+Macro’s six leading dates cluster around identifiable macro-driven episodes in which economy-
+wide forces, rather than idiosyncratic stock dynamics, were the primary driver of return differ-
+entiation (Table 7). In each case the synthesis agent increased Macro weight precisely when
+broad policy or regime shifts dominated cross-sectional dispersion.
+Table 7: Macro-agent leading dates (S&P 500 cohort) and the coincident macro regime shift.
+Date Macro event Cross-sectional effect
+Sep 2024 First Fed rate cut Rotation into rate-sensitive names; start of easing
+cycle
+Nov 2024 US presidential election “Trump trade” dispersion: financials, energy, de-
+fence up, rate-sensitive down
+Jan 2025 Inauguration & policy signalling Extension of election-driven sectoral rotation
+Apr 2025 “Liberation Day” tariffs Extreme dispersion by trade exposure
+May 2025 US–China tariff escalation Continued trade-policy-driven rotation
+Aug 2025 Recession concerns & Fed path Macro-driven defensive rotation
+Date-level IC and the score result: The ordinal score’s date-level IC on S&P 500 reaches
+mean +0.051, ICIR = +0.489, and is statistically significant at p = 0.024 (t = +2.13, T =
+19 dates), confirming that the recommendation label itself distinguishes buy from strong-buy
+returns within the actionable universe. On S&P 100, with only ∼19 stocks per date, the score
+ICIR is +0.080 (p = 0.319)—the test remains underpowered at this sample size. Agent date-
+level ICs are small and insignificant for all four agents in both cohorts (all p > 0.08), consistent
+with agent weights encoding cross-sectional return information at the pooled level rather than
+via consistent month-by-month timing.
+14
+
+--- Page 15 ---
+Macro
+Dynamics
+Fundamentals
+News
+Oct 2025 Apr Jul Oct 2026 Apr
+tnega
+gninniW
+Figure 8: Best-agent timeline (S&P 500 cohort, buy+strong-buy universe only): which agent achieves
+the highest cross-sectional IC on each of the 19 observation dates. Macro leads on 6 dates, Dynamics
+on 5, Fundamentals on 5, and News on 3. The rotation of the dominant agent is direct evidence for the
+adaptive integration hypothesis: no single agent persistently determines thesis quality, and the agent
+that leads changes with sector conditions and market regime. Macro’s six leading dates cluster around
+distinct macro-driven episodes (Table 7).
+Information compression: On S&P 500, the Fundamentals pooled IC (+0.052) is ∼9× the
+ordinal score’s pooled IC (+0.006). On S&P 100, the Macro pooled IC (+0.079) is ∼6× the
+ordinal score’s pooled IC (+0.013). Both measures are computed in the same buy+strong-
+buy universe, so the comparison is valid. The continuous agent-blending structure encodes
+cross-sectional return information at a finer grain than the discrete recommendation label.
+Interpretation: The IC and MC results are jointly consistent with the synthesis agent acting
+as an adaptive integrator: drawing more heavily on Fundamentals when stock-specific quality
+signals dominate, on Macro when sector or market conditions are the primary driver, and on
+Dynamicsselectivelywhenprice-actionmomentumisinformative. Agentweightsbehaveasper-
+sistent,factor-likesignals—theirpooledICsignificancereflectsstablecross-sectionalinformation
+in the embedding structure—while the synthesis compresses these factors into a concentrated
+timing signal, the ordinal recommendation, whose date-level IC reaches formal significance on
+S&P 500 (p = 0.024) and whose most confident tier outperforms random selection at p = 0.003.
+No single agent accounts for either result independently; the edge appears to arise from their
+complementary, context-sensitive combination. The S&P 100 results are directional throughout
+but underpowered due to the small per-date sample (∼19 stocks).
+5.5 Sector Heterogeneity and Weight Drift
+Figure 9 plots sector mean NNLS weights over time. There is visible sector-level variation in
+which agent dominates the thesis: Information Technology exhibits the highest Macro weight
+acrossallsectors(w¯ = 0.093), whileEnergyandUtilitiesshowelevatedDynamicsweight—
+Macro
+reflecting the importance of price-momentum signals in commodity-sensitive and rate-sensitive
+sectors. Fundamentals weight is most elevated in Health Care, with differences across sectors
+modest but persistent.
+The Spearman correlation between reconstruction residual and sector-date centroid drift is
+−0.325 (p = 2.9 × 10−6 pooled) for S&P 500, indicating that dates with higher attribution
+residuals correspond to sectors undergoing more rapid conceptual shift. A permutation test on
+the number of distinct monthly IC-winners by sector returns p = 0.36, confirming that no single
+agent consistently dominates across sectors and dates beyond what chance would produce.
+Figure 8 shows which agent achieves the highest IC on each S&P 500 date. The dominant
+agent rotates across the sample, consistent with the synthesis agent adaptively weighting agents
+according to prevailing sector conditions and market regime.
+15
+
+--- Page 16 ---
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0.0
+thgiew
+naeM
+Information Technology Financials Industrials
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0.0
+2025 Jul 2026
+thgiew
+naeM
+News Fundamentals Dynamics Macro
+Health Care Energy Utilities
+2025 Jul 2026 2025 Jul 2026
+Figure 9: Sector mean NNLS agent weights over time (S&P 500 cohort). Each panel shows one sector;
+lines represent the four agent weights (News, Fundamentals, Dynamics, Macro). Sectors show persistent
+differences in which agents dominate consistent with semantic context-adaptivity of the synthesis agent.
+Three views of the same rotation: The sector composition of strong-buy selections (Fig-
+ure 3) rotates in parallel with the best-agent timeline (Figure 8) and the Macro-driven episodes
+identified in Table 7. The Financials-dominated Sep 2024 – Feb 2025 window (∼25% share
+vs 15.1% in the universe) coincides with Macro-led dates around the Fed easing cycle and the
+US election; the Info Tech and Health Care pivot from Mar 2025 onward corresponds to the
+post-“Liberation Day” regime shift and the transition to Fundamentals- and News-led dates;
+and the Jun–Aug 2025 collapse of Financials weight alongside the Health Care and Industrials
+surgecoincideswiththerecession-concernsrotationcapturedbyMacro’sAug2025leadingdate.
+Sector rotation, agent rotation, and the macro calendar are three views of the same underlying
+adaptiveintegration: thesynthesisagentshiftsitsselectionpoolanditsinternalagentweighting
+in tandem as the market regime evolves.
+6 Discussion and Limitations
+What the evidence supports: The Monte Carlo test provides clear evidence that Mar-
+ketSenseAI’s strong-buy selections outperform random same-sized portfolios on the S&P 500
+cohort, andtheNNLSattributionshowsthisoutperformancecannotbeattributedtoanysingle
+agent. The ordinal score’s date-level IC is statistically significant on S&P 500, confirming that
+therecommendationlabelcarriesgenuinecross-sectionalrankinformationwithintheactionable
+universe.
+Strong-buy as a universe filter: Apracticalconsequenceofthepresentedresultsisthatthe
+strong-buy signal can be read as a filtering mechanism rather than a point-in-time alpha fore-
+16
+
+--- Page 17 ---
+cast. Because random equal-weight portfolios drawn from the strong-buy subset outperform
+random portfolios drawn from the broader covered universe at the 99.7th percentile, condi-
+tioning any downstream portfolio-construction process on the strong-buy set—whether equal-
+weighting, risk-parity, optimised mean-variance, or a factor overlay—inherits a universe with
+better-than-random expected returns by construction. The system therefore need not replace
+existing portfolio construction methods to add value; it can act upstream of them, shrinking
+the investable universe to a candidate pool with improved ex-ante properties.
+Scope of the statistical claims: Thestrongeststatisticalresultsinthispaper—theS&P500
+Monte Carlo test (p = 0.003) and the ordinal score’s date-level IC (p = 0.024)—rest on 19
+monthly observations and should be interpreted as evidence from a specific live period rather
+than asymptotic proof. Several secondary findings remain directional at the available sample
+sizes: the S&P 100 Monte Carlo result is consistent with S&P 500 but does not reach formal
+significance (p = 0.17, driven by the small ∼10-stock average selection). Pooled IC figures
+are reported directionally only, as noted in Section 3.4, because within-date cross-sectional
+dependence makes them unsuitable for conventional significance testing. In combination, these
+scopeconditionsdefinewhatlongertimeseriesandbroaderuniverseswillbeneededtoestablish;
+they do not weaken the primary S&P 500 results within the tested window.
+Market beta and downside protection: A natural alternative explanation for the strong-
+buyoutperformanceisthatthesystemmechanicallyselectshigher-betanamesthatbenefitfrom
+a broadly risk-on market environment. We address this directly using the EW universe return
+as a within-sample market proxy. Regressing monthly strong-buy portfolio returns against
+monthly EW returns across the 19 S&P 500 dates (Figure 10a) yields βˆ= 0.865 and a Jensen’s
+αˆ = +1.18%/month (t = 1.45, p = 0.17; annualised +14.2%, R2 = 0.60). The below-unity
+portfoliobetarulesoutapurehigh-betaexplanation;thealphaiseconomicallylargebutremains
+formally underpowered at T = 19. Individual strong-buy stock betas (computed in-sample vs
+the EW proxy) average 1.06 against a full-universe mean of 1.00, confirming that the selected
+stocks are only marginally above-average in market sensitivity.
+The conditional return breakdown (Figure 10b) reinforces this interpretation. In the 11 up-
+marketmonthsthestrong-buyportfolioearns+5.22%againsta+4.39%EWbenchmark(+0.82%
+excess); in the 8 down-market months it earns −2.00% against −3.32% (+1.31% excess). The
+system preserves more alpha in adverse months than in rising ones—the opposite of what a
+high-beta or momentum overlay would produce. Both conditional alphas are positive and eco-
+nomically meaningful; with only 8 down-month observations formal significance is not reached
+(p = 0.28, one-sample t-test). Taken together, the below-market beta and the stronger down-
+market alpha preservation are inconsistent with a beta-loading explanation and are consistent
+with the selection being driven by stock-specific quality signals rather than systematic risk
+exposure.
+Sell-side pattern: Sell and strong-sell stocks earn positive average returns over this period.
+This may reflect the broadly risk-on equity environment: stocks flagged as fundamentally weak
+may be high-beta names that outperform in a rising market, and as noted in Section 5.3, short-
+squeeze dynamics in high-short-interest names can further distort bearish signals over short
+horizons. With fewer than 470 sell-side observations total we cannot distinguish these effects
+from model miscalibration.
+It is important to note that evaluating the actionability of sell-side signals requires data that
+lie outside the scope of this study. Effective implementation of short positions depends on short
+interest and short ratios (to assess crowding and squeeze risk), borrow availability (since many
+fundamentally weak or small-float names are difficult or expensive to borrow), and liquidity
+17
+
+--- Page 18 ---
+15
+10
+5
+0
+−5
+−10
+−10 −5 0 5 10
+EW universe return (market proxy, %)
+)%(
+nruter
+oiloftrop
+yub-gnortS
+α̂=+1.184%/mo (p=0.166)
+β̂=0.865 R2=0.605 n=19
+4
+2
+0
+Market up month
+Market down month −2
+OLS fit
+β=1 reference
+Up months Down months
+(n=11) (n=8)
+(a)Jensen’sαregression: monthlystrong-buyport-
+folio return vs EW universe return (market proxy,
+S&P500cohort,19dates). βˆ=0.865(belowunity)
+and αˆ = +1.18%/month (p = 0.17; R2 = 0.60).
+Green/redpointsindicateup/downmarketmonths;
+dashed line is the β =1 reference.
+)%(
+nruter
+ylhtnom
+naeM
+Strong-buy
+EW universe 1.2
+1.0
+0.8
+0.6
+0.4
+0.2
+0.0
+Up months Down months
+(n=11) (n=8)
+)%(
+WE
+sv
+nruter
+ssecxe
+naeM
++1.31%
++0.82%
+(b) Conditional returns in up-market (11 months) and
+down-market (8 months) periods. Left: absolute
+monthly returns for the strong-buy portfolio and EW
+universe. Right: excessreturnvsEW.Thesystemgener-
+ateslargerexcessreturnindownmonths(+1.31%)than
+up months (+0.82%), inconsistent with a high-beta or
+momentum explanation.
+Figure 10: Market beta robustness checks (S&P 500 cohort). Neither the below-unity portfolio beta
+(βˆ = 0.865) nor the stronger down-market alpha preservation is consistent with a pure risk-loading
+explanation for the strong-buy outperformance.
+metrics (bid-ask spreads, average daily volume) to ensure positions can be entered and exited
+withoutmaterialmarketimpact. Theabsenceoftheseinputsmeansthesell-sideresultsreported
+here should be read as a data-scope limitation rather than a verdict on model quality.
+Market regime: The S&P 500 period (Sep 2024–Mar 2026) was characterised by generally
+positive equity returns. The beta analysis above (Figure 10) provides partial reassurance: the
+system generates larger excess returns in down-market months than up-market months, and
+its portfolio beta is below unity. However, whether the outperformance persists in a sustained
+bear market is unknown. The S&P 100 period covers an additional 16 months (May 2023–Aug
+2024) that includes more varied conditions, and the directional result holds, but this does not
+constitute full out-of-sample validation across regimes.
+7 Conclusion
+We show that the strong-buy signals produced by MarketSenseAI, a deployed multi-agent LLM
+equity system, outperform both a passive equal-weight benchmark of the covered universe (ap-
+proximatingRSPonS&P500andEQWLonS&P100)andrandomsame-sizedportfoliosdrawn
+from the same universe on the same dates. On the S&P 500 cohort the strong-buy portfolio
+deliversa+25percentage-pointcompound-returnadvantageovertheEWbenchmarkandranks
+at the 99.7th percentile of 10,000 Monte Carlo null portfolios (p = 0.003); on the S&P 100 co-
+hort the excess over EQWL is +30 percentage points compounded, with the directional pattern
+holding but formal significance not reached given the smaller average position count per date.
+NNLS attribution of thesis embeddings onto four agent embeddings reveals that agent contri-
+butions are heterogeneous and context-dependent: no single agent dominates across all dates
+and sectors. Fundamentals leads on S&P 500, Macro on S&P 100, while Dynamics leads on 5 of
+19 S&P 500 dates despite a negative aggregate pooled IC, consistent with momentum being a
+regime-conditionalratherthanpersistentsignal. Theordinalscore’sdate-levelICisstatistically
+18
+
+--- Page 19 ---
+significantonS&P500,confirmingthatthesynthesisagent’slabelcarriesgenuinecross-sectional
+rank information within the actionable buy+strong-buy universe. Taken together, the portfolio
+outperformance and the IC results are consistent with the synthesis agent acting as an adaptive
+integrator that exploits each agent’s comparative advantage by sector and market regime—an
+attribution structure that would be invisible if one evaluated only the discrete output label.
+These results suggest that multi-agent LLM equity systems can identify new sources of alpha
+that are not captured by traditional quantitative factor models, and that interpreting such
+systems through their internal reasoning structure may reveal economically meaningful signal
+that would otherwise be invisible. Future work should extend the time series, test the approach
+on larger and more diverse equity universes (including international and mid-cap coverage),
+evaluate robustness across market regimes, and examine whether the attribution patterns shift
+during periods when the system’s edge is absent.
+References
+[1] Saeed AlMarri, Mathieu Ravaut, Kristof Juhasz, Gautier Marti, Hamdan Al Ahbabi, and
+Ibrahim Elfadel. Measuring what llms think they do: Shap faithfulness and deployability
+on financial tabular classification. arXiv preprint arXiv:2512.00163, 2025.
+[2] UshaBhalla,AlexOesterling,SurajSrinivas,Fl´avioP.Calmon,andHimabinduLakkaraju.
+InterpretingCLIPwithsparselinearconceptembeddings(SpLiCE). InAdvances in Neural
+Information Processing Systems (NeurIPS), volume 37, 2024. doi: 10.48550/arXiv.2402.
+10376. URL https://arxiv.org/abs/2402.10376. arXiv:2402.10376.
+[3] Eugene F. Fama and Kenneth R. French. Common risk factors in the returns on stocks
+and bonds. Journal of Financial Economics, 33(1):3–56, 1993. ISSN 0304-405X. doi:
+https://doi.org/10.1016/0304-405X(93)90023-5. URLhttps://www.sciencedirect.com/
+science/article/pii/0304405X93900235.
+[4] GeorgeFatouros,KostasMetaxas,JohnSoldatos,andManosKarathanassis.Marketsenseai
+2.0: Enhancing stock analysis through llm agents. In 2025 IEEE International Conference
+on Data Mining Workshops (ICDMW), pages 883–892, 2025. doi: 10.1109/ICDMW69685.
+2025.00105.
+[5] George Fatouros, Kostas Metaxas, John Soldatos, and Dimosthenis Kyriazis. Can large
+language models beat wall street? evaluating gpt-4’s impact on financial decision-making
+with marketsenseai. Neural Computing and Applications, 37(30):24893–24918, 2025.
+[6] Georgios Fatouros, John Soldatos, Kalliopi Kouroumali, Georgios Makridis, and Dimos-
+thenis Kyriazis. Transforming sentiment analysis in the financial domain with chatgpt.
+Machine Learning with Applications, 14:100508, 2023.
+[7] Wenxi Geng, Dingyuan Liu, Liya Li, and Yiqing Wang. Could large language models work
+as post-hoc explainability tools in credit risk models? arXiv preprint arXiv:2602.18895,
+2026.
+[8] Richard C. Grinold and Ronald N. Kahn. Active Portfolio Management: A Quantitative
+Approach for Producing Superior Returns and Controlling Risk. McGraw-Hill, New York,
+NY, 2nd edition, 2000.
+[9] Xuewen Han, Neng Wang, Shangkun Che, Hongyang Yang, Kunpeng Zhang, and Sean Xin
+Xu. Enhancing investment analysis: Optimizing AI-agent collaboration in financial re-
+search. In Proceedings of the ACM International Conference on AI in Finance (ICAIF),
+19
+
+--- Page 20 ---
+2024. doi: 10.48550/arXiv.2411.04788. URL https://arxiv.org/abs/2411.04788.
+arXiv:2411.04788.
+[10] Artur Kulpa and Grzegorz Wojarnik. Review of prompt engineering techniques in fi-
+nance: An evaluation of chain-of-thought, tree-of-thought, and graph-of-thought ap-
+proaches. SSRN Working Paper 5339795, 2025. doi: 10.2139/ssrn.5339795. URL
+https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5339795.
+[11] Xiangyu Li, Yawen Zeng, Xiaofen Xing, and Jin Xu. Profit mirage: Revisiting information
+leakage in LLM-based financial agents. arXiv preprint arXiv:2510.07920, 2025. doi: 10.
+48550/arXiv.2510.07920. URL https://arxiv.org/abs/2510.07920.
+[12] Alejandro Lopez-Lira and Yuehua Tang. Can ChatGPT forecast stock price movements?
+Return predictability and large language models. arXiv preprint arXiv:2304.07619, 2023.
+doi: 10.48550/arXiv.2304.07619. URL https://arxiv.org/abs/2304.07619.
+[13] JoseMenchero,D.J.Orr,andJunWang.TheBarraUSequitymodel(USE4): Methodology
+notes. Technical report, MSCI Inc., August 2011. URL https://www.top1000funds.com/
+wp-content/uploads/2011/09/USE4_Methodology_Notes_August_2011.pdf.
+[14] Kunihiro Miyazaki, Takanobu Kawahara, Stephen Roberts, and Stefan Zohren. Toward
+expertinvestmentteams: Amulti-agentLLMsystemwithfine-grainedtradingtasks. arXiv
+preprint arXiv:2602.23330, 2026. doi: 10.48550/arXiv.2602.23330. URL https://arxiv.
+org/abs/2602.23330.
+[15] Northfield Information Services. Analysis of cross-sectional equity models. Technical re-
+port, Northfield Information Services, Inc., 2003. URL https://www.northinfo.com/
+documents/151.pdf.
+[16] CharidimosPapadakis,AngelikiDimitriou,GiorgosFilandrianos,MariaLymperaiou,Kon-
+stantinos Thomas, and Giorgos Stamou. ATLAS: Adaptive trading with LLM AgentS
+through dynamic prompt optimization and multi-agent coordination. arXiv preprint
+arXiv:2510.15949, 2025. doi: 10.48550/arXiv.2510.15949. URL https://arxiv.org/abs/
+2510.15949. National Technical University of Athens. Accepted at ACL 2026 Main Con-
+ference.
+[17] KassianiPapasotiriou,SrijanSood,ShayleenReynolds,andTuckerBalch. Aiininvestment
+analysis: Llms for equity stock ratings. In Proceedings of the 5th ACM International
+Conference on AI in Finance, pages 419–427, 2024.
+[18] Ranjan Satapathy, Raphael Liew, Joyjit Chattorj, Erik Cambria, and Rick Goh. From
+earnings calls to investment reports: Evaluating role-based multi-agent llm systems. In
+Proceedings of The 10th Workshop on Financial Technology and Natural Language Pro-
+cessing, pages 258–267, 2025.
+[19] Murtuza N Shergadwala. The stability trap: Evaluating the reliability of llm-based in-
+struction adherence auditing. arXiv preprint arXiv:2601.11783, 2026.
+[20] Harish Tatsat and Ahmed Shater. Beyond the black box: Interpretability of LLMs in
+finance. arXiv preprint arXiv:2505.24650, 2025. doi: 10.48550/arXiv.2505.24650. URL
+https://arxiv.org/abs/2505.24650. Barclays Quantitative Analytics. Also available as
+SSRN Working Paper 5263803.
+[21] Diego Vallarino. Adaptive market intelligence: A mixture of experts framework for
+volatility-sensitive stock forecasting. arXiv preprint arXiv:2508.02686, 2025. doi: 10.
+48550/arXiv.2508.02686. URL https://arxiv.org/abs/2508.02686.
+20
+
+--- Page 21 ---
+[22] Li Wang, Xi Chen, XiangWen Deng, Hao Wen, MingKe You, WeiZhi Liu, Qi Li, and Jian
+Li. Prompt engineering in consistency and reliability with the evidence-based guideline for
+llms. NPJ digital medicine, 7(1):41, 2024.
+[23] Shijie Wu, Ozan Irsoy, Steven Lu, Vadim Dabravolski, Mark Dredze, Sebastian Gehrmann,
+Prabhanjan Kambadur, David Rosenberg, and Gideon Mann. BloombergGPT: A large
+language model for finance. arXiv preprint arXiv:2303.17564, 2023. doi: 10.48550/arXiv.
+2303.17564. URL https://arxiv.org/abs/2303.17564.
+[24] Yijia Xiao, Edward Sun, Di Luo, and Wei Wang. TradingAgents: Multi-agents LLM
+financial trading framework. arXiv preprint arXiv:2412.20138, 2024. doi: 10.48550/arXiv.
+2412.20138. URL https://arxiv.org/abs/2412.20138.
+[25] HongyangYang, Xiao-YangLiu, andChristinaDanWang. FinGPT:Open-sourcefinancial
+large language models. In FinLLM Workshop at IJCAI 2023, 2023. doi: 10.48550/arXiv.
+2306.06031. URL https://arxiv.org/abs/2306.06031. arXiv:2306.06031.
+[26] Yiyao Zhang, Diksha Goel, Hussain Ahmad, and Claudia Szabo. RegimeFolio: A regime
+aware ML system for sectoral portfolio optimization in dynamic markets. arXiv preprint
+arXiv:2510.14986, 2025. doi: 10.48550/arXiv.2510.14986. URL https://arxiv.org/abs/
+2510.14986.
+[27] Tianjiao Zhao, Jingrao Lyu, Stokes Jones, Harrison Garber, Stefano Pasquali, and Dha-
+gash Mehta. AlphaAgents: Large language model based multi-agents for equity portfolio
+constructions. arXiv preprint arXiv:2508.11152, 2025. doi: 10.48550/arXiv.2508.11152.
+URL https://arxiv.org/abs/2508.11152. BlackRock, Inc.
+21
+
+--- Page 22 ---
+A Monte Carlo Results by Date
+Table 8 reports the month-by-month Monte Carlo results for the S&P 500 cohort. Each row
+shows the number of strong-buy picks, the actual equal-weight return, the null mean, the excess
+return, and the percentile rank of the actual return in the null distribution.
+Table 8: Monte Carlo results by date — S&P 500 cohort. Pct: percentile rank of actual return in the
+null distribution of 10,000 random same-sized portfolios.
+Date n Actual (%) Null mean (%) Excess (%) Pct
+SB
+2024-09 48 +5.93 +6.07 −0.14 48
+2024-10 57 +0.16 −1.09 +1.25 91
+2024-11 55 +8.40 +6.11 +2.28 91
+2024-12 74 −3.99 −4.64 +0.65 88
+2025-01 41 +6.23 +2.55 +3.68 > 99
+2025-02 55 −5.85 −2.16 −3.69 < 1
+2025-03 30 −8.30 −11.00 +2.70 97
+2025-04 18 +7.30 +10.55 −3.25 9
+2025-05 25 +2.99 +4.55 −1.55 18
+2025-06 19 +1.98 +4.29 −2.31 7
+2025-07 21 +1.87 −1.66 +3.53 98
+2025-08 28 +1.13 +3.89 −2.76 4
+2025-09 34 +5.53 +2.07 +3.45 98
+2025-10 26 +2.71 −1.68 +4.40 > 99
+2025-11 32 +0.81 +2.55 −1.75 6
+2025-12 25 +2.99 +0.92 +2.07 97
+2026-01 20 +14.11 +4.89 +9.22 > 99
+2026-02 36 −4.70 −1.87 −2.83 3
+2026-03 22 +2.07 −2.45 +4.51 > 99
+Mean 35.1 +2.18 +1.15 +1.02 60.7
+22

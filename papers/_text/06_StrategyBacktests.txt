@@ -1,0 +1,1399 @@
+--- Page 1 ---
+Evaluating Structured Strategy Backtests:
+Peer Benchmarks, Regime Timing,
+and Live Performance
+Chang Liua,b
+aDepartment of Information Engineering and Computer Science, University of Trento
+bResonanz Capital GmbH, Frankfurt am Main, Germany
+Correspondence: chang.liu@resonanzcapital.com
+Preprint. Under review at the Journal of Asset Management.
+Disclosure. The author is employed by Resonanz Capital GmbH, an institutional asset manager that provided
+access to the proprietary strategy-level dataset analysed in this paper. Resonanz Capital has no financial
+interest in the specific strategies studied and did not participate in the design of the empirical tests, the
+analysis, or the drafting of the manuscript. The views expressed here are those of the author and do not
+necessarily represent the views of Resonanz Capital, the University of Trento, or any of their affiliates. The
+author declares no other conflicts of interest.
+6202
+rpA
+02
+]MP.nif-q[
+1v12881.4062:viXra
+
+--- Page 2 ---
+Abstract
+Institutionalallocatorsoftenevaluatestructuredstrategiesonthebasisofmarketedbacktests—
+hypothetical track records constructed by applying a strategy’s rules to historical data prior
+toanylivetrading,alsoreferredtoaspro-formaperformance. Itisunclearhowmuchofthat
+signal survives once the strategy is actually traded. Using 1,726 commercially distributed
+structured strategies from ten global institutions, this paper shows that raw pro-forma per-
+formance has only limited portability into the live period and weakens sharply once live
+outcomes are measured relative to peer and external benchmarks. The evidence indicates
+that marketed backtests predominantly reflect the common factor regime present before
+launch rather than strategy-specific skill. Strategies launched after unusually strong bucket-
+factor conditions experience materially worse subsequent deterioration. For allocators, the
+implicationispractical: backtestsshouldbejudgedrelativetoappropriatepeerbenchmarks,
+andthediscountappliedtothemshouldincreasewhenlaunchoccursafteranextremefactor
+run.
+Keywords: structured strategies; backtest evaluation; peer benchmark; regime timing; due
+diligence; live performance
+JEL Classification: G11, G14, G24
+1 Introduction
+Consider an institutional investor evaluating a pitch for a new structured strategy. The market-
+ing deck presents five years of daily returns: an annualised Sharpe ratio exceeding 1.0, shallow
+drawdowns, and consistent outperformance across market regimes. What the deck does not
+emphasise, however, is that the entire track record is pro-forma—constructed by applying the
+strategy’s rules to historical data before a single dollar was traded. The allocator’s dilemma is
+immediate: how much of that polished record will survive contact with live markets, and does
+the apparent signal reflect genuine skill or merely a favourable environment for the underlying
+risk factor?
+As used in this paper, “structured investment strategies” refers to commercially distributed,
+rules-based institutional strategies marketed by banks and asset managers on the basis of
+pro-forma (backtested) track records. They are distinct from retail structured notes (capital-
+protected or barrier products sold to individuals) and from published academic factor portfolios.
+The typical end user is an institutional allocator—a pension fund, sovereign wealth fund, or
+1
+
+--- Page 3 ---
+family office—evaluating launch-ready strategies for portfolio inclusion or as a risk-management
+overlay.
+Despite the practical importance of evaluating these products, the question of pro-forma
+reliability has received surprisingly little empirical attention. The backtest-overfitting literature
+demonstrates that academic factors lose predictive power after publication (Harvey et al., 2016;
+McLean and Pontiff, 2016; Bailey et al., 2014), and the fund-performance literature documents
+that hedge fund alpha declines after registration (Jagannathan et al., 2010; Baquero et al.,
+2005). Neither body of work, however, addresses the specific product that allocators purchase
+in practice: structured strategies distributed by banks and asset managers on the strength of
+a backtested pitch book. These products occupy a gap between academic factor anomalies
+and actively managed funds—rules-based like the former, yet commercially marketed like the
+latter. The underlying return sources—value, momentum, carry, and related premia—are well
+documented in the cross-section of expected returns, but neither the commercial packaging nor
+thelaunch-timingdecisionhasreceivedcomparablestudy. Noexistingstudy, however, examines
+whetherthepro-formatrackrecordsofthesecommerciallydistributedstrategiesretainpredictive
+content once the common factor environment is accounted for.
+This paper examines the question using a proprietary dataset of 1,726 commercially dis-
+tributed structured strategies from ten global institutions, spanning the period 2009–2025. The
+strategies cover equities, rates, foreign exchange, credit, and commodities. Each strategy is
+assigned to one of seven benchmarking buckets—Carry, Hedging, Momentum, Multi Premia,
+Factor, Value, or Liquidity—that group strategies sharing a common return-generating mech-
+anism. Broader objective groups (Return-Seeking, Hedging/Defensive, Carry/Short-Convexity,
+Multi-Premia/Diversifying) capture each strategy’s intended portfolio role.
+The raw data reveal substantial decay. Volatility-adjusted returns decline by 2.1–3.1 per-
+centage points from the pro-forma to the live period, and a moving-block bootstrap confirms
+that the magnitude exceeds what mechanical mean reversion alone would produce.1 The more
+consequentialquestion,however,concernsthesourceofthisdecay. Toinvestigate,weconstructa
+leave-one-out(LOO)bucket-averagebenchmarkforeachstrategy—definedastheequal-weighted
+daily return of all strategies in the same bucket, excluding the strategy itself (Section 3.4). Once
+live performance is measured relative to this peer benchmark, the predictive content of the mar-
+1Institution-level wild-cluster bootstrap checks (Appendix E) confirm these results; the ten anonymised insti-
+tutions are the natural cluster units for inference about commercial dissemination of structured strategies, and
+theWebb6-pointwild-clusterbootstrapofCameronandMiller(2015)isusedtoaccommodatethesmallnumber
+of clusters.
+2
+
+--- Page 4 ---
+keted backtest is substantially attenuated: the residual association between pro-forma and live
+returns, after conditioning on the bucket factor, is economically negligible relative to the uncon-
+ditional estimate, indicating that the marketed backtest predominantly captures a favourable
+pre-launch factor regime rather than strategy-specific skill. An independent Bloomberg total-
+return benchmark encompassing all 1,726 strategies corroborates this finding.
+Twostructuralchannelsaccountforthisabsorption. First,regimetiming: strategieslaunched
+when the bucket factor is substantially above its long-run mean embed an unusually favourable
+environment that is unlikely to persist. The spread in post-launch decay between the coldest
+and hottest regime quintiles exceeds four percentage points. Second, launch-cohort density—a
+proxy for crowding. Log launch density does not predict average decay directly at either hori-
+zon, but it moderates the predictive content of the pro-forma signal at the six-month horizon,
+with no comparable effect at twelve months. We interpret the horizon asymmetry as consistent
+with short-lived capacity erosion that dissipates as crowded positions are unwound; the evidence
+is therefore consistent with a limited, horizon-dependent crowding channel rather than a level
+effect on decay.
+This paper makes three contributions. First, it quantifies the gap between pro-forma and
+liveperformanceonauniquelylargecommercialsample(1,726strategies,teninstitutions,2009–
+2025), closing a gap left by the backtest-overfitting and fund-persistence literatures. Second,
+it introduces a leave-one-out (LOO) bucket-average peer benchmark that absorbs the common-
+factor component of pro-forma performance and isolates strategy-specific skill, showing that
+the residual information content of a marketed backtest is economically negligible once this
+benchmark is applied. Third, it documents two structural channels—regime timing at launch
+and a horizon-dependent launch-density effect—that jointly explain the residual decay, and
+translates these results into an operational due-diligence rule: the haircut applied to a marketed
+backtest should rise with the extremity of the factor regime at launch. Together, these findings
+giveinstitutionalallocatorsanevidence-basedframeworkthatdominatesraw-backtestscreening.
+The remainder of the paper is organised as follows. Section 2 reviews the related literature.
+Section 3 describes the data and research design. Section 4 presents the empirical results,
+includingbenchmark-conditioningtestsandtheregime-timingandcrowdingchannels. Section5
+discusses the implications for allocators, and Section 6 concludes.
+3
+
+--- Page 5 ---
+2 Related Literature
+That backtests overstate live performance is among the oldest lessons in quantitative finance,
+yet the problem has proven remarkably persistent. Harvey et al. (2016) demonstrated that the
+volumeofpublishedfactorresearchimpliesamultiple-testingburdensoseverethatconventional
+significance thresholds cannot reliably distinguish genuine predictors from false discoveries. Bai-
+ley et al. (2014) formalised the mechanism by which even a single optimised backtest inflates
+out-of-samplestatistics, andMcLeanandPontiff(2016)providedlarge-scaleempiricalconfirma-
+tion: published cross-sectional predictors decay significantly after publication, consistent with a
+combination of data mining and investor learning. Jensen et al. (2023) extended this result to
+153 factors across 93 countries, finding that the majority replicate out of sample, although the
+strongest factors exhibit post-publication attenuation consistent with rational learning about
+the true premium rather than with pure data mining.
+These findings, however, leave open a deeper question: what happens to the signal that
+remains? Pénasse (2022) offers a structural answer. His model of alpha decay shows that crowd-
+ing and information diffusion generate progressively decelerating performance erosion even for
+genuine sources of alpha, and that the erosion is more pronounced when the pre-discovery signal
+is stronger. Berk and Green (2004) arrive at a complementary prediction from the capacity side:
+as additional capital flows toward a given source of alpha, returns converge to the breakeven
+level, implying that the density of competing strategies should predict inferior outcomes. Ped-
+ersen (2009) formalises how near-simultaneous entry by multiple providers into the same factor
+space amplifies this capacity erosion. Mitchell et al. (2007) provide a microfoundation for this
+mechanism by documenting that capital is slow to move toward attractive trades even when
+the opportunity is observable, so that crowding can persist long enough to generate measurable
+decay in the affected cohort. Cont and Wagalath (2013) formalise how correlated deleveraging
+among investors with overlapping positions amplifies these effects and generates endogenous re-
+turn correlations on a launch-cohort time-scale. Arnott et al. (2016) apply this logic directly to
+factor strategies, confirming that strategies launched after periods of historically strong premia
+tend to underperform. Collectively, these papers predict not only that backtested performance
+will decay, but that the rate of decay should depend on two observable conditions at launch:
+the intensity of the prevailing factor environment—measured by the deviation of the underlying
+risk premium from its long-run average—and the degree of crowding, captured by the number of
+4
+
+--- Page 6 ---
+competing strategies entering the same risk-premium space in a given period. Both hypotheses
+are tested in Sections 4.2 and 4.3.
+A related but distinct mechanism, operating on the selection margin rather than on post-
+launch dynamics, further widens the wedge between backtested and live performance. Prod-
+uct providers tend to launch strategies following unusually favourable factor conditions (the
+“catering” channel of Célérier and Vallée, 2017), so that the backtest period is systematically
+unrepresentative of the long-run return distribution. Any decay measured on the launched
+sample therefore represents a conservative lower bound, because strategies proposed but never
+launched—those that failed the institution’s internal screen—are unobserved (cf. the mutual-
+fund incubation analogy of Evans, 2010).
+A parallel literature examines whether performance persists in managed funds. The evi-
+dence accumulated over nearly three decades is predominantly negative. Carhart (1997) found
+little mutual-fund outperformance beyond momentum; Baquero et al. (2005) documented short-
+horizon hedge-fund persistence that evaporates within a year; and Jagannathan et al. (2010)
+showed that hedge-fund performance persistence is concentrated among superior funds and
+largely disappears once backfill bias is corrected—suggesting that pre-registration track records
+systematically overstate subsequent alpha. Greenwood and Shleifer (2014) added a behavioural
+dimension, showingthatextrapolativeexpectationsgeneratesystematicover-optimisminreturn
+forecasts, offering one explanation for why pro-forma bias may survive investor sophistication.
+Kosowski et al. (2006) and Fama and French (2010) use bootstrap procedures to separate skill
+from luck in the cross-section of mutual fund returns and find that, once sampling variability is
+accounted for, the population of active managers exhibits little evidence of persistent alpha—a
+cautionary benchmark for inferences about backtested commercial products whose marketed
+track records have not been subjected to comparable scrutiny. More recent evidence indicates
+that persistence can emerge in specific settings, particularly in small portfolios drawn from the
+extremepositivetailofpastfundperformance, underscoringthesensitivityofpersistenceresults
+to portfolio construction and evaluation design (Cuthbertson et al., 2023).
+The structured strategies examined in this paper harvest the same return sources as aca-
+demic alternative risk premia (ARP) strategies (Asness et al., 2013; Ilmanen, 2012). Alternative
+strategies expose investors to a wide range of risk factors, so that measured performance is
+inseparable from the framework used to evaluate it (Amenc et al., 2003)—an observation that
+motivates the benchmark-design question central to the ARP literature. Roncalli (2017) sur-
+5
+
+--- Page 7 ---
+veys the ARP landscape and documents widespread performance disappointment following the
+2018–2020 period, attributing much of the shortfall to factor crowding and regime dependence.
+A central finding of that literature is that ARP benchmark returns are provider-dependent: in-
+dices from different institutions purporting to capture the same premium can differ by several
+hundred basis points per annum (p.a.), rendering a single market index an inadequate bench-
+mark for heterogeneous strategy samples (Hamdan et al., 2016). Blin et al. (2021) reinforce this
+point, demonstrating that macro-regime conditions explain a substantial share of cross-sectional
+ARPreturnvariation. Ifthepro-formawindowover-weightsafavourablefactorcycle, measured
+decay should attenuate once common-factor exposure is removed.
+Benchmarkingheterogeneousstrategiesisitselfalong-standingproblem. Danieletal.(1997)
+introduced characteristic-based benchmarksto circumvent the misspecificationinherentin para-
+metric factor models, and Hunter et al. (2014) extended the approach to the fund level with
+the Active Peer Benchmark (APB)—the equal-weighted average excess return of all funds in
+the same style category—demonstrating that it substantially reduces residual cross-correlation
+within peer groups. For hedge funds, Fung and Hsieh (2004) proposed a seven-factor model
+capturingoption-likepayoffprofiles,andLhabitant(2001)arguedmorebroadlythatalternative-
+strategy evaluation requires risk frameworks better tailored than a single market index. Fieberg
+et al. (2019) compared risk-model and characteristic-model approaches from an investor per-
+spective, finding that characteristic-model estimates are the most informative—a result that
+strengthens the case for peer-based rather than index-based benchmarking. Cremers et al.
+(2012) demonstrate that many widely used benchmark indices themselves exhibit non-zero al-
+pha against standard factor models, implying that the apparent performance of an evaluated
+portfolio depends as much on the benchmark’s own factor exposures as on the portfolio’s. Ma-
+teus et al. (2019) reach a similar conclusion in the mutual-fund setting: when benchmarks are
+better matched to fund objectives, measured alpha declines and fund rankings shift materially,
+demonstrating that benchmark mismatch can mislead investors regarding relative performance.
+The LOO bucket-average benchmark employed here adapts the Hunter et al. (2014) APB to the
+structured-strategy setting: the leave-one-out exclusion eliminates the mechanical correlation
+between a strategy’s own return and its benchmark. Relatedly, Wagner (2002) formalises port-
+folio selection in a benchmark-relative setting consistent with the allocator perspective adopted
+here, in which candidate strategies are evaluated against alternative uses of risk budget rather
+than in isolation.
+6
+
+--- Page 8 ---
+The study closest in spirit is Falck et al. (2022), who decompose performance decay across
+published systematic strategies and find that post-publication returns decline by approximately
+43%, with overfitting accounting for the bulk of the reduction. The present setting differs ma-
+terially from prior work in three respects. First, the unit of analysis is commercially marketed
+institutional products rather than published academic anomalies or managed funds, so the rele-
+vant selection mechanism is the institutional launch decision rather than academic peer review.
+Second, the evaluation is peer-relative by construction: a within-bucket LOO benchmark ab-
+sorbs the shared factor return, allowing a direct test of whether the pro-forma signal retains
+predictive content after this absorption—a test that neither the post-publication decay litera-
+ture nor the fund-persistence literature performs. Third, the analysis isolates two launch-timing
+channels—regime extremity and launch-density crowding—that account for the residual decay.
+In summary, the existing literature establishes that backtests frequently decay, that persis-
+tence results depend on the evaluation framework, and that benchmark choice can materially
+alter inferences about performance. What remains untested is whether the marketed backtests
+of institutionally distributed structured strategies retain useful information once the common
+factor environment is accounted for. That is the question this paper addresses.
+3 Data and Design
+3.1 Sample
+The sample comprises 1,726 structured investment strategies distributed by ten global financial
+institutions (anonymised A–J) to institutional clients over the period 2009–2025. As defined in
+Section1,thesearecommerciallydistributed,rules-basedstrategiesmarketedonthebasisofpro-
+forma(backtested)trackrecordstoinstitutionalallocatorsforallocationoroverlaypurposes;the
+sample excludes retail structured notes and published academic factor portfolios. The strategies
+span six asset classes: equities (39%), commodities (21%), rates (14%), foreign exchange (11%),
+credit (8%), and multi-asset (7%) (see Table 1).
+For each strategy, the launch date—defined as the date the strategy first became available
+for live investment—divides the track record into a pro-forma period (mean length 13.7 years)
+and a live period (mean length 5.6 years).
+All 1,726 strategies satisfy the baseline inclusion criteria: at least one year of pro-forma
+history and at least six months of live data with a valid volatility-adjusted return. No strategy
+7
+
+--- Page 9 ---
+is excluded from the analysis on the basis of poor post-launch performance, so within-sample
+attrition does not contaminate the estimates. Pre-launch selection, by contrast, remains mate-
+rial: strategies proposed but never launched by the sponsoring institutions are unobserved, so
+the sample is positively selected on the institutional go/no-go decision. The decay estimates
+reported below should therefore be read as a lower bound on the gap that would prevail in an
+unselected universe of candidate strategies (see Section 6 for the implications of this positive
+selection). For twelve-month regressions, the sample narrows to 1,694 strategies with at least
+twelve months of live data; all other analyses use the full sample of 1,726.
+Each strategy is also assigned to a broader portfolio role— Return-Seeking (N = 457,
+26%), Carry/Short-Convexity (N = 808, 47%), Hedging/Defensive (N = 300, 17%), or Multi-
+Premia/Diversifying (N = 161, 9%). This role classification is used in Section 5 only to qualify
+the interpretation of the Hedging/Defensive group, whose intended payoff profile is not cap-
+tured by an unconditional return metric. The bucket classification, not the role classification,
+determines the appropriate peer benchmark and is the operative grouping throughout the em-
+pirical analysis. Table 1 summarises the sample. Panel A reports the composition by asset
+class, objective group, and bucket; the full institution-level and launch-year breakdown is re-
+ported in Appendix A. Panel B reports the distribution of track-record lengths—the pro-forma
+period (backtest inception to launch) and the live period (launch to the end of the observation
+window)—in calendar years.
+All returns in the dataset are reported gross of transaction costs. Because transaction costs
+and fees reduce live performance but do not affect the marketed backtest, the estimated decay
+should be interpreted as a lower bound on investors’ net experience.
+8
+
+--- Page 10 ---
+Table 1: Sample Summary. Panel A: Composition by asset class, objective group, and bucket. Panel B:
+Distribution of track-record lengths (years). The full institution-level and launch-year breakdown is reported in
+Appendix A.
+Panel A: Composition
+Group N Share Group N Share Group N Share
+Total strategies 1726 100% By objective group By bucket
+By asset class Return-Seeking 457 26% Carry 808 47%
+Commodities 366 21% Carry/Short-Convexity 808 47% Momentum 215 12%
+Credit 132 8% Hedging/Defensive 300 17% Hedging 300 17%
+Equities 670 39% Multi-Premia/Div 161 9% Multi Premia 161 9%
+FX 197 11% Factor 154 9%
+Multi-Asset 118 7% Value 59 3%
+Rates 243 14% Liquidity 29 2%
+Panel B: Track-record lengths
+Variable N Mean Std P25 Median P75
+Pro-forma period (years) 1726 13.7 6.4 10.4 14.3 17.3
+Live period (years) 1726 5.6 3.2 3.2 5.2 7.6
+3.2 Performance measures
+For each strategy, annualised excess returns and volatility are computed over six-month and
+twelve-month windows immediately before (pro-forma) and after (live) launch, using daily ex-
+cess returns. To ensure cross-strategy comparability, returns are rescaled to a common 10%
+annualised volatility target:
+σtarget
+radj = rann× , σtarget = 0.10, (1)
+i,h i,h σann
+i,h
+whereh ∈ {6m,12m},rann denotestheannualisedexcessreturnofstrategyioverwindowh,and
+i,h
+σann denotes the corresponding annualised volatility of daily excess returns.2 In practical terms,
+i,h
+thisnormalisationplacesallstrategiesonacommon10%volatilityfooting, sothatdifferencesin
+performance reflect return quality rather than variation in target risk. Because all strategies are
+normalised to the same volatility, radj is proportional to the Sharpe ratio (radj = SR ×σtarget);
+i,h i,h i,h
+all performance measures are accordingly reported in volatility-adjusted return units (per cent
+p.a.) throughout.
+2Thevol-adjustmentisin-window: σannisthestandarddeviationofdailyexcessreturnsoverthesamewindow
+i,h
+hthatisusedtocomputethenumerator(i.e.thepro-formawindowforradj,pre andthelivewindowforradj,live),
+rather than an ex-ante forecast or a rolling window extending outside h. This choice sidesteps look-ahead bias
+in the pro-forma period and preserves the interpretation of radj as the realised Sharpe ratio over h scaled to the
+i,h
+target 10% volatility.
+9
+
+--- Page 11 ---
+Performance decay is defined as the pro-forma-to-live change in volatility-adjusted return:
+∆radj ≡ radj,live−radj,pre, h ∈ {6m,12m}, (2)
+i,h i,h i,h
+Negative values indicate that live performance fell short of the marketed backtest.
+Four additional risk measures are computed over each window h: maximum drawdown
+(MDD ), conditional value-at-risk at the 95% confidence level (CVaR ; Rockafellar and Urya-
+i,h 95
+sev 2002), downside deviation (Sortino and van der Meer, 1991), and the Sortino ratio. For loss-
+magnitude metrics, risk forecast error is defined as deterioration = |metriclive|−|metricpre|;
+i,h i,h i,h
+positive values indicate deterioration in live risk relative to the pro-forma period.
+3.3 Regression framework
+The levels regression tests the degree to which pro-forma performance persists into the live
+period:
+radj,live = α+β radj,pre+δ′X +FE +ε , (3)
+i,h levels i,h i b×y i
+where radj,pre denotes the horizon-matched pro-forma volatility-adjusted return: the six-month
+i,h
+value for h = 6m and the twelve-month value for h = 12m. The control vector X is defined as
+i
+X = (cid:0) radj,early, σpre , Age (cid:1)′ , (4)
+i i i,12m i
+where radj,early denotes the volatility-adjusted return computed over the pro-forma period ex-
+i
+cluding the final twelve months, serving as a proxy for the strategy’s long-run skill independent
+of the immediate pre-launch window; σpre denotes the annualised volatility of daily returns
+i,12m
+over the twelve months preceding launch; and Age denotes the length of the pro-forma track
+i
+record in years. These controls absorb variation in long-run performance history, pro-forma
+risk level, and track-record maturity, respectively. FE denotes bucket × launch-year fixed
+b×y
+effects, which absorb time-invariant bucket characteristics and common market conditions at
+the launch-year level. All continuous regressors are winsorised at the 1st and 99th percentiles.
+A coefficient β = 1 would indicate full portability of pro-forma performance; values below
+levels
+unity imply that live expectations based on the backtest are overstated.
+10
+
+--- Page 12 ---
+The corresponding decay regression replaces the dependent variable with ∆radj:
+i,h
+∆radj = α′+β radj,pre+δ′X +FE +ε . (5)
+i,h decay i,h i b×y i
+Because ∆radj = radj,live − radj,pre, the two specifications are algebraically linked: β =
+i,h i,h i,h decay
+β −1. Intuitively, β < 1 indicates that higher pro-forma performance predicts higher
+levels levels
+live performance, but less than one-for-one; the corresponding negative β indicates that the
+decay
+excess does not persist.
+Bucket × launch-year fixed effects are included throughout, generating 104 non-empty cells
+(median cell size 12). Standard errors are clustered at the strategy level.
+The regressions above use raw volatility-adjusted returns as the dependent variable. The
+paper’s central test re-estimates both specifications after replacing the dependent variable with
+a benchmark-adjusted measure, defined in Section 3.4, while leaving the right-hand side un-
+changed. Under the skill hypothesis—that is, if pro-forma performance reflects strategy-specific
+ability beyond the common factor—β should remain economically large and β signifi-
+levels decay
+cantly negative after benchmark conditioning. Under the alternative—that the backtest merely
+capturesexposuretoafavourablebucket-factorregime—bothcoefficientsshouldcollapsetoward
+zero.
+3.4 Benchmark construction
+Thepaper’scentraltestrequiresabenchmarkthatcapturesthecommon-factorregimesharedby
+strategies in the same bucket without requiring discretionary index selection. A single market
+index is insufficiently granular for these strategies, as products with similar labels frequently
+differ materially across providers. A peer-based benchmark that captures the common bucket
+environmentmoredirectlyisthereforeemployed, andtheresultiscorroboratedwithanexternal
+Bloomberg benchmark. Agreement between two benchmarks constructed from entirely different
+information sets provides robust corroboration of the main finding.
+The primary benchmark is the LOO bucket-average. For each strategy–day pair, the LOO
+return is the equal-weighted average of all other strategies in the same bucket:
+P r
+j̸=i,j∈b(i) j,t
+LOO = , (6)
+i,t
+n −1
+b(i),t
+where b(i) denotes the bucket to which strategy i is assigned and n denotes the number of
+b(i),t
+11
+
+--- Page 13 ---
+strategies in that bucket with an observed return on day t; the denominator n −1 excludes
+b(i),t
+strategy i itself. Intuitively, each strategy’s benchmark is the average daily return of every other
+strategy in its bucket on that day—a peer-based measure that captures what the shared factor
+environment delivered without contamination from the strategy’s own return. The summation
+includes all peer strategies with an observed return on that date, regardless of whether they are
+intheirpro-formaorliveperiod; theLOObenchmarkthereforereflectstherealisedbucket-factor
+regimeratherthanasubsetconditionedonlaunchstatus.3 TheLOObenchmarkencompassesall
+1,726 strategies in the analysis sample, requires no discretionary index selection, and captures
+the prevailing bucket-factor regime by construction. Seven buckets are represented: Carry,
+Hedging, Momentum, Multi Premia, Factor, Value, and Liquidity.
+Equation 6 defines a daily benchmark. Its annualised counterpart LOOann is the annualised
+i,h
+meanofthedailyLOOseriesoverwindowh(thefirsthmonthsoflivetrading, compoundedand
+expressed on an annual basis). The primary outcome variable is then the simple LOO-relative
+return,
+rrel,LOO = rann−LOOann, (7)
+i,h i,h i,h
+whererann isthestrategy’sownannualisedreturnoverthesamewindow. Thatis,thepeer-group
+i,h
+average return is subtracted from the strategy’s own return over the same window; a positive
+value indicates that the strategy outperformed its bucket peers. This imposes a unit loading
+(β = 1), the natural null hypothesis for strategies sharing the same return mechanism. As a
+robustnesscheck, apre-estimated-betavariant, αˆprebet, isalsoreported. Thisvariantrelaxesthe
+i,h
+unit-loadingassumptionbyestimatingeachstrategy’sindividualloadingontheLOObenchmark
+from the full pro-forma history before computing live abnormal returns.4
+LOO-relative decay is defined analogously:
+∆rrel,LOO = rrel,LOO,live−rrel,LOO,pre. (8)
+i,h i,h i,h
+The robustness benchmark is constructed from Bloomberg total-return indices. Each strat-
+egy is assigned a Bloomberg index via a deterministic rule that maps asset class to one of nine
+3Restricting the LOO benchmark to only contemporaneously live strategies yields virtually identical results;
+see Appendix G.
+4Specifically, βpre is estimated from r =αpre+βpreLOO +u over the pro-forma window and held fixed
+i i,t i i i,t i,t
+in live: AR =r −βˆpreLOO (annualised mean over window h gives αˆprebet). Using the pro-forma window
+i,t i,t i i,t i,h
+p
+(median 5,396 trading days) reduces β estimation noise by 5396/252 ≈ 4.6× relative to a live-window-only
+estimate.
+12
+
+--- Page 14 ---
+total-returnindices,asdetailedinTable2. Themappingisapplieduniformlyacrossallteninsti-
+tutions and fixed before launch, precluding strategic benchmark selection; coverage is complete
+(1,726 of 1,726 strategies).
+Table 2: Bloomberg Benchmark Mapping. Each strategy is assigned a total-return index based on its asset
+class. Credit strategies are further split by bucket: carry and short-volatility strategies receive the high-yield
+index; all others receive the investment-grade index. FX strategies are benchmarked against the J.P. Morgan
+USD Index, a broad G10 currency basket.
+Asset class Condition Primary index
+Equities — MSCI ACWI
+Rates — Bloomberg US Treasury
+Credit Carry/Short-Convexity Bloomberg US High Yield
+Credit All other buckets Bloomberg US IG Corp
+Commodities — Bloomberg Commodity TR
+Multi-Asset — MSCI ACWI
+FX — J.P. Morgan USD Index
+The primary Bloomberg specification is a single-factor Jensen regression estimated over the
+first h months of live trading:
+r = α +β rbm+u , (9)
+i,t i i i,t i,t
+The intercept α (Jensen alpha) measures the strategy’s average daily return after removing the
+i
+portion explained by its market benchmark—that is, the return that cannot be attributed to
+broad market exposure. Because these are total-return indices, the single-factor model captures
+linear (delta) exposure but not the convexity profile of non-linear strategies such as short- and
+long-volatility positions (approximately 40% of the sample). A two-factor variant is therefore
+reported that augments Equation (9) with a convexity proxy based on the VIX term-structure
+ratio (CBOE 3-month implied volatility divided by 1-month implied volatility); when the ratio
+exceedsunitythevolatilitycurveisincontangoandshort-volatilitystrategiesearncarry,whereas
+backwardation (ratio below unity) signals short-volatility stress:
+r = α +βbmrbm+βcvxfcvx+u , (10)
+i,t i i i,t i t i,t
+where fcvx denotes the daily change in the log VIX term-structure ratio. The main text reports
+t
+the single-factor specification; the two-factor variant yields identical conclusions (Appendix F).5
+Alongside the Jensen alpha, a simple Bloomberg-relative return is defined that imposes a unit
+5When a strategy’s benchmark R2 is near zero, the Jensen regression removes little common-factor variation
+and αˆ collapses toward the raw excess return; including such strategies therefore biases the Bloomberg-adjusted
+results against the central finding. Excluding strategies with R2 <0.05 leaves the conclusions unchanged.
+13
+
+--- Page 15 ---
+loading on the benchmark, maintaining comparability with the LOO simple-relative measure:
+rrel,bm = rann − rbm,ann, where rbm,ann denotes the annualised mean of the daily benchmark
+i,h i,h i,h i,h
+return rbm over window h. Bloomberg-relative decay is then defined as
+i,t
+∆rrel,bm = rrel,bm,live−rrel,bm,pre. (11)
+i,h i,h i,h
+3.5 Channel variables
+Twochannelvariablesareintroducedtocapturetheintensityofregimetimingandlaunch-cohort
+density (a proxy for crowding).
+The first variable, regime extremity, measures the deviation of the prevailing bucket-factor
+return from its long-run average at the time of launch. For each strategy i in bucket b, it is
+defined as:
+RegimeExtremity = r¯LOO − µ , (12)
+i b(i),pre,12m b
+Intuitively, this is the difference between the peer-group return in the twelve months preceding
+launch and the long-run bucket average. A positive value indicates that the bucket factor was
+performing above its historical average at the time of launch—what practitioners would term a
+“hot” environment for that particular risk premium.
+The regime-extremity channel is tested through three specifications. Specification (i) adds
+regime extremity as an additive control to the baseline decay regression (Equation 5):
+∆radj = α+β radj,pre+γRegimeExtremity +δ′X +FE +ε . (13)
+i,h 1 i,h i i b×y i
+Specification (ii) augments the baseline decay regression (Equation 5) with both an additive
+regime-extremity term and its interaction with the pro-forma predictor:
+∆radj = α+β radj,pre+γRegimeExtremity +λradj,pre×RegimeExtremity +δ′X +FE +ε .
+i,h 1 i,h i i,h i i b×y i
+(14)
+Specification (iii) retains the right-hand side of Specification (i) but replaces the dependent
+variable with LOO-relative decay (Equation 8), isolating the idiosyncratic component:
+∆rrel,LOO = α+β radj,pre+γRegimeExtremity +δ′X +FE +ε . (15)
+i,h 1 i,h i i b×y i
+14
+
+--- Page 16 ---
+The second variable, launch density, measures the number of strategies entering the same
+risk-premium bucket within a given year. Because deployed capital is unobserved in the data,
+launch density serves as a proxy for crowding pressure rather than a direct measure of capital
+congestion. For each bucket-year cell (b,y), it is defined as:
+(cid:0) (cid:1)
+LogLaunchDensity = ln 1+n , (16)
+b,y b,y
+where n denotes the number of strategies launched in bucket b during year y. A high value
+b,y
+indicates that numerous strategies entered the same risk-premium bucket during the same year,
+consistent with multiple institutions simultaneously targeting the same premium. The mean
+launch density is 17.8 strategies per bucket-year (median 10, range 1–105).
+Density is constant within bucket-year cells, so its identifying variation decomposes into
+three components: cross-bucket level differences, cross-year level differences (the industry-wide
+launch cycle), and bucket-year residuals. All three specifications include bucket fixed effects
+only. Bucket fixed effects guard against confounding between density and structural differences
+between product categories: smaller categories have few providers and distinct payoff dynamics,
+while larger categories draw many providers and have their own return profile, and a non-zero
+density coefficient estimated without bucket fixed effects could not be distinguished from these
+bucket-composition effects. Launch-year fixed effects are omitted so that the industry-wide
+entry cycle—a substantial component of the crowding mechanism—remains in the identifying
+variation; adding year fixed effects would identify the density coefficient only from within-year
+cross-bucket residuals.
+The launch-density channel is tested through three specifications. Specification (A) adds
+log launch density as an additive control to the baseline decay regression (Equation 5), with
+bucket fixed effects in place of the bucket × launch-year interaction to preserve the entry-cycle
+variation:
+∆radj = α+β radj,pre+γLogLaunchDensity +δ′X +FE +ε . (17)
+i,h 1 i,h b,y i b i
+Specification (B) augments the baseline decay regression (Equation 5) with both the additive
+density term and its interaction with the pro-forma predictor:
+∆radj = α+β radj,pre+γLogLaunchDensity +λradj,pre×LogLaunchDensity +δ′X +FE +ε .
+i,h 1 i,h b,y i,h b,y i b i
+(18)
+15
+
+--- Page 17 ---
+Specification (C) retains the right-hand side of Specification (A) but replaces the dependent
+variable with LOO-relative decay (Equation 8), stripping out the common bucket factor and
+isolating strategy-specific deterioration (directly analogous to Specification (iii) of the regime-
+extremity table):
+∆rrel,LOO = α+β radj,pre+γLogLaunchDensity +δ′X +FE +ε . (19)
+i,h 1 i,h b,y i b i
+4 Empirical Results
+This section develops the paper’s central argument in four steps. The first establishes that the
+raw pro-forma-to-live gap is economically large and exceeds what mechanical mean reversion
+would predict. The second adjusts for within-bucket peer performance—the paper’s main re-
+sult. The third confirms robustness using an independent Bloomberg benchmark. The fourth
+investigates why backtests mislead, identifying regime extremity as the primary channel and
+launch density as a secondary proxy for crowding.
+Table 3 reports mean volatility-adjusted returns in the pro-forma and live windows, together
+withthedecay(liveminuspro-forma),forthefullsampleandbyassetclass. Resultsarereported
+at both six-month and twelve-month post-launch horizons; significance stars denote rejection of
+the null hypothesis of zero mean decay. The central finding is strikingly consistent: nearly every
+asset class exhibits negative mean performance decay at both horizons.
+Table 3: Pro-Forma vs Live Performance Summary. All figures are in per cent p.a. (e.g. 3.6 means 3.6% p.a.).
+Each cell reports the mean vol-adjusted return or decay (live minus pro-forma) over 6-month and 12-month
+post-launch windows. Returns are rescaled to a common 10% annualised volatility target. Sample sizes are
+horizon-specific: the N column under the 6-month horizon counts strategies with at least six months of live
+data, and the N column under the 12-month horizon counts strategies with at least twelve months. *p<0.10,
+**p<0.05, ***p<0.01 for the test H : decay =0.
+0
+6-month horizon 12-month horizon
+Panel N Pre (%) Live (%) Decay (%) N Pre (%) Live (%) Decay (%)
+Full sample 1,726 3.6 1.5 −2.1*** 1,694 4.1 1.0 −3.1***
+Commodities 366 7.1 3.1 −4.0*** 358 6.5 2.1 −4.6***
+Credit 132 −0.3 −0.4 −0.1 132 2.8 −0.5 −3.4**
+Equities 670 3.6 1.9 −1.7** 656 4.1 1.1 −3.0***
+FX 197 3.4 −1.1 −4.6*** 195 3.4 −0.1 −3.5***
+Multi-Asset 118 2.2 1.4 −0.8 115 3.5 0.5 −3.0**
+Rates 243 1.1 1.3 0.3 238 1.9 1.1 −0.7
+Forthefullsample, themeanvolatility-adjustedreturninthesixmonthsprecedinglaunchis
+16
+
+--- Page 18 ---
+3.6% p.a., compared with 1.5% in the live period—a decline of 2.1 percentage points (p < 0.01).
+Overthetwelve-monthhorizon,thegapwidens: pro-formaperformanceof4.1%declinesto1.0%
+in the live period, a decay of −3.1 percentage points (p < 0.01). Decay is also heterogeneous
+across asset classes; Table 3 reports the breakdown. Among the broader portfolio roles, Hedg-
+ing/Defensive strategies exhibit comparatively smaller raw decay, a pattern Section 5 notes is
+consistent with their distinct payoff role but does not test directly.
+Event-timeplotscentredonthelaunchdateconfirmadistinctstructuralbreak: performance
+that persists through the pre-launch period deteriorates sharply in the months following launch
+(Appendix B).
+Part of the observed decay is mechanical: any mean-reverting series will exhibit appar-
+ent deterioration when conditioned on a high-water mark. Supplementary tests indicate that
+the launch boundary contains information beyond mechanical mean reversion. A moving-block
+bootstrap (Appendix C) demonstrates that the twelve-month decay coefficient exceeds what
+sampling noise alone can produce (p < 0.001, robust across block sizes of 10–63 trading days).
+A per-strategy placebo test (Appendix D) further confirms that launch months are not system-
+atically timed to each strategy’s own pre-launch peaks on the vol-adjusted return signal, ruling
+out within-strategy cherry-picking as an explanation for the observed decay.
+4.1 Pro-forma predictability under benchmark adjustment
+Thekeyquestionforallocatorsisnotwhetherrawbacktestsandliveoutcomesarecorrelated. It
+iswhetherthatassociationsurvivesonceperformanceismeasuredagainstanappropriatebench-
+mark. Thecentraltestreplacestherawreturndependentvariablewithbenchmark-adjustedlive
+performance under the LOO and Bloomberg benchmarks defined in Section 3.
+After benchmark adjustment, the median strategy underperforms its LOO bucket peers by
+approximately 0.8 percentage points p.a. at the twelve-month horizon (0.7 percentage points at
+six months), and 59% of strategies deliver negative LOO-relative returns (55% at six months).
+MeasuredagainsttheexternalBloombergtotal-returnbenchmark,whichusesaninformationset
+entirely outside the strategy universe, the median underperformance widens to 3.0 percentage
+points at twelve months (2.8 percentage points at six months), with 59% of strategies negative
+at twelve months (56% at six months). The full distribution under both benchmarks is reported
+in Table I.1 (Appendix I).
+Table 4 presents the core result. Each row reports the OLS coefficient on the key pro-
+17
+
+--- Page 19 ---
+forma predictor (horizon-matched volatility-adjusted return) when the dependent variable is
+live performance measured under a different benchmark specification. In raw returns, marketed
+backtests appear informative. Once live outcomes are benchmarked appropriately, however,
+most of that apparent information disappears.
+Table 4: Pro-Forma Predictability of Live Performance Across Benchmarks. Each row reports the OLS
+coefficient on the key pro-forma predictor under a different benchmark specification. Row 1 uses raw live
+vol-adjusted return as the dependent variable; Row 2 substitutes the OLS-estimated Jensen α against the
+Bloomberg total-return index; Row 3 substitutes the LOO-relative return. All regressions include bucket ×
+launch-year fixed effects; standard errors clustered by strategy. ***p<0.01, **p<0.05, *p<0.10.
+Benchmark Dependent variable βˆ SE t N R2
+None (raw) Live return (12m, vol-adj.) 0.137*** (0.025) 5.48 1694 0.148
+Bloomberg index Jensen alpha (12m) 0.025** (0.012) 2.05 1694 0.032
+LOO relative return LOO relative return (12m) 0.034*** (0.013) 2.58 1694 0.054
+Without benchmark adjustment, the horizon-matched pro-forma predictor yields βˆ= 0.137
+(p < 0.001, R2 = 0.148). This positive partial correlation confirms that pro-forma performance
+carriescross-sectionalinformationaboutwhichstrategieswillperformbetterintheliveperiod—
+but only in the unconditional, unadjusted sense.
+When the dependent variable is replaced by the OLS-estimated Jensen α against each strat-
+egy’s assigned Bloomberg total-return index, the coefficient declines to 0.025 (p < 0.05). The
+R2 simultaneously declines from 0.148 to 0.032. Although the coefficient retains marginal statis-
+tical significance, its economic magnitude is sharply reduced—a decline of approximately 81%
+relative to the raw estimate—indicating that the marketed pro-forma signal is predominantly
+driven by common-factor exposure rather than portable alpha.
+Under the LOO peer-average benchmark, the coefficient is 0.034 (p < 0.01, R2 = 0.054),
+a reduction of 75% relative to the raw estimate. The close agreement between the peer-
+based and external benchmarks is noteworthy. These two benchmarks draw on entirely dif-
+ferent information—the LOO benchmark uses only peer-strategy returns, while the Bloomberg
+benchmark uses broad market indices—yet both remove the majority of the raw signal. This
+convergence makes it unlikely that the attenuation is an artefact of a particular benchmark con-
+struction choice, and the external Bloomberg benchmark also rules out LOO endogeneity—the
+concernthatinstitutionsclusteringlaunchesintofavourableregimesmightcontaminatethepeer
+average.6
+6The median R2 from regressing each strategy’s daily returns on its LOO benchmark over the full pro-forma
+windowis0.074,confirmingthattheLOOfactorcapturesameaningfulshareofdailyreturnvariationandisnot
+so noisy as to mechanically drive the coefficient toward zero.
+18
+
+--- Page 20 ---
+Table 5 turns to the decay outcome: the change in benchmark-relative return from the
+pro-forma to the live window (Equation 8 for LOO, Equation 11 for Bloomberg). The mean
+LOO-relative decay is −1.3% p.a. at twelve months, with 56% of strategies exhibiting negative
+decay.
+Table 5: Pro-Forma Predictability of Performance Decay Across Benchmarks. Each row reports the OLS
+coefficient on the key pro-forma predictor under a different benchmark specification. Row 1 uses raw
+vol-adjustedreturndecayasthedependentvariable;Row2usesBloomberg-relativedecay(liveminuspro-forma
+benchmark-relative return); Row 3 uses LOO-relative decay. All regressions include bucket × launch-year fixed
+effects; standard errors clustered by strategy. ***p<0.01, **p<0.05, *p<0.10.
+Benchmark Dependent variable βˆ SE t N R2
+None (raw) Return decay (12m, vol-adj.) −0.896*** (0.025) −35.81 1694 0.494
+Bloomberg relative Bloomberg-relative decay (12m) −0.377*** (0.031) −12.01 1694 0.247
+LOO bucket-average LOO-relative decay (12m) −0.372*** (0.019) −19.46 1694 0.267
+In absolute terms, the horizon-matched pro-forma predictor yields βˆ = −0.896 (p < 0.001,
+R2 = 0.494). This large R2 is partly mechanical—decay is defined as live minus pro-forma,
+so higher pro-forma returns mechanically generate larger measured decay if live returns mean-
+revert—but the bootstrap results reported above confirm that the magnitude exceeds what pure
+mean reversion would produce.
+Benchmark-relativedecayremainseconomicallymeaningfulbutissubstantiallysmallerthan
+the raw decay estimate. When decay is measured relative to the Bloomberg benchmark—
+removing the common-factor return from both the pro-forma and live windows—the coefficient
+declines to −0.377 (p < 0.001, R2 = 0.247), a reduction of approximately 58%. Under the
+LOO benchmark, the decay coefficient is −0.372 (p < 0.001, R2 = 0.267), virtually identi-
+cal in magnitude. The common-factor environment therefore accounts for the majority of the
+marketed backtest signal, although a smaller residual component persists after benchmark ad-
+justment. The close similarity of the two adjusted coefficients (−0.377 vs. −0.372) suggests
+that both benchmarks remove the same broad systematic component; a two-factor convexity
+variant yields the same result (Appendix F).7 A natural concern is that benchmark adjustment
+simply adds noise to the dependent variable, mechanically attenuating the coefficient. Two tests
+argue against this: on a matched sample, a Wald test comparing the raw and adjusted coef-
+ficients rejects equality (z = 4.03, p < 0.001; Appendix H), confirming that the attenuation
+exceeds what added noise alone would produce; and including the benchmark return as a right-
+7The Bloomberg benchmark is conservative for the approximately 40% of strategies with low benchmark R2
+or convex payoff profiles, where Jensen alpha approximates the raw return; this conservatism works against the
+paper’s central finding.
+19
+
+--- Page 21 ---
+hand-side control leaves the raw coefficient virtually unchanged, so the attenuation appears only
+when performance is measured relative to the benchmark—a pattern consistent with genuine
+common-factor removal rather than noise inflation. Benchmark design is therefore substantive,
+not cosmetic, in allocator due diligence.
+The implication is not that backtests are uninformative, but that the majority of what they
+captureisthecommon-factorenvironmentintowhichthestrategywaslaunched. Theremainder
+of this section examines why, focusing on regime extremity as the primary channel and launch
+density as a secondary proxy for crowding.
+4.2 Regime extremity
+The regime-timing mechanism predicts that strategies launched after unusually strong bucket-
+factor performance should experience greater performance decay, because the pro-forma window
+over-weights a favourable factor environment that subsequently mean-reverts. Table 6 tests this
+prediction using three specification families (Equations 13–15), each estimated at both the six-
+month and twelve-month horizons.
+Specification (i) (Equation 13) adds regime extremity as an additive control to the baseline
+raw-decay regression. Specification (ii) (Equation 14) includes the interaction of pro-forma
+return with regime extremity, testing whether the pro-forma signal is amplified when the bucket
+regime is more extreme. Specification (iii) (Equation 15) is the most informative: it replaces the
+dependent variable with LOO-relative decay, removing the common bucket factor so that the
+coefficient on regime extremity captures only the idiosyncratic overstatement—the component
+that cannot be attributed to the shared factor environment.
+20
+
+--- Page 22 ---
+Table 6: Regime Extremity and Performance Decay. Each column group tests whether the intensity of the
+bucket-factor regime at launch predicts subsequent performance decay. Specifications (i)–(ii) use raw
+vol-adjusted return decay (∆radj, Equation 2) as the dependent variable: (i) adds regime extremity as an
+i,h
+additive control; (ii) further adds the interaction of pro-forma return with regime extremity (Pre-ret ×
+regime), testing whether hotter regimes amplify the pro-forma signal. Specification (iii) replaces the dependent
+variable with LOO-relative decay (∆rLOO, Equation 8), which strips out the common bucket factor and
+i,h
+isolates strategy-specific deterioration. Regime extremity is the annualised LOO bucket-average return in the
+12 months before launch minus the within-bucket full-sample mean (Equation 12). All specifications include
+bucket × launch-year fixed effects and use the horizon-matched pro-forma vol-adjusted return (radj,pre) as the
+i,h
+key predictor. All specifications also control for earlier-window vol-adjusted return, pro-forma volatility, and
+strategyageatlaunch(Equation4);thesecoefficientsareomittedfromdisplayforcompactnessandareavailable
+on request. Standard errors (in parentheses) are clustered by strategy. ***p<0.01; **p<0.05; *p<0.10.
+(i) Additive (ii) + Interaction (iii) LOO-relative
+12m 6m 12m 6m 12m 6m
+Regime extremity −0.087 0.206 −0.003 0.083 0.716∗∗∗ 0.469∗∗∗
+12m
+(0.132) (0.182) (0.152) (0.199) (0.124) (0.176)
+Pre-ret × regime −1.637 4.580∗∗∗
+(1.296) (1.446)
+Pro-forma vol-adj return −0.891∗∗∗ −0.833∗∗∗ −0.894∗∗∗ −0.827∗∗∗ −0.409∗∗∗ −0.342∗∗∗
+h
+(0.026) (0.029) (0.026) (0.028) (0.019) (0.020)
+Bucket × Launch-year FE ✓ ✓ ✓ ✓ ✓ ✓
+Clustered SE ✓ ✓ ✓ ✓ ✓ ✓
+N 1,694 1,726 1,694 1,726 1,694 1,726
+R2 0.494 0.423 0.495 0.427 0.293 0.228
+In raw-decay terms, regime extremity is largely absorbed by the bucket × launch-year fixed
+effects, which already capture much of the common-factor variation. The more informative test
+is Specification (iii), which removes the common factor from the dependent variable via the
+LOO benchmark. Under this specification, regime extremity is highly significant: βˆ = 0.716
+(SE = 0.124, p < 0.001) at the twelve-month horizon and βˆ = 0.469 (SE = 0.176, p < 0.01) at
+six months. Because the variable is signed, with positive values denoting hot regimes (bucket
+return in the pre-launch window above its long-run mean) and negative values denoting cold
+regimes(bucketreturnbelowitslong-runmean), thepositivecoefficientindicatesthatstrategies
+launched in hot regimes experience worse LOO-relative decay, whereas those launched in cold
+regimes may experience a slight improvement. The effect is directional rather than symmet-
+ric: hotter pre-launch regimes inflate the pro-forma record relative to the strategy’s true peer
+standing, and this overstatement reverses as the regime mean-reverts after launch. The R2 of
+0.293 at the twelve-month horizon is lower than the 0.494 for raw return decay, reflecting the
+greater noise in the LOO-residual outcome, but regime extremity alone contributes meaningful
+explanatorypowerwithinthismoredemandingspecification. RestrictingtheLOObenchmarkto
+contemporaneously live strategies and applying a LOO bucket mean strengthens these estimates
+(Appendix G), confirming that the baseline specification is conservative. A pre-estimated-beta
+21
+
+--- Page 23 ---
+specification that absorbs cross-sectional variation in factor loadings yields a qualitatively iden-
+tical regime-extremity coefficient, ruling out loading heterogeneity as a mechanical driver.
+Figure1providesanon-parametricillustrationofthesamerelationship. The1,694strategies
+with available twelve-month data are sorted into quintiles of regime extremity, and the mean
+twelve-month return decay within each bin is plotted. The pattern is monotonically increasing
+in magnitude from cold to hot regimes: strategies launched in the coldest regime quintile (Q1)
+experiencemeandecayofapproximately+0.8percentagepoints(aslightimprovement),whereas
+those in the hottest quintiles (Q4 and Q5) experience decay of approximately −3.5 to −4.5
+percentage points. The 95% confidence intervals are wide for individual quintiles, particularly
+Q4 and Q5, but the overall gradient from positive decay in Q1 to sharply negative decay in Q5
+is consistent with the regression evidence in Table 6.
+Figure 1: Mean Return Decay by Regime-Extremity Quintile. Strategies are sorted into quintiles of regime
+extremity (Equation 12), from Q1 (coldest bucket-factor regime at launch) to Q5 (hottest). Bars show mean
+twelve-monthreturndecay(∆radj )withineachbin;errorbarsare95%confidenceintervalsbasedonwithin-bin
+i,12m
+standard errors. N ≈ 339 per bin. The overall gradient—from a slight improvement in Q1 to decay exceeding
+−3%inQ4andQ5—confirmsthatstrategieslaunchedafterunusuallystrongbucket-factorperformanceexperience
+sharper decay. This figure is intended as a raw-data illustration of the regime-timing pattern; the formal test
+remains the LOO-relative regression reported in Table 6.
+4.3 Launch density
+Launch density—the log number of competing strategy launches in each bucket-year—is exam-
+ined as a proxy for crowding (Equations 17–19). Table 7 reports the results. Specification (A)
+(Equation 17) adds log launch density as an additive control to the baseline raw-decay regres-
+sion, andSpecification(B)(Equation18)augmentsthiswiththeinteractionofpro-formareturn
+and log launch density. The evidence does not support a direct crowding effect on average de-
+22
+
+--- Page 24 ---
+cay: the coefficient on log launch density is effectively zero at both horizons. Specification (C)
+(Equation 19) sharpens this test by replacing the dependent variable with LOO-relative decay,
+sothatcommon-factorvariationispurgedandanyremainingcoefficientisolatesstrategy-specific
+underperformance relative to peers in the same bucket. The density coefficient is again statis-
+tically indistinguishable from zero at both horizons, indicating that denser launch cohorts do
+not systematically underperform their bucket peers—the individual-strategy capacity-erosion
+prediction of the crowding literature is not supported in this sample. Crowded environments
+do, however, amplify the pro-forma signal at short horizons. At the six-month horizon, the
+interaction of pro-forma return with log launch density is positive and significant, although the
+implied economic magnitude is modest. The horizon asymmetry—significant at six months but
+not at twelve—is consistent with short-lived capacity erosion that dissipates as positions are
+unwound.
+Table 7: Launch-Cohort Density and Performance Decay. Each column group tests a different aspect of the
+crowding channel. Specifications (A) and (B) use raw vol-adjusted return decay (∆radj, Equation 2) as the
+i,h
+dependent variable: (A) asks whether launching into a more crowded bucket-year directly predicts worse raw
+decay; (B) adds the interaction of pro-forma return with log density (Pre-ret × density), testing whether
+crowding amplifies the pro-forma signal rather than acting as a level shift. Specification (C) replaces the
+dependent variable with LOO-relative decay (∆rLOO, Equation 8), which strips out the common bucket factor
+i,h
+and isolates strategy-specific deterioration (directly analogous to Specification (iii) of the regime-extremity
+table). Log launch density is ln(1+n ) where n is the number of strategies launched in bucket b during
+b,y b,y
+year y (Equation 16). All specifications include bucket fixed effects only. All specifications use the
+horizon-matched pro-forma vol-adjusted return (radj,pre) as the key predictor. Standard errors (in parentheses)
+i,h
+are clustered by strategy. ***p<0.01; **p<0.05; *p<0.10.
+(A) Density (B) + Interaction (C) LOO-relative
+12m 6m 12m 6m 12m 6m
+Log launch density −0.000 0.001 −0.001 −0.004 −0.004 0.006
+(0.005) (0.006) (0.005) (0.007) (0.003) (0.004)
+Pre-ret × density 0.023 0.109∗∗∗
+(0.026) (0.026)
+Pro-forma vol-adj return −0.897∗∗∗ −0.824∗∗∗ −0.983∗∗∗ −1.211∗∗∗ −0.372∗∗∗ −0.329∗∗∗
+h
+(0.025) (0.028) (0.095) (0.093) (0.019) (0.019)
+Bucket FE ✓ ✓ ✓ ✓ ✓ ✓
+Clustered SE ✓ ✓ ✓ ✓ ✓ ✓
+N 1,694 1,726 1,694 1,726 1,694 1,726
+R2 0.482 0.410 0.482 0.416 0.249 0.201
+5 Implications for Due Diligence and Portfolio Construction
+What do these findings imply for practice? This section draws two practical implications. First,
+risk metrics deteriorate in tandem with returns, so position sizes calibrated on pro-forma statis-
+23
+
+--- Page 25 ---
+tics are likely too aggressive. Second, Hedging/Defensive strategies require a payoff-sensitive
+evaluation framework distinct from unconditional return comparisons.
+5.1 Risk deterioration and position sizing
+If pro-forma returns overstate live performance because of regime-dependent selection—as the
+benchmark-conditioning and regime-timing results jointly suggest—the same mechanism should
+inflate pro-forma risk metrics. Each metric is computed over matched 12-month windows imme-
+diatelybeforeandafterlaunch,strategybystrategy,andastrategyiscountedasworselive when
+thelivevalueishigherthanthepro-formavalueforthefourdispersionandlossmeasures(annu-
+alisedvolatility, maximumdrawdown, downsidedeviation, CVaR )orlowerthanthepro-forma
+95
+value for the reward-to-risk ratio (Sortino). Table 8 shows that risk deterioration is common,
+particularly for tail- and downside-sensitive measures. Across five standard risk metrics, the
+proportion of strategies with worse live values ranges from 49% to 59%. Two-sided binomial
+tests against the 50% null reject at the 1% level for maximum drawdown (54%, p = 0.002) and
+Sortino ratio (59%, p < 0.001); the three other metrics are not distinguishable from chance.
+Table 8: Risk Deterioration Summary. Fraction of strategies for which the live value of each risk metric is
+worse than the corresponding pro-forma value, computed over matched 12-month windows immediately before
+√
+and after launch. Annualised volatility: standard deviation of daily returns × 252. Maximum drawdown:
+largest peak-to-trough decline in cumulative NAV. Downside deviation: root-mean-square of negative daily
+returns. CVaR : expected daily loss beyond the 95th percentile (Expected Shortfall). Sortino ratio: annualised
+95
+return divided by downside deviation. The p column reports a two-sided binomial p-value against the null
+hypothesis that the fraction equals 50%; ∗∗∗p<0.01, ∗∗p<0.05, ∗p<0.10.
+Risk metric % strategies worse live p
+Annualised volatility 49% 0.395
+Maximum drawdown 54% 0.002***
+Downside deviation 50% 0.754
+CVaR (Expected Shortfall) 51% 0.400
+95
+Sortino ratio 59% <0.001***
+The practical implication extends beyond return overstatement: risk also deteriorates after
+launch. Position sizes calibrated on pro-forma volatility and downside statistics are therefore
+likely too aggressive; allocators may simultaneously overestimate expected return and underes-
+timate the risk budget required to hold the strategy. The marketed backtest should therefore be
+discounted not only on expected-performance grounds but also on position-sizing and downside-
+risk grounds.
+24
+
+--- Page 26 ---
+5.2 A regime-conditional haircut rule
+The benchmark-conditioning and regime-extremity results together suggest a practical rule for
+discounting marketed backtests. Expected live return is modelled as a linear function of the
+pro-forma statistic and the pre-launch regime:
+rlive = λˆ + λˆ ·rpf − γˆ ·xreg, (20)
+b12m 0 1 12m ebt
+|{z} |{z} |{z}
+≈0 ≈0.137 ≈5
+where rpf is the pro-forma vol-adjusted return (percentage points p.a.) and xreg is the bucket-
+12m ebt
+factor regime-extremity z-score at launch (the standardised deviation of the bucket factor from
+its long-run mean in the 12 months before launch). λˆ ≈ 0.137 is the raw cross-sectional slope
+1
+of live on pro-forma vol-adjusted return reported in Row 1 of Table 4. γˆ ≈ 5 percentage points
+perunitz isaroundedcalibrationchosentoreproducethefour-percentage-pointcold-minus-hot
+quintile spread in twelve-month decay documented in Section 4.2 (Figure 1): each one-standard-
+deviation increase in pre-launch regime extremity warrants an additional ∼5 percentage points
+downward adjustment to the expected live return.
+As a worked example, consider an FX-carry strategy with a twelve-month pro-forma vol-
+adjusted return of +12 percentage points at launch, bucketed into the FX carry peer group, and
+suppose the G10 carry bucket-factor z-score at launch is xreg = +1.5 (a hot regime, roughly the
+e
+top 15% of historical observations). Applying Equation 20,
+rlive = 0 + 0.137×12 − 5×1.5 = 1.64 − 7.5 = −5.86 percentage points p.a.
+b12m
+The pro-forma return of +12 percentage points p.a. should therefore be discounted to an ex-
+pected live return of roughly −6 percentage points p.a. once the cross-sectional slope and regime
+extremityareaccountedfor. Thisissubstantiallymoreconservativethanthead-hoc50%haircut
+commonly applied in practice, and is consistent with the four-plus-percentage-point cold-minus-
+hot quintile spread documented in Section 4.2.
+25
+
+--- Page 27 ---
+5.3 Out-of-sample failure prediction
+Pro-forma characteristics also support direct classification of strategies likely to fail in live trad-
+ing. For each objective group g and failure outcome k we model the probability of failure as
+(cid:16) (cid:17)
+Pr(y = 1 | x ) = F α +x⊤β , (21)
+i,k i g,k i g,k
+where y ∈ {0,1} takes the value one if strategy i fails in live trading under criterion k and
+i,k
+zero otherwise; x is the vector of pro-forma predictors used in the decay regressions (pre-launch
+i
+vol-adjusted return, volatility, maximum drawdown, CVaR , downside deviation, strategy age
+95
+at launch, complexity, and commonality), augmented with bucket and launch-year fixed effects;
+α is a group- and outcome-specific intercept; and β is the corresponding coefficient vector.
+g,k g,k
+ThelinkfunctionF(·)istheidentityforthelinearprobabilitymodelandthelogisticcumulative
+distribution function (CDF), F(z) = 1/(1 + e−z), for the logit. Coefficients are estimated
+separately within each (g,k) cell.
+Five failure criteria are considered, each evaluated over the first 12 live months. Nega-
+tive return flags strategies whose realised live Sharpe ratio is below zero. The three elemental
+risk/decay criteria use within-group cross-sectional quantiles as data-driven thresholds: Per-
+formance Decay flags strategies whose pro-forma-to-live vol-adjusted return decay falls in the
+worst quartile of their objective group (below the 25th percentile of ∆ ); Severe Drawdown flags
+i
+those whose live maximum drawdown is in the worst quartile; and Tail Loss flags those whose
+live CVaR is in the worst quartile (above the 75th percentile of this loss measure). Multiple
+95
+Failures is a composite indicator equal to one when at least two of the four elemental criteria are
+triggered simultaneously. Within-group thresholds are re-estimated on the training fold only to
+prevent information leakage.
+The validation reported in Table 9 is a time-split design: the model is trained on strategies
+launched before the median launch year and tested on later-launch cohorts. Model performance
+is summarised by the area under the receiver operating characteristic curve (AUC), which ranks
+predictions across the full range of classification thresholds: the receiver operating characteristic
+(ROC) curve traces the trade-off between the true-positive rate and the false-positive rate as
+the threshold is swept from zero to one, and its area equals the probability that a randomly
+chosen failing strategy receives a higher predicted risk score than a randomly chosen non-failing
+one (0.5 = random ranking, 1.0 = perfect separation).
+26
+
+--- Page 28 ---
+Table 9: Out-of-Sample Failure Prediction: Summary (Time-Split Validation). Selected out-of-sample failure
+outcomes by objective group, estimated from the classifier defined in Equation 21. “Base Rate”: unconditional
+failure frequency in the test cohort. “AUC”: area under the ROC curve on the held-out later-launch cohort,
+interpretable as the probability that a randomly chosen failing strategy receives a higher predicted risk score
+than a randomly chosen non-failing one (0.5 = random classifier, 1.0 = perfect separation). “Top-Decile
+Capture”: recall among strategies in the top 10% of predicted risk – the share of realised failures falling in the
+highest-risk decile (random baseline =10%). “Top-Decile Rate”: precision among strategies in the top 10% of
+predicted risk – the realised failure rate within the highest-risk decile. “Lift”: ratio of Top-Decile Rate to Base
+Rate.
+ModelPerformance(OOS)
+Group Outcome BaseRate AUC Top-DecileCapture Top-DecileRate Lift
+Return-Seeking NegativeReturn 48.6% 0.477 7.1% 35.3% 0.7x
+Return-Seeking PerformanceDecay 25.6% 0.813 29.2% 76.5% 3.0x
+Return-Seeking MultipleFailures 38.2% 0.776 19.5% 76.5% 2.0x
+Carry/Short-Convexity NegativeReturn 40.5% 0.551 12.5% 50.8% 1.3x
+Carry/Short-Convexity MultipleFailures 37.0% 0.608 11.9% 44.4% 1.2x
+Hedging/Defensive MultipleFailures 40.9% 0.567 13.4% 55.6% 1.4x
+Multi-Premia/Diversifying MultipleFailures 37.8% 0.639 14.3% 54.5% 1.4x
+The strongest discrimination is obtained for decay- and multiple-failure outcomes in the
+Return-Seeking group: AUC is 0.81 for performance decay and 0.78 for multiple concurrent
+failures, with top-decile capture rates of 29% and 20% respectively, implying 2–3× lift over the
+unconditional base rate. Discrimination is weaker for the remaining objective groups and out-
+comes (AUCs of 0.55–0.64 and lifts of 1.2–1.4×), and the weakest results arise for unconditional
+negative-return outcomes in the Return-Seeking and Carry/Short-Convexity groups (AUCs of
+0.48 and 0.55, respectively). The asymmetry is consistent with the rest of the paper: negative-
+return outcomes are harder to predict than decay outcomes because the former absorb both
+strategy-specific and benchmark-level noise.
+As a concrete operationalisation of the haircut rule in Equation 20, an allocator could com-
+bine the regime-conditional expected-return estimate with a top-decile exclusion filter drawn
+from the decay classifier: strategies with pro-forma characteristics placing them in the top 10%
+of predicted decay risk would be excluded or heavily haircut, which empirically captures 29% of
+realised decay failures in the Return-Seeking group at a 3× lift over the baseline fail rate.
+An interpretive caveat applies to strategies whose intended role is not unconditional re-
+turn generation. Hedging/Defensive strategies are typically held for their payoff in stress states
+ratherthanforstandalonecarry, andCarry/Short-Convexitystrategieshaveconcavepayoffpro-
+files whose risk is poorly summarised by volatility-adjusted return alone. The decay estimates
+reported above measure pro-forma-to-live change in unconditional vol-adjusted return for all
+strategies on the same footing, which is the correct measure for testing whether the marketed
+backtest signal persists. It is not, however, the appropriate criterion for judging whether Hedg-
+27
+
+--- Page 29 ---
+ing/Defensive strategies are fulfilling their intended portfolio function: a state-dependent payoff
+evaluation conditioned on equity drawdowns or volatility spikes would be required for that judg-
+ment, and is left for future work. The smaller raw decay observed for the Hedging/Defensive
+groupshouldthereforenotbeover-interpretedasevidenceofsuperiorportability,andthepresent
+analysis takes no stand on whether these strategies deliver their intended insurance function in
+live trading.
+6 Conclusion
+This paper examines how institutional allocators should interpret marketed backtests of struc-
+tured investment strategies. The analysis contributes in three ways. First, it quantifies the gap
+between pro-forma and live performance on a uniquely large commercial sample of 1,726 strate-
+gies from ten global institutions over 2009–2025. Second, it shows that once live performance is
+measured against a leave-one-out bucket-average peer benchmark, the residual information con-
+tent of the marketed backtest is economically negligible: what looks like strategy-specific skill is
+predominantlythecommonfactorregimeprevailingatlaunch. Third, itidentifiestwostructural
+channels—regime timing at launch and a horizon-dependent launch-density effect—that jointly
+explain the residual decay, and translates the result into an operational rule: the haircut applied
+to a marketed backtest should increase with the extremity of the pre-launch factor regime.
+For allocators, the practical implications are threefold. Backtests should be benchmarked
+against appropriate peers, positions should be sized more conservatively than pro-forma risk
+metrics suggest, and hedging strategies should be evaluated according to their payoff role rather
+than unconditional carry.
+Three limitations warrant discussion. The sample is positively selected because strategies
+proposed but never launched are unobserved; the proprietary dataset limits exact replication;
+and inference based on ten institution clusters should be interpreted with caution.
+Two directions for future research follow naturally. Access to rejected strategies would
+sharpentheselection-biasbound,andtrackingbucket-relativealphaovermulti-yearlivehorizons
+would clarify whether the regime-timing decay documented here is a transient launch artefact
+or a persistent drag on performance.
+28
+
+--- Page 30 ---
+Declarations
+Funding. No external funding was received for this research.
+Conflict of interest / Competing interests. The author is employed by Resonanz Capital
+GmbH, an institutional asset manager that provided access to the proprietary strategy-level
+dataset analysed in this paper. Resonanz Capital has no financial interest in the specific strate-
+gies studied, did not participate in the design of the empirical tests, the data analysis, or the
+drafting of this manuscript, and did not review the findings prior to submission. The author
+declares no other competing interests.
+Data availability. The underlying strategy-level data were provided under a commercial li-
+cencebyResonanzCapitalGmbHandcannotberedistributed. Aggregateddescriptivestatistics,
+regression output, and all intermediate tables reproduced in the paper are available from the
+author on reasonable request. Documentation of the data construction pipeline is available from
+the author for the purpose of replication review.
+Codeavailability. Thecodeusedtoconstructtheanalyticsampleandestimateallregressions
+is available from the author on reasonable request, subject to the restrictions on redistributing
+the underlying strategy-level data noted above.
+Ethics approval. Not applicable.
+Author contributions. The author is the sole contributor and is responsible for the concep-
+tion, data preparation, analysis, and writing of this paper.
+29
+
+--- Page 31 ---
+References
+Amenc, N., Martellini, L., and Vaissié, M. (2003). Benefits and risks of alternative investment
+strategies. Journal of Asset Management, 4(2), 96–118.
+Arnott, R. D., Beck, N., Kalesnik, V., and West, J. (2016). How can ‘smart beta’ go horribly
+wrong? Research Affiliates Fundamentals, February.
+Asness, C., Moskowitz, T. J., and Pedersen, L. H. (2013). Value and momentum everywhere.
+The Journal of Finance, 68(3), 929–985.
+Bailey, D. H., Borwein, J., López de Prado, M., and Zhu, Q. J. (2014). Pseudo-mathematics
+and financial charlatanism: The effects of backtest overfitting on out-of-sample performance.
+Notices of the AMS, 61(5), 458–471.
+Baquero, G., ter Horst, J., and Verbeek, M. (2005). Survival, look-ahead bias, and persistence
+in hedge fund performance. Journal of Financial and Quantitative Analysis, 40(3), 493–517.
+Berk, J. B. and Green, R. C. (2004). Mutual fund flows and performance in rational markets.
+Journal of Political Economy, 112(6), 1269–1295.
+Blin, O., Ielpo, F., Lee, J., and Teiletche, J. (2021). Alternative risk premia timing: A point-in-
+time macro, sentiment, valuation analysis. Journal of Systematic Investing, 1(1), 52–72.
+Cameron, A. C., and Miller, D. L. (2015). A practitioner’s guide to cluster-robust inference.
+Journal of Human Resources, 50(2), 317–372.
+Carhart, M. M. (1997). On persistence in mutual fund performance. The Journal of Finance,
+52(1), 57–82.
+Célérier, C. and Vallée, B. (2017). Catering to investors through security design: Headline rate
+and complexity. The Quarterly Journal of Economics, 132(3), 1469–1508.
+Cont, R. and Wagalath, L. (2013). Running for the exit: Distressed selling and endogenous
+correlation in financial markets. Mathematical Finance, 23(4), 718–741.
+Cremers, M., Petajisto, A., and Zitzewitz, E. (2012). Should benchmark indices have alpha?
+Revisiting performance evaluation. Critical Finance Review, 2(1), 1–48.
+30
+
+--- Page 32 ---
+Cuthbertson, K., Nitzsche, D., and O’Sullivan, N. (2023). UK mutual fund performance persis-
+tence: Optimal portfolios with positive alpha. Journal of Asset Management, 24(5), 356–368.
+Daniel, K., Grinblatt, M., Titman, S., and Wermers, R. (1997). Measuring mutual fund perfor-
+mance with characteristic-based benchmarks. The Journal of Finance, 52(3), 1035–1058.
+Evans, R. B. (2010). Mutual fund incubation. The Journal of Finance, 65(4), 1581–1611.
+Fama, E. F. and French, K. R. (2010). Luck versus skill in the cross-section of mutual fund
+returns. The Journal of Finance, 65(5), 1915–1947.
+Falck, A., Rej, A., and Thesmar, D. (2022). When do systematic strategies decay? Quantitative
+Finance, 22(11), 1955–1969.
+Fieberg, C., Varmaz, A., and Poddig, T. (2019). Risk models vs characteristic models from an
+investor’s perspective: Make use of the best of both worlds. Journal of Risk Finance, 20(2),
+201–222.
+Fung, W. and Hsieh, D. A. (2004). Hedge fund benchmarks: A risk-based approach. Financial
+Analysts Journal, 60(5), 65–80.
+Greenwood, R. and Shleifer, A. (2014). Expectations of returns and expected returns. The
+Review of Financial Studies, 27(3), 714–746.
+Hamdan, R., Pavlowsky, F., Roncalli, T., and Zheng, B. (2016). A primer on alternative risk
+premia. SSRN Working Paper, No. 2766850.
+Harvey, C. R., Liu, Y., and Zhu, H. (2016). ...and the cross-section of expected returns. The
+Review of Financial Studies, 29(1), 5–68.
+Hunter, D., Kandel, E., Kandel, S., and Wermers, R. (2014). Mutual fund performance evalua-
+tion with active peer benchmarks. Journal of Financial Economics, 112(1), 1–29.
+Ilmanen, A. (2012). Do financial markets reward buying or selling insurance and lottery tickets?
+Financial Analysts Journal, 68(5), 26–36.
+Jagannathan, R., Malakhov, A., and Novikov, D. (2010). Do hot hands exist among hedge fund
+managers? An empirical evaluation. The Journal of Finance, 65(1), 217–255.
+31
+
+--- Page 33 ---
+Jensen, T. I., Kelly, B. T., and Pedersen, L. H. (2023). Is there a replication crisis in finance?
+The Journal of Finance, 78(5), 2465–2518.
+Kosowski, R., Timmermann, A., Wermers, R., and White, H. (2006). Can mutual fund “stars”
+really pick stocks? New evidence from a bootstrap analysis. The Journal of Finance, 61(6),
+2551–2595.
+Lhabitant,F.-S.(2001).Assessingmarketriskforhedgefundsandhedgefundportfolios.Journal
+of Risk Finance, 2(4), 16–32.
+Mateus, C., Mateus, I. B., and Todorovic, N. (2019). Benchmark-adjusted performance of US
+equity mutual funds and the issue of benchmark selection. Journal of Asset Management,
+20(1), 15–30.
+McLean,R.D.andPontiff,J.(2016).Doesacademicresearchdestroystockreturnpredictability?
+The Journal of Finance, 71(1), 5–32.
+Mitchell, M., Pedersen, L. H., and Pulvino, T. (2007). Slow moving capital. American Economic
+Review, 97(2), 215–220.
+Pedersen, L. H. (2009). When everyone runs for the exit. International Journal of Central Bank-
+ing, 5(4), 177–199.
+Pénasse, J. (2022). Understanding alpha decay. Management Science, 68(5), 3966–3973.
+Rockafellar,R.T.andUryasev,S.(2002).Conditionalvalue-at-riskforgenerallossdistributions.
+Journal of Banking & Finance, 26(7), 1443–1471.
+Roncalli, T. (2017). Alternative risk premia: What do we know? In E. Jurczenko (Ed.), Factor
+Investing: From Traditional to Alternative Risk Premia. ISTE Press–Elsevier.
+Wagner, N. (2002). On a model of portfolio selection with benchmark. Journal of Asset Man-
+agement, 3(1), 55–65.
+Sortino,F.A.andvanderMeer,R.(1991).Downsiderisk.TheJournalofPortfolioManagement,
+17(4), 27–31.
+32
+
+--- Page 34 ---
+The appendices below supplement the main text.
+A Sample Detail: Institution and Launch-Year Composition
+Table A.1 reports the breakdown of the N = 1,726 live strategies in the baseline analysis sample
+by originating institution and by launch-year cohort. Institutions are anonymised as A–J. The
+launch-year cohort 2025 is partial (it ends at the sample cutoff date) and therefore contributes
+a smaller share than a full annual cohort would.
+Table A.1: Sample Detail: Institution and Launch-Year Composition. Number of live strategies and share of
+the baseline sample (N =1,726) by originating institution (columns 1–3) and by launch-year cohort
+(columns 4–6). Institution identifiers are anonymised. The 2025 cohort is partial, ending at the sample cutoff
+date.
+Group N Share Group N Share
+By institution By launch year
+Inst. A 208 12% 2009–2015 152 9%
+Inst. B 353 20% 2016–2018 358 21%
+Inst. C 193 11% 2019–2021 606 35%
+Inst. D 108 6% 2022–2024 524 30%
+Inst. E 392 23% 2025 86 5%
+Inst. F 93 5%
+Inst. G 21 1%
+Inst. H 154 9%
+Inst. I 184 11%
+Inst. J 20 1%
+B Event-Time Performance Around Launch
+Figure B.1 visualises the pro-forma-to-live transition in event time relative to each strategy’s
+launch month. The appendix is descriptive: it shows the shape of the decay documented by
+the regressions in Section 4 without conditioning on pre-launch controls. Panel (a) shows the
+cumulative equal-weighted mean excess return and Panel (b) the rolling six-month vol-adjusted
+return, both indexed to event month 0. The magnitude of the discontinuity at launch is consis-
+tent with the coefficient estimates in the main decay regressions.
+C Bootstrap Block-Size Sensitivity
+The bootstrap targets a simplified univariate regression of decay on the horizon-matched pro-
+forma vol-adjusted return (winsorized at 1%/99%, no fixed effects), which delivers an observed
+33
+
+--- Page 35 ---
+(a) Cumulativemeanexcessreturn(eventtime) (b) Event-timerollingvol-adjustedreturn
+Figure B.1: Event-Time Performance Around Strategy Launch. Panel (a): cumulative equal-weighted mean
+excessreturn(vol-adjustedto10%annualisedtarget)ineventtimerelativetolaunch(month0). Panel(b): rolling
+six-month vol-adjusted return in event time. The rolling mean return falls from approximately +5% p.a. in the
+six months before launch to approximately +0.5% p.a. in the six months after, a drop of roughly 4.5 percentage
+points p.a. concentrated around the launch date. The step-down at month 0 is the visual manifestation of the
+pro-forma-to-live decay documented in Section 4.
+coefficient of βˆ = −0.801. This differs in magnitude from the FE-controlled baseline esti-
+decay
+mate of −0.896 in Table 5: the bootstrap sacrifices the controls to make the strategy-level block
+resampling tractable, but identifies the same mean-reversion-beyond-sampling-noise effect. Ta-
+ble C.1 repeats the bootstrap null exercise under four alternative block sizes (10, 21, 42, and
+63 trading days). The observed excess negativity (−0.06 to −0.10) and the p-value (≤ 0.004
+throughout) are stable across all block choices. Across the full range of block sizes tested, the
+observed decay coefficient falls well outside the 90% null confidence interval, and the associated
+p-valueneverrisesabove0.004. Thedecayresultisthereforenotanartefactofaparticularboot-
+strap block choice, and the moving-block bootstrap inference reported in Section 4 is insensitive
+to this tuning parameter.
+Table C.1: Sensitivity of Bootstrap Null to Block Size. The observed decay coefficient βˆ =−0.801 is
+decay
+compared against the bootstrap null distribution under four alternative block sizes (10, 21, 42, 63 trading days).
+Null mean and 90% CI are from 500 bootstrap replications per block size. Excess negativity = observed minus
+nullmean. p-valueisthefractionofnulldraws≤theobservedcoefficient. Theexcessnegativityandsignificance
+are stable across block sizes.
+Block size (days) N reps Null mean Null 90% CI Observed βˆ Excess negativity p-value
+10 500 -0.740 [-0.779, -0.702] -0.801 -0.060 0.0040
+21 500 -0.725 [-0.765, -0.684] -0.801 -0.075 < 0.002
+42 500 -0.711 [-0.753, -0.671] -0.801 -0.089 < 0.002
+63 500 -0.702 [-0.743, -0.665] -0.801 -0.099 < 0.002
+34
+
+--- Page 36 ---
+D Placebo Launch-Timing Tests
+The decay documented in Section 4 is consistent with at least two distinct selection mecha-
+nisms. Under a bucket-regime channel, launches cluster at temporary peaks of each strategy’s
+bucket-factorenvironment; underawithin-strategychannel, eachstrategyislaunchedatitsown
+idiosyncratic high-water mark on a pre-launch performance signal. The main text argues for the
+first channel. This appendix rules out the second by means of a per-strategy permutation test.
+For each live strategy i with launch month t , we define a 36-month pre-launch window
+i
+[t −36, t −1] and compute, at t , the six-month trailing volatility-adjusted return as the pre-
+i i i
+launchsignals . WethendrawB = 999placebomonthsuniformlyatrandom,withreplacement,
+i
+from the non-launch months of the same window, and evaluate the pre-launch signal at each
+placebo month. This generates, for every strategy, an empirical null distribution of the pre-
+launch signal under the assumption that the launch date is unrelated to within-strategy peaks.
+A per-strategy one-sided p-value is obtained as the rank of s in its own placebo distribution.
+i
+The test is run on the paper’s baseline analysis sample, so the placebo sample of 1,726 strategies
+coincides exactly with the decay-regression sample of Section 4.
+We aggregate the per-strategy evidence in two complementary ways. First, a two-sided one-
+sample t-test on per-strategy lifts (the real-launch signal minus the placebo mean) tests the null
+that mean launch-date signals equal mean pre-launch signals. Second, we tabulate the fraction
+of strategies with per-strategy p < 0.10 and p < 0.05 and compare these to their nominal sizes;
+systematic cherry-picking would produce right-skewed p-values and rejection rates well above
+10% and 5%.
+Across N = 1,726 live strategies, the mean per-strategy lift is −0.016 (p < 0.001): real
+launches arrive slightly below the placebo mean on the pre-launch vol-adjusted return. At the
+per-strategy level, 9.8% of strategies reject the placebo null at p < 0.10 and 5.3% at p < 0.05,
+essentially at their nominal levels of 10% and 5%.
+Launches are therefore not systematically timed to within-strategy peaks; if anything, they
+are marginally below each strategy’s own pre-launch mean. This rules out local peak-picking by
+individual strategies as the driver of the decay documented in Section 4 and is consistent with
+the bucket-regime channel formalised in Section 4.2: launches may still be timed to common
+bucket-factorpeakswhileremainingidiosyncraticallyneutralwithineachstrategy’sownhistory.
+35
+
+--- Page 37 ---
+Table E.1: Wild Cluster Bootstrap P-Values (Institution-Level Clustering). Webb 6-point distribution with
+999 replications. Null hypothesis: coefficient on the key predictor equals zero. Restricted-residual bootstrap
+under H . With only ten institution clusters, conventional cluster-robust standard errors may be unreliable
+0
+(Cameron and Miller, 2015); these wild bootstrap p-values provide a more reliable finite-cluster inference.
+Outcome Keypredictor Observedcoef Observedt Nclusters Nobs Bootreplications Wildbootstrapp
+Vol-adjreturndecay(12m) Pro-formavol-adjreturn(12m) -0.896 -38.708 10 1694 999 <0.001
+Vol-adjreturndecay(6m) Pro-formavol-adjreturn(6m) -0.828 -33.400 10 1726 999 <0.001
+Livevol-adjreturn(12m) Pro-formavol-adjreturn(12m) 0.137 5.932 10 1694 999 0.011
+Livevol-adjreturn(6m) Pro-formavol-adjreturn(6m) 0.210 8.444 10 1726 999 0.005
+E Wild Cluster Bootstrap P-Values
+TableE.1reportswildclusterrestricted(WCR)bootstrapp-valuesforthekeycoefficientsunder
+institution-levelclustering(tenclusters). FollowingCameronandMiller(2015),weusetheWebb
+6-point distribution with 999 replications. The bootstrap generates data under H : β = 0
+0 key
+usingrestrictedfittedvaluesandrestrictedresiduals,thencomparesthedistributionofbootstrap
+t-statistics to the observed t-statistic (two-sided). Both the six-month and twelve-month decay
+coefficients are highly significant under the wild bootstrap (p < 0.001 at each horizon). The
+live-return coefficient is also significant at both horizons (p = 0.005 at six months; p = 0.011 at
+twelve months). All four key coefficients are robust to the conservatism inherent in ten-cluster
+inference.
+F Bloomberg Benchmark: Single- and Two-Factor Specifica-
+tions
+Table F.1 reports the full Bloomberg benchmark regressions under both the single-factor Jensen
+specification (Equation 9) and the two-factor variant augmented with the VIX term-structure
+convexity proxy (Equation 10). Conclusions are identical across both specifications. Both
+horizons are estimated on the intersection sample of N = 1,694 strategies with valid twelve-
+month live observations, so that the 6m and 12m rows use an identical universe and differ only
+in the horizon-matched outcome.
+G Live-Only LOO Benchmark
+TheLOO bucket-average benchmarkdefined inEquation6 includesreturns fromallpeerstrate-
+gies on each date, whether they are in their pro-forma or live period. This is the natural choice
+36
+
+--- Page 38 ---
+Table F.1: Bloomberg Benchmark: Single- vs. Two-Factor Jensen α. Each row reports the coefficient on the
+key pro-forma predictor (horizon-matched vol-adjusted return) when the dependent variable is Jensen α
+estimated under the single-factor specification (Equation 9) or the two-factor specification augmented with a
+VIX term-structure convexity proxy (Equation 10). Both horizons are estimated on the intersection sample of
+N =1,694 strategies with valid twelve-month live observations, so that the 6m and 12m rows share an identical
+universe. All regressions include bucket × launch-year fixed effects; standard errors clustered by strategy.
+***p<0.01, **p<0.05, *p<0.10.
+Specification Outcome βˆ SE t N R2
+12-month horizon
+(i) Pre-launch controls Jensen α (1F) 0.025** (0.012) 2.05 1694 0.032
+(i) Pre-launch controls Jensen α (2F) 0.027** (0.012) 2.21 1694 0.039
+(ii) + Idio. pro-forma signal Jensen α (1F) 0.010 (0.012) 0.80 1694 0.037
+(ii) + Idio. pro-forma signal Jensen α (2F) 0.012 (0.012) 1.01 1694 0.044
+(iii) + Benchmark run-up Jensen α (1F) 0.025** (0.012) 2.07 1694 0.034
+(iii) + Benchmark run-up Jensen α (2F) 0.027** (0.012) 2.22 1694 0.040
+(iv) Full Jensen α (1F) −0.002 (0.017) −0.11 1694 0.042
+(iv) Full Jensen α (2F) −0.003 (0.018) −0.18 1694 0.052
+6-month horizon
+(i) Pre-launch controls Jensen α (1F) 0.025* (0.013) 1.89 1694 0.046
+(i) Pre-launch controls Jensen α (2F) 0.027** (0.013) 2.06 1694 0.049
+(ii) + Idio. pro-forma signal Jensen α (1F) −0.001 (0.012) −0.04 1694 0.058
+(ii) + Idio. pro-forma signal Jensen α (2F) 0.002 (0.012) 0.18 1694 0.061
+(iii) + Benchmark run-up Jensen α (1F) 0.024* (0.013) 1.81 1694 0.054
+(iii) + Benchmark run-up Jensen α (2F) 0.026** (0.013) 1.99 1694 0.056
+(iv) Full Jensen α (1F) −0.006 (0.016) −0.39 1694 0.063
+(iv) Full Jensen α (2F) −0.007 (0.016) −0.43 1694 0.067
+when the benchmark is intended to capture the realised bucket-factor regime, but a referee
+might reasonably ask whether including backtest returns introduces look-ahead bias into the
+peer average. To address this concern, we re-estimate the LOO benchmark using only strategies
+that have already launched (i.e., date ≥ live_date) on each trading day, setting non-live returns
+to missing before computing the daily bucket average.
+The core decay result (Table 5, LOO row) is virtually unchanged: the coefficient on pro-
+formavol-adjustedreturnintheLOO-relativedecayregressionis−0.358(SE= 0.019,p < 0.001)
+underthelive-onlybenchmark, comparedwith−0.372(SE= 0.019, p < 0.001)inthebaseline—
+both significant at the 1% level. The LOO-relative live-performance coefficient (Table 4, LOO
+row) is similarly stable at 0.032 (SE = 0.013, p = 0.014) versus the baseline 0.034 (SE = 0.013,
+p = 0.010).
+We further verify the regime-extremity channel test (Table 6, Specification iii) under the
+most conservative variant, which combines the live-only LOO benchmark with a LOO bucket
+mean in the regime-extremity computation (excluding strategy i from its own bucket average).
+Under this specification, the regime-extremity coefficient strengthens: βˆ = 0.827 (SE = 0.095,
+p < 0.001)attwelvemonthsandβˆ= 0.518(SE= 0.142,p < 0.001)atsixmonths,comparedwith
+37
+
+--- Page 39 ---
+Table H.1: Formal Comparison: Raw vs. Benchmark-Controlled vs. Benchmark-Adjusted Predictability. All
+three regressions estimated on the identical benchmark-matched subsample. “Raw”: live vol-adjusted return as
+outcome,nobenchmarkcontrol. “+Benchctrl”: livevol-adjustedreturnasoutcomewithBloombergbenchmark
+return added as RHS control (single-step). “Jensen α”: benchmark-adjusted alpha as outcome (two-step). Wald
+z: test of coefficient equality (conservative, assuming independence). Bucket × Launch-year FE throughout.
+Horizon NCoef(raw)SE(raw)R2(raw)Coef(+benchctrl)SE(ctrl)R2(ctrl)Coef(Jensenalpha)SE(alpha)R2(alpha)Waldz(rawvsctrl)p(rawvsctrl)Waldz(rawvsalpha)p(rawvsalpha)
+6m 1726 0.210 0.028 0.151 0.214 0.028 0.155 0.025 0.013 0.042 -0.1030.918 5.963<0.001
+12m 1694 0.137 0.025 0.148 0.142 0.025 0.155 0.025 0.012 0.032 -0.1460.884 4.030<0.001
+the baseline estimates of 0.716 and 0.469 respectively. The R2 of the twelve-month specification
+rises from 0.293 to 0.319. These results confirm that the baseline LOO benchmark, if anything,
+yields conservative estimates of both the decay pattern and the regime-timing channel.
+H Raw vs. Benchmark-Adjusted Coefficients: Matched-Sample
+Test
+Table H.1 tests whether the attenuation from raw to benchmark-adjusted coefficients is a sub-
+stantive change in the economic relationship or a mechanical consequence of using a noisier
+dependent variable. On the identical matched sample, the raw coefficient remains economically
+large while the benchmark-adjusted coefficient collapses toward zero; the Wald test confirms
+that the difference is significant (z = 4.03, p < 0.001).
+I Benchmark-Relative Performance: Distributional Detail
+Table I.1 reports the full distribution of benchmark-relative live performance (Panel A) and
+benchmark-relative decay (Panel B) under the three benchmark conventions discussed in Sec-
+tion 4.1: no adjustment (raw vol-adjusted return), the simple Bloomberg-relative return, and
+the simple LOO-relative return. The table underpins the numerical statements made at the
+start of Section 4.1.
+38
+
+--- Page 40 ---
+Table I.1: Distribution of Benchmark-Relative Live Performance and Decay. All values are in percentage
+points p.a. Panel A reports the distribution of the benchmark-relative live return (the live vol-adjusted return
+after subtracting the benchmark return over the same window) at the six- and twelve-month horizons under
+three benchmark conventions: none (raw vol-adjusted live return), Bloomberg (live return minus assigned
+Bloomberg total-return index), and LOO (live return minus leave-one-out bucket-peer average). Panel B reports
+the distribution of benchmark-relative decay (live minus pro-forma benchmark-relative return). The column “%
+neg” is the fraction of strategies with a negative value (for levels, underperformance relative to the benchmark;
+for decay, deterioration relative to the pro-forma window).
+Benchmark Horizon N Mean Std P25 Median P75 % neg
+Panel A: Benchmark-relative live return (percentage points p.a.)
+None (raw) 6m 1,726 +1.5 16.7 −9.5 +0.9 +12.2 47.0%
+None (raw) 12m 1,694 +1.0 11.7 −6.8 +1.1 +8.3 46.6%
+Bloomberg 6m 1,726 −3.1 21.0 −16.3 −2.8 +10.6 56.3%
+Bloomberg 12m 1,694 −3.6 14.7 −12.9 −3.0 +5.7 59.2%
+LOO 6m 1,726 −0.4 8.5 −4.0 −0.7 +2.8 55.1%
+LOO 12m 1,694 −0.8 6.2 −3.6 −0.8 +1.7 59.1%
+Panel B: Benchmark-relative decay (live minus pro-forma, percentage points p.a.)
+None (raw) 6m 1,726 −2.1 20.3 −14.4 −3.2 +10.5 57.1%
+None (raw) 12m 1,694 −3.1 15.2 −13.2 −3.5 +6.4 58.8%
+Bloomberg 6m 1,726 +0.3 20.3 −9.8 +1.5 +11.1 46.3%
+Bloomberg 12m 1,694 −1.4 16.1 −9.1 −0.6 +7.7 52.8%
+LOO 6m 1,726 −0.6 11.7 −5.0 −0.7 +3.0 54.7%
+LOO 12m 1,694 −1.3 9.3 −4.7 −0.7 +2.3 55.8%
+39

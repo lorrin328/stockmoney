@@ -1,0 +1,1390 @@
+--- Page 1 ---
+Structural Dynamics of G5 Stock Markets During
+Exogenous Shocks: A Random Matrix Theory-Based
+Complexity Gap Approach
+KundanMukhiaa,ImranAnsarib,∗,Md.Nurujjamana
+aDepartmentofPhysics,NationalInstituteofTechnologySikkim,,Sikkim,737139,,India
+bDepartmentofManagementStudies,IndianInstituteofScience,,Bengaluru,,Karnataka,India
+Abstract
+Weidentifyarobuststructuralsignatureofstockmarketsduringexogenousshock
+events by analyzing collective return dynamics across G5 countries. Using Ran-
+dom Matrix Theory, we introduce the complexity gap, defined as the difference
+between the normalized largest eigenvalue and the average pairwise correlation,
+to quantify changes in market structure. This measure reveals a consistent three-
+phase pattern across multiple shocks, including the 2025 U.S. tariff event, the
+COVID-19 crisis, and country-specific shocks in Japan and China during 2024.
+Before a shock, markets show a positive complexity gap, reflecting a rich struc-
+ture with multiple interacting factors. During shocks, the gap collapses to near
+zero,signalingstrongsynchronizationunderasingledominantmode. Post-shock
+recovery follows a nonmonotonic path: an initial widening (a false recovery), a
+temporary recollapse, and final sustained restoration. This pattern holds at both
+market and sector levels and across global and local shocks. Ordinal entropy
+analysis confirms the same sequence of collapse and false recovery in directional
+diversity. Wefurtherdemonstratethatlowercomplexitygapvaluespredicthigher
+futureportfoliovolatility,especiallyaftershocks,establishingitsvalueasastate-
+dependent risk indicator. For investors, initial gap widening may mislead, while
+sustained widening signals genuine structural stabilization. These findings reveal
+a robust structural signature governing financial market dynamics during crisis
+andrecoveryperiods.
+∗Correspondingauthor
+Emailaddresses: kundanmukhia07@gmail.com(KundanMukhia),
+imranansari@iisc.ac.in(ImranAnsari),md.nurujjaman@nitsikkim.ac.in(Md.
+Nurujjaman)
+6202
+rpA
+12
+]TS.nif-q[
+1v70191.4062:viXra
+
+--- Page 2 ---
+1. Introduction
+Financialmarketsarecomplexadaptivesystemscharacterizedbyinteractions
+among thousands of assets, where collective dynamics emerge from the aggre-
+gation of individual behaviors [1, 2]. These dynamics evolve continuously in re-
+sponsetochangingeconomicconditions,policydecisions,andexternalshocks[3,
+4, 5]. Under normal conditions, asset returns exhibit heterogeneous correlation
+structuresreflectingsectoralorganization,economiclinkages,andmultiplesources
+of risk [6, 7, 8]. However, during periods of financial shock, markets often un-
+dergo abrupt transitions toward strongly synchronized behavior, in which assets
+move collectively, and structural distinctions between sectors become less pro-
+nounced or even disappear [9, 10]. Such episodes, observed during events such
+as the COVID-19 crisis and more recent global shocks, including the 2025 U.S.
+tariff announcement, highlight the fragility of diversification and the emergence
+ofdominantmarket-wideforces.
+Correlation-based approaches provide a natural framework for studying the
+collective organization of financial markets [3, 6, 11, 8, 12]. Empirical studies
+consistently report a significant increase in correlations during crisis periods, re-
+flecting the growing influence of common factors [13, 14, 15]. However, av-
+erage correlation alone does not fully characterize changes in market structure
+[16, 17]. Two markets with similar average correlations may exhibit fundamen-
+tally different internal organizations, ranging from well-defined sectoral cluster-
+ingtonearlyuniformcollectivemotion[7,18]. Capturingthisdistinctionrequires
+measuresthatgobeyondaggregatestatisticsanddirectlyquantifystructuralorga-
+nization. Acharacteristicfeatureofsystemiceventsisthehomogenizationofcor-
+relations across assets, where pairwise correlations become increasingly similar,
+andacommonmodedominatesthedynamicsofindividualassets[14,19,20]. In
+this regime, sectoral organization weakens, and diversification benefits diminish,
+indicating a loss of structural heterogeneity in the market [6, 21, 22]. While this
+phenomenon has been widely documented, quantifying the degree of structural
+heterogeneity and its collapse remains challenging. Existing approaches, includ-
+ing network filtering techniques and spectral methods based on Random Matrix
+Theory(RMT),donotprovideadirect,simple,andeasilycomparablescalarmea-
+suretocapturethisbehaviorconsistentlyacrossdifferentmarketsandtimeperiods
+[23,16,24,25,26].
+The application of the RMT to financial correlation matrices has emerged as
+a well-established framework for separating meaningful economic signals from
+random noise [27, 28]. The pioneering studies of Laloux et al. [23] and Plerou et
+al. [29] showed that the bulk of the eigenvalue spectrum of empirical correlation
+matrices closely follows the Marcˇenko–Pastur distribution expected for purely
+2
+
+--- Page 3 ---
+random matrices, but the largest eigenvalue deviates significantly. This dominant
+eigenvalue, commonly referred to as the market mode, captures the collective co-
+movementsharedbyallassetsinthemarket. Subsequentresearchhasshownthat
+these spectral properties undergo systematic changes during periods of financial
+stress. Empirical evidence from major crises, including the 2008 global financial
+crisis,theEuropeanSovereignDebtCrisis,andtheCOVID-19pandemic,consis-
+tently reveals a sharp increase in the largest eigenvalue, accompanied by a com-
+pression of the remaining spectrum [30, 31, 32, 13, 33]. Together, these effects
+indicateatransitiontowardstrongermarket-widesynchronizationandareduction
+in effective dimensionality, implying that fewer independent factors are sufficient
+to explain asset returns. Related research has examined the average pairwise cor-
+relation coefficient as a more direct measure of market integration. Studies such
+as Sandoval and Franca [13] and Kenett et al. [34] show that average correlations
+increase markedly during crisis periods, reflecting the breakdown of diversifica-
+tionbenefits. Whilebothapproachescaptureheightenedcollectivebehavior,they
+dosofromdistinctperspectives: thelargesteigenvaluereflectsthedominanceofa
+global factor, whereas average correlation aggregates both systemic and idiosyn-
+craticinteractions. Despitetheirwidespreaduse,thesemeasureshavelargelybeen
+analyzedinisolation. Asaresult,thestructuralrelationshipbetweenthedominant
+marketmodeandaggregatepairwiseco-movementremainsunderexplored,limit-
+ingourabilitytodirectlyquantifymarketheterogeneity[16,17,25]. Recentwork
+by González et al. [35] shows that the largest eigenvalue serves as a proxy for
+market spillovers and corresponds to the Sharpe market factor, while the second-
+largest eigenvalue exhibits counter-cyclical behavior, suggesting a potential de-
+fensiveroleduringperiodsofhighvolatility. However,theexistingliteraturedoes
+notdevelopaunifiedframeworklinkingthedominantmarketmodetothebroader
+correlationstructureanditsevolutionacrossmarketshocks.
+Despitetheextensiveliteratureinthisarea,severalimportantquestionsremain
+unresolved. Most studies have compared discrete market states, pre-crisis, crisis,
+and post-crisis, rather than tracking the continuous temporal evolution of mar-
+ket structure following a shock. Whether recovery is smooth and monotonic, or
+whetheritpassesthroughintermediatephases,remainslargelyunexplored. Inad-
+dition,themajorityofstudiesexamineoneshockeventoronemarketinisolation,
+making it difficult to distinguish between responses that are generic to all crises
+and those that are specific to the nature of the shock. Sectoral dynamics within
+theRMTframeworkhavealsoreceivedlimitedsystematicattention;market-level
+analyses may mask heterogeneous sector-level responses that are critical for un-
+derstanding how shocks propagate through the economic system. Finally, the
+practicalvalueofspectralcomplexitymeasuresforportfolioriskmanagementhas
+3
+
+--- Page 4 ---
+not been evaluated in a systematic and comparative way across multiple markets
+andshocks.
+To address these gaps, we introduce the complexity gap, defined as the differ-
+encebetweenthenormalizedlargesteigenvalueandtheaveragepairwisecorrela-
+tion of the return correlation matrix. This scalar measure captures the deviation
+between the dominant market mode and the overall level of co-movement, and
+we argue that it provides a natural and interpretable indicator of structural mar-
+ket heterogeneity. When the complexity gap is large, the market is organized
+around a strong dominant factor while retaining meaningful secondary structure;
+when it collapses, the market transitions toward uniform collective motion. We
+apply this measure to multiple markets and sectors across several distinct shock
+events, including the COVID-19 pandemic, the 2025 U.S. tariff announcement,
+and country-specific shocks in Japan and China in 2024. This allows us to exam-
+inewhetherthecomplexitygapexhibitsaconsistentthree-phasetemporalpattern
+aroundexogenousshocks,characterizedbycollapse,falserecovery,andsustained
+structural restoration. We find that markets exhibit a robust three-phase response
+pattern consisting of an initial collapse of the gap, a transient ’false recovery’
+widening, and a final sustained restoration of structural diversity. We further
+show that while the sign of the complexity gap inverts at the sectoral level due
+to higher intra-industry homogeneity, the three-phase dynamic remains a scale-
+invariantfeatureofthesystem. Finally,wevalidatethesefindingsusingadistinct
+ordinalentropyframeworkanddemonstratethatthecomplexitygapcontainssig-
+nificantpredictiveinformationforportfoliorisk,particularlyasastate-dependent
+indicator of post-shock volatility. We further show that while domestic shocks
+produce localized disruptions, the 2025 U.S. tariff announcement triggers a glob-
+allysynchronizedresponseacrossallG5marketsandsectors.
+The remainder of the paper is organized as follows. Section 2 describes the
+dataandoutlinesthemethodologicalframeworkemployedinthisstudy,including
+the construction of correlation matrices, the RMT-based spectral decomposition,
+and the formulation of the Complexity Gap as a measure of structural market dy-
+namics. Section3presentstheempiricalfindings,coveringbothmarket-wideand
+sectoral analyses, the identification of recovery dynamics across different shock
+events,andtheimplicationsoftheseresultsforportfolioriskassessment. Finally,
+Section4summarizesthefindingsofourstudy.
+2. MethodofAnalysis
+To identify the structural signature of stock markets during exogenous shock
+events, we applied several analytical methods. Initially, we use Random Ma-
+trix Theory (RMT) to decompose the rolling correlation matrix of stock returns
+4
+
+--- Page 5 ---
+and extract the normalized largest eigenvalue λnorm(t) and the average pairwise
+max
+correlation ρ(t). This is followed by the definition of the complexity gap ∆(t)=
+λnorm(t)−ρ(t),whichservesasourcentralmeasurefortrackingstructuralchanges
+max
+inmarketdynamicsacrosspre-shock,shock,andpost-shockregimes. Wesupport
+this with an ordinal entropy analysis of cross-sectional return patterns to vali-
+date the observed structural shifts. Finally, we employ portfolio optimization to
+evaluate whether the complexity gap carries predictive information about future
+portfoliorisk. Furtherdetailsoneachofthesestepsarediscussedbelow.
+2.1. RandomMatrixTheory
+We analyze daily closing prices P(t) for stocks across the G5 markets. To
+i
+mitigatethenon-stationarityinherentinpricelevels,thetimeseriesareconverted
+intologarithmicreturnsdefinedas
+P(t)
+i
+r(t)=ln , (1)
+i
+P(t−1)
+i
+where P(t) denotes the closing price of asset i at time t. Within each rolling
+i
+window,thereturnseriesarestandardizedusingz-scorenormalization[36,37]:
+r(t)−⟨r⟩
+i i
+r˜(t)= , (2)
+i
+σ
+i
+where ⟨r⟩ and σ denote the sample mean and standard deviation of stock i com-
+i i
+puted over the corresponding time window. This normalization ensures that the
+standardizedreturnssatisfy⟨r˜⟩=0andVar(r˜)=1.
+i i
+ArollingtimewindowoffixedlengthT =60tradingdaysisappliedtocapture
+thetemporalevolutionofmarketcorrelations. Foreachtimeindexτ,weconstruct
+thereturnsubmatrix
+(cid:8) (cid:9)
+R = r(t)|i=1,...,N , t =τ−T +1,...,τ , (3)
+τ i c
+which contains the returns of all N assets over the preceding T trading days.
+c
+ThematrixR ∈RNc×T representsthelocalreturndynamicsusedtocomputethe
+τ
+correlationmatrixattimeτ.
+The equal-time Pearson correlation matrix is constructed within each rolling
+windowas
+1 τ
+C (t)= ∑ r˜(t)r˜ (t), (4)
+ij i j
+T
+t=τ−T+1
+wherer˜(t)denotesthestandardizedreturnofassetiattimet andT isthewindow
+i
+length. This yields a symmetric positive semi-definite correlation matrix C(t)∈
+5
+
+--- Page 6 ---
+RNc×Nc,withdiagonalelementsequaltounityandoff-diagonalelementsC (t)∈
+ij
+[−1,1]capturingthepairwiselinearco-movementbetweenassetsiand j.
+ThecorrelationmatrixC(t)isdiagonalizedthroughtheeigenvalueequation
+C(t)v (t)=λ (t)v (t), (5)
+k k k
+yieldingN realeigenvaluesorderedas
+c
+λ (t)≥λ (t)≥···≥λ (t), (6)
+0 1 Nc−1
+and their corresponding orthonormal eigenvectors v (t). In the RMT framework,
+k
+for a purely random correlation matrix, all eigenvalues are expected to fall within
+thetheoreticalbounds[λ ,λ ],where
+− +
+(cid:32) (cid:115) (cid:33)2
+1 T
+λ = 1± , Q= , (7)
+±
+Q N
+c
+with T the window length and N the number of stocks [23, 16, 27]. Eigenvalues
+c
+lyingwithinthisintervalareconsistentwithrandomnoiseandcarrynosignificant
+economic information, whereas eigenvalues exceeding λ reflect genuine collec-
++
+tivebehaviorinthemarket[29]. Thelargesteigenvalueλ (t)consistentlyexceeds
+0
+λ acrossallmarketsandtimeperiodsstudiedhere,confirmingthatitcarriesgen-
++
+uinecollectivemarketinformation. Thisdominanteigenvalue,commonlyreferred
+toasthemarketmode,capturesthedegreeofglobalsynchronizationsharedbyall
+assetsandiswidelyinterpretedasanindicatorofsystemicrisk[16,30].
+To facilitate comparison across markets with different numbers of assets N ,
+c
+thelargesteigenvalueisnormalizedas
+λ (t)−1
+λnorm(t)= 0 , 0≤λnorm(t)≤1, (8)
+N −1
+c
+where λnorm = 0 corresponds to a fully uncorrelated market with λ ≈ 1, and
+0
+λnorm = 1 indicates the theoretical limit of perfect synchronization in which all
+assetsmoveidentically.
+2.2. TheComplexityGap
+Tocharacterizethestructuralorganizationofthemarketbeyondthedominant
+mode alone, we compute the average pairwise correlation as the mean of all off-
+diagonalelementsofC(t):
+ρ(t)=⟨C (t)⟩ . (9)
+ij i̸=j
+6
+
+--- Page 7 ---
+While λnorm(t) reflects the strength of the single dominant market factor, ρ(t)
+aggregates all pairwise interactions, including sectoral and idiosyncratic compo-
+nents. These two quantities therefore, characterize collective market behavior
+from complementary perspectives. We define the complexity gap as the differ-
+ence:
+∆(t)=λnorm(t)−ρ(t). (10)
+This scalar measure captures the deviation between the dominant market mode
+andtheoveralllevelofpairwiseco-movement. Alargepositivegap,∆(t)>0,in-
+dicates a structurally rich market in which multiple interacting components, such
+as industry sectors, contribute to the correlation structure alongside the common
+market trend. When the gap collapses toward zero, ∆(t)≈0, the correlation ma-
+trixapproachesaneffectiverank-onestructure,indicatingthatstockdynamicsare
+governed almost entirely by a single global factor and structural diversity is sup-
+pressed. Thecomplexitygap,therefore,providesadirect,interpretable,andeasily
+comparablescalarindicatorofstructuralmarketheterogeneitythatcanbetracked
+continuouslyovertimeacrossdifferentmarketsandshockevents.
+2.3. OrdinalEntropy
+Theordinalpatternapproachtransformsatimeseriesintoasequenceofrank-based
+symbols, providing a robust description of its temporal structure that is invariant
+undermonotonictransformationsandresistanttooutliers[38]. Givenatimeseries
+{x }oflengthT,oneconstructsd-dimensionalstatevectors
+t
+X =(x ,x ,...,x ), (11)
+t t t+τ t+(d−1)τ
+where d is the embedding dimension and τ is the time delay. Each vector X
+t
+is mapped to a permutation π of {0,1,...,d−1} that sorts its components in
+ascending order. The relative frequency p(π) of each of the d! possible ordinal
+patterns is then computed, and the permutation entropy is defined as the Shannon
+entropyofthisdistribution:
+H =−∑p(π)logp(π). (12)
+π
+Whenallpatternsappearequallyoften,H attainsitsmaximumlog(d!),indicating
+maximal complexity; a low entropy value signals that a small number of patterns
+dominatethedynamics.
+In this work, we apply the ordinal pattern framework to the cross-section of
+stock returns rather than a single time series. For each 60-day rolling window,
+we consider the final three daily returns of every stock (d =3, τ =1). For each
+7
+
+--- Page 8 ---
+stock, we determine its 3-day ordinal pattern, yielding one of the 3!=6 possible
+permutations. Aggregating over all N stocks in the window, we obtain the empir-
+ical distribution p (t) of patterns across the market. The Ordinal Entropy of the
+k
+marketattimet isthen
+6
+H (t)=−∑ p (t)logp (t), (13)
+ord k k
+k=1
+which quantifies the diversity of short-term directional behavior: a value near
+log6 ≈ 1.79 nats reflects heterogeneous trading sequences, whereas a drop in
+H (t) indicates that a large fraction of stocks synchronize onto the same or-
+ord
+dinal pattern. By construction, H (t) is consistent with the RMT Complex-
+ord
+ity Gap ∆(t), enabling a direct comparison between macro-structural and micro-
+behavioralaspectsofmarketdynamics.
+2.4. PortfolioOptimization
+To examine whether the complexity gap contains information about future
+portfolio risk, we consider a financial market of N stocks with return vector r =
+t
+(r ,...,r )⊤. Aportfoliowithweightvectorqhasreturn
+1,t N,t
+r =q⊤r . (14)
+p,t t
+LetVdenotethecovariancematrixofreturnsestimatedwithintheformationwin-
+dow. Weconstructtheminimum-varianceportfolio(MVP)[39],whichminimizes
+portfolioriskforagivenlevelofinvestment,bysolving
+min q⊤Vq s.t. q⊤1=1, (15)
+q
+withtheclosed-formsolution
+V−11
+q = , (16)
+MVP 1⊤V−11
+where the Moore–Penrose pseudo-inverse is used for numerical stability. As a
+naive benchmark, we also consider the equally weighted portfolio (EWP) [40]
+withweightsqEW =1/N,whichrequiresnoparameterestimation.
+i
+To link portfolio risk to market structure, we compute the correlation matrix
+C of standardized returns within each formation window. The normalized largest
+eigenvalueis
+λ −1
+max
+λ = , (17)
+norm
+N−1
+8
+
+--- Page 9 ---
+andtheaveragepairwisecorrelationis
+ρ¯ =⟨C ⟩ . (18)
+ij i̸=j
+Thecomplexitygapisthendefinedas
+∆=λ −ρ¯, (19)
+norm
+which captures the deviation between the dominant collective market mode and
+the average level of pairwise correlations. A large ∆ > 0 reflects a structurally
+diversemarket,while∆≈0signalsalossofstructuralheterogeneityunderstrong
+market-widesynchronization.
+WeemployarollingwindowframeworkconsistingofaT-dayformationwin-
+dow followed by an h-day test window. In each formation window, we ran-
+domly select N = 10 stocks and generate P = 500 portfolios via Monte Carlo
+sampling [41, 42]. Portfolio weights are estimated in the formation window and
+appliedout-of-sampletothetestwindow. Therealizedportfoliovolatilityiscom-
+putedas
+(cid:113)
+σtest = Var(rtest), (20)
+p,t
+and annualized for comparability across windows. For each portfolio, the com-
+plexity gap ∆ is recorded from the formation window. The analysis spans all
+five G5 markets from January to December 2025. WithW rolling windows and
+c
+P = 500 portfolios per window, the total number of portfolio observations per
+countryisN =W P,giving416,500observationsintotal.
+c c
+To evaluate the predictive content of ∆ for future portfolio risk, we use three
+complementary approaches: Spearman rank correlations between ∆ and realized
+MVP volatility, incremental R2 measures that quantify the additional explana-
+tory power of ∆ beyond standard benchmark predictors, and a quintile analysis in
+whichportfoliosaresortedintofivegroupsbasedon∆toexaminewhetherhigher
+structural complexity is systematically associated with lower realized volatility.
+ThefullcomputationalprocedureissummarizedinAlgorithm1.
+2.5. DataAnalyzed
+To identify structural patterns in stock markets during shock periods, we con-
+ducttheanalysisacrosstheG5countries,namely,theUnitedStates,China,Japan,
+Germany, and India. The analysis period covers two global shocks, the COVID-
+19 shock and the 2025 U.S. tariff shock, along with local shocks observed in
+JapanandChinain2024. Weselected120stocksfromeachG5country,compris-
+ingfivesectors: InformationTechnology(IT),Industrials,Healthcare,Consumer,
+9
+
+--- Page 10 ---
+Algorithm1PortfolioRiskEvaluation
+1: foreachrollingwindoww=1,...,W do
+2: DefineformationwindowoflengthT
+3: Definesubsequenttestwindowoflengthh
+4: Restricttostockswithcompletedatainbothwindows
+5: for p=1,...,Pdo
+6: RandomlyselectN =10stocks
+7: Standardizereturnsinformationwindow
+8: ComputecorrelationmatrixC
+9: EstimatecovariancematrixV
+10: ComputeMVPweights
+V−11
+q=
+1⊤V−11
+11: Computecomplexitygap
+λ −1
+max
+∆= −ρ¯
+N−1
+12:
+Computetest-windowportfolioreturnsrtest
+p,t
+13:
+Computerealizedannualizedvolatilityσtest
+14:
+Store(∆,σtest)
+15: endfor
+16: endfor
+17: Sortallportfoliosby∆
+18: PartitionintoquintilesQ k ,k=0,1,2,3,4
+19: Computeaveragevolatilityperquintile
+1
+σ¯(k) = ∑ σtest
+|Q | i
+k i∈Q
+k
+10
+
+--- Page 11 ---
+and Finance. The stock data were obtained from Yahoo Finance [43] using the
+Python package yfinance, and the corresponding list of stock tickers is provided
+in Appendix Appendix B. We use daily closing prices from January 1, 2019, to
+December 31, 2022, to analyze the COVID-19 shock, and from January 1, 2023,
+to December 31, 2025, to examine the 2025 U.S. tariff shock. These time win-
+dows are chosen to capture both the pre- and post-shock periods. The results of
+theanalysisarepresentedinthefollowingsections.
+3. ResultsandDiscussion
+Thissectionpresentstheresultsofidentifyingstructuralpatternsinstockmar-
+kets during the COVID-19 shock, the 2025 U.S. tariff shock, and local shocks
+observed in Japan and China in 2024. In subsections 3.1 and 3.2, we identify a
+three-phasestructuralpatterninboththeoverallmarketandsector-wisedynamics
+using the RMT-based complexity gap. Subsection 3.4 provides complementary
+evidence through an ordinal entropy analysis of cross-sectional return patterns,
+confirming the observed sequence of collapse and false recovery. Furthermore,
+usingheatmapanalysisinsubsection3.3,weshowthatthe2025U.S.tariffshock
+acts as a global shock impacting the G5 stock markets. Finally, in subsection 3.5,
+wediscusstheimplicationsofthecomplexitygapforportfoliorisk.
+3.1. RMT-BasedMarketDynamicsandComplexityGap
+Tounderstandhowthefinancialmarketscollectivelyabsorbandrecoverfrom
+exogenous shocks, we apply a dynamic RMT analysis. We calculate the cross-
+correlation C(t) using a 60-day rolling window across stocks in each market of
+theG5countries. UsingC(t),asdiscussedinthesubsection2.1,wecalculatedthe
+normalizedlargesteigenvalueλnorm(t)=(λ (t)−1)/(N−1),whichmeasures
+max max
+the strength of the market mode. The raw average correlation ρ(t)=⟨C (t)⟩ ,
+ij i̸=j
+defined as the unfiltered mean of all off-diagonal elements ofC(t), captures both
+positive and negative co-movements among stocks. We define the difference be-
+tween these two quantities, ∆(t) = λnorm(t)−ρ(t), as the complexity gap. A
+max
+large gap ∆(t) > 0 indicates a structurally complex market influenced by mul-
+tiple factors beyond a single common trend, whereas a small or near-zero gap
+∆(t)≈0suggestsalossofstructuraldiversityandmarketbehaviordominatedby
+one global factor. Fig. 1 shows the time evolution of λnorm(t), ρ(t), and ∆(t) for
+max
+the stock markets of the G5 countries namely, the United States, China, Japan,
+India, and Germany. The quantities λnorm(t) and ρ(t) are represented by the red
+max
+andgreenlines,respectively,while∆(t)isshownasashadedblueregion. Thered
+dashed vertical line indicates the date on which the administration of U.S. Presi-
+dentDonaldTrumpannouncedaglobaltariffpolicyfor2025. Thisannouncement
+11
+
+--- Page 12 ---
+representsanexogenousshockandprovidesanaturalexperimenttoexaminemar-
+ket behavior. Despite geographic and economic diversity, all five markets exhibit
+aconsistentthree-phasepatterninthetimeevolutionofthesequantities.
+3.1.1. Pre-ShockMarketStructure
+In this study, we define the period before the tariff announcement by the ad-
+ministration of U.S. President Donald Trump as the pre-event period. As shown
+in Figs. 1(a)–1(e), during this period, the stock markets of the G5 countries ex-
+hibitdistinctcountry-specificdynamicsandpatternsreflectingtheirrespectivedo-
+mestic economic conditions and market structures. In this pre-event period, both
+λnorm(t) and ρ(t) fluctuate according to the individual dynamics of each market.
+max
+Throughout this period, λnorm(t) generally exceeds ρ(t), resulting in a positive
+max
+complexity gap ∆(t) > 0. Although temporary deviations are observed in some
+markets during short time intervals, the overall separation between the two quan-
+tities remains positive. These variations in ∆(t) arise from country-specific mar-
+ket dynamics and local shocks affecting individual markets. The persistence of
+∆(t)>0 during most of the pre-event period indicates the presence of additional
+collectivemodesbeyondthedominantmarketfactor. Suchexcesseigenvaluecon-
+tributions arise from internal market structures, including industry sectors and
+other economically related stock groupings that exhibit correlated price move-
+mentsindependentoftheglobaltrend. Thequantityρ(t)capturestheneteffectof
+all pairwise interactions, incorporating both positive and negative co-movements.
+Its systematic separation from λnorm(t), quantified by the complexity gap ∆(t),
+max
+therefore serves as a measure of internal market structure. A wide gap implies
+thatmarketdynamicsarenotfullygovernedbyasinglecommonfactorbutinstead
+reflect the coexistence of multiple interacting components within the correlation
+matrix. Therefore, the pre-event period is characterized by a high-complexity
+market state in which sector-specific information and intra-market interactions
+playasignificantrole. Althoughbriefintervalsofgapcontractionareobservedin
+somemarketsduetolocalshocks,theoveralldominanceof∆(t)>0suggeststhat
+thisstructuralcomplexityrepresentsthebaselineconditionofthefinancialsystem
+beforeperturbationbytheexogenousshock.
+3.1.2. Shock-InducedSynchronization
+After the tariff announcement by the U.S administration in April, 2025, the
+marketstructureundergoesaclearstructuraltransitionacrossallG5countries,as
+shown in Figs. 1(a)–1(e). The vertical red dashed line in Figs. 1(a)–1(e) marks
+the date of the tariff announcement. Following this point, both λnorm(t) and ρ(t)
+max
+increase sharply across all G5 markets, while the complexity gap ∆(t) rapidly
+12
+
+--- Page 13 ---
+(a) China (b) Japan
+(c) India (d) Germany
+(e) UnitedStates
+Figure 1: Time evolution of RMT-based complexity metrics for G5 stock markets. The red line
+representsthenormalizedlargesteigenvalueλnorm(t), thegreenlineshowstherawaveragecor-
+max
+relationρ(t),andtheshadedregionbetweenthemdenotesthecomplexitygap∆(t). Thevertical
+red dashed line marks the U.S. tariff announcement in April 2025. Across all markets, we ob-
+serveaconsistentthree-phaseresponse: apre-eventstatewithapersistentgap∆(t)>0, asharp
+convergence with ∆(t)≈0 immediately following the shock, and a post-event recovery pattern
+characterized by gap re-widening, a secondary convergence, and finally sustained structural re-
+covery.
+13
+
+--- Page 14 ---
+contracts toward zero. This behavior reflects the rapid onset of market-wide syn-
+chronization, where stock prices across sectors begin to move simultaneously.
+During this period, both quantities λnorm(t) and ρ(t) increase sharply and move
+max
+toward each other, leading to a near-merging of the two lines across all G5 mar-
+kets, resulting in the ∆(t) ≈ 0, indicating a collapse of market complexity and
+structural information. In this period, the dynamics of individual stocks become
+increasingly dominated by the global market mode rather than sector-specific in-
+teractions. This near-merging of λnorm and ρ(t) implies that the correlation ma-
+max
+trix approaches an effective rank-one structure. In this period, fluctuations are
+dominated by a single collective market mode, while residual structural compo-
+nents, such as sectoral organization, are temporarily suppressed. This behavior
+representsacollapseofmarketdimensionalityandcorrespondstoaregimewhere
+diversification benefits largely disappear, as individual stock dynamics become
+driven by a common global factor. The simultaneous synchronization of λnorm(t)
+max
+and ρ(t), with ∆(t)≈0, across all G5 markets suggests that the U.S. tariff policy
+triggered a global regime shift in the stock market. This consistent cross-market
+response to the tariff shock confirms that the tariff announcement functioned as
+anexogenousshocktotheglobalfinancialsystem.
+Beforethistariffshockinthestockmarket,wealsoobservedsimilar∆(t)≈0
+patterns in individual markets corresponding to country-specific domestic shocks
+in 2024. The Japan stock market exhibited ∆(t) ≈ 0 during August 2024, fol-
+lowing the Bank of Japan’s unexpected policy adjustment, which disrupted carry
+tradesandtriggeredasharpsell-offinJapaneseequities. Chinaexperiencedasig-
+nificant volatility in October 2024, driven by a stimulus-fueled rally that abruptly
+reversed due to disappointment over the lack of fiscal detail from the National
+Development and Reform Commission. In each case, the λnorm, ρ(t), and ∆(t)
+max
+metricssuccessfullycapturedthesedomesticshockevents. Domesticshockspro-
+duce ∆(t) ≈ 0 patterns that are limited to individual countries, whereas the U.S.
+tariffannouncementleadstoasimultaneousconvergenceacrossallG5stockmar-
+kets. This coordinated cross-market response indicates that the tariff policy acted
+asaglobalexogenousshock,incontrasttocountry-specificeventsthataffectonly
+local markets. The ability of the proposed RMT-based metrics to capture both
+local and global disturbances highlights their usefulness for monitoring market
+stabilityandidentifyingregimeshiftsatdifferentscales.
+3.1.3. Post-ShockRecoveryDynamics
+After the emergence of a similar event-driven pattern in λnorm(t), ρ(t), and
+max
+∆(t) ≈ 0 across all G5 markets in the event-driven period, the system enters a
+more complex post-event period. As shown in Figs. 1(a)–1(e), the near-merging
+of λnorm(t) and ρ(t) with ∆(t)≈0 is followed by a reopening of the complexity
+max
+14
+
+--- Page 15 ---
+(a) China (b) Japan
+(c) India (d) Germany
+(e) UnitedStates
+Figure 2: Time evolution of RMT-based complexity metrics for G5 stock markets during the
+COVID-19 market shock. The red line represents the normalized largest eigenvalue λnorm(t),
+max
+the green line shows the average pairwise correlation ρ(t), and the shaded region between them
+denotesthecomplexitygap∆(t). Acrossallmarkets,aconsistentthree-phasepatternisobserved:
+a pre-event regime characterized by a persistent gap ∆(t)>0, a sharp convergence with ∆(t)≈
+0 during the shock, indicating strong market-wide synchronization, and a post-event recovery
+phasemarkedbygapre-widening,intermittentsecondaryconvergence,andgradualrestorationof
+structuralcomplexity.
+15
+
+--- Page 16 ---
+gap, resulting in ∆(t)>0 after the shock. This behavior arises from the different
+decayratesofλnorm(t)andρ(t). Inthisregime,ρ(t)decreasesmorerapidlythan
+max
+λnorm(t),causingthecomplexitygaptowiden,i.e.,∆(t)>0. Thisre-wideningaf-
+max
+terthemergerofthetwometricsλnorm(t)andρ(t)suggeststhatthemarketstruc-
+max
+ture begins to reconstruct following the shock. As the dominant influence of the
+common shock weakens, sector-specific dynamics and intra-market interactions
+gradually re-emerge. After this initial widening of the gap, a second convergence
+occurs in which λnorm(t) and ρ(t) move closer together, causing ∆(t) ≈ 0 once
+max
+more. Unlike the first event-driven convergence, which occurred at elevated lev-
+els,thissecondarymergerisfollowedbyasharpdeclineinbothλnorm(t)andρ(t).
+max
+This pattern suggests a temporary re-synchronization of stocks as the market col-
+lectivelyadjustswhileabsorbingnewinformationandresolvinguncertainty. Both
+quantitiescontinuetodeclinewithmergingtolowerlevels,andthegap∆(t)grad-
+ually widens again over time. This final widening of ∆(t) indicates that market
+complexity has been fully restored, with stocks no longer moving uniformly and
+heterogeneous responses across industries, economic sectors, and individual G5
+markets becoming observable again. This similar pattern is also observed during
+the COVID-19 market shock, as shown in fig. 2 and in the domestic shocks of
+2024 for the Japanese market crash in August 2024 and China’s market volatil-
+ity in October 2024 across all G5 markets. Despite differences in the nature and
+timingoftheshock,theconvergenceofλnorm(t)andρ(t)andthesubsequentnon-
+max
+monotonicrecoveryof∆(t)remainqualitativelyconsistentacrossallG5markets.
+This further supports the interpretation of the three-stage dynamics as a robust
+structuralsignatureofcrisis-drivenmarketbehavior.
+To ensure the statistical robustness of these patterns, we performed a sensi-
+tivity analysis using different rolling window sizes with L=30 and L=90 days.
+Inaddition,weverifiedtheresultsusingthemeanabsolutecorrelation,definedas
+thearithmeticmeanoftheabsoluteoff-diagonalelementsofthecorrelationmatrix
+C(t),i.e.,ρ¯(t)=⟨|C |⟩. Inallcases,theobservedthree-stagerecoverypatternre-
+ij
+mained consistent across markets, confirming that the identified dynamics reflect
+the intrinsic market response rather than artifacts arising from parameter choices
+orwindowlength.
+3.2. SectoralMarket
+The market-level analysis across the G5 countries reveals a consistent three-
+phasecomplexityresponsetotheshock. However,thisoverallbehaviormayhide
+heterogeneous dynamics present at the sectoral level. To examine this, we apply
+the same RMT-based metrics λnorm(t), ρ(t), and ∆(t) within five sectors, namely
+max
+Information Technology (IT), Industrial, Healthcare, Consumer, and Finance of
+the G5 stock market. This sector-wise analysis allows us to investigate whether
+16
+
+--- Page 17 ---
+the three-phase complexity collapse and recovery pattern observed at the market
+levelalsoemergeswithinindividualsectors,andwhetherdifferentsectorsexhibit
+varying sensitivities to the shock. Since sectoral interactions are the underlying
+source of the market-wide complexity gap, this decomposition provides a better
+understanding of how sector-specific dynamics shape the aggregate market re-
+sponse.
+3.2.1. Sector-stockComplexityGap
+Fig. 3 shows the time evolution of λnorm(t), ρ(t), and ∆(t) for the Informa-
+max
+tionTechnology(IT)acrosstheG5countries. Thesectoralanalysisrevealsaclear
+structural difference compared to the market-level results. At the market level,
+the complexity gap ∆(t) > 0, indicating that λnorm(t) consistently exceeds ρ(t)
+max
+throughout the period. However, at the sectoral level, this relationship is reversed
+with ρ(t) exceeding λnorm(t), resulting in a negative complexity gap ∆(t) < 0.
+max
+This inversion in ∆(t), reflects the intrinsic homogeneity of stocks within the
+same sector. Within a single sector, stocks belong to the same industry and are
+subject to similar economic forces, making them inherently more correlated with
+oneanotherthanstocksdrawnfromthefullmarket. Asaresult,theρ(t)withina
+sectorishigher,reflectingtheunderlyinghomogeneityofintra-sectorstockmove-
+ments. Thenegativegap(∆(t)<0),therefore,indicatesthat,withinasector,stock
+dynamics are already largely governed by a common sectoral factor even under
+normalmarketconditions.
+Despite this structural difference, the three-phase response to the shock re-
+mains clearly visible at the sectoral level. Before the shock, the negative gap
+∆(t)<0 persists in a relatively stable manner, reflecting the baseline intra-sector
+homogeneity. After the tariff shock, both λnorm(t) and ρ(t) rise sharply and con-
+max
+verge, with ∆(t)≈0, indicating a further loss of internal sectoral structure as all
+stocks within each sector synchronize under the shock-driven market mode. In
+the post-event period, the same non-monotonic recovery pattern is observed: an
+initial re-widening of the gap, followed by a secondary convergence, and finally
+a sustained recovery toward the pre-event baseline. This confirms that the three-
+phasecomplexityresponseisnotlimitedtotheaggregatemarketlevelbutisalsoa
+characteristic feature of individual sector dynamics. Similar three-phase patterns
+are also observed for the Industrial, Finance, Health, and Consumer sectors, as
+shown in Figs. A.5, A.6, A.7, and A.8 in Appendix Appendix A. While the
+three-phasepatternisbroadlypreservedatthesectorallevel,itsstrengthandclar-
+ityvaryacrosssectors. Thisvariationarisesbecausesectorsareintrinsicallymore
+homogeneous systems, with higher baseline correlations and fewer independent
+modes,whichcompressestheobservablestructuraltransitionandleadstoweaker
+ortemporallyshiftedconvergencepatterns. Toensurerobustness,werepeatedthe
+17
+
+--- Page 18 ---
+(a) China (b) Japan
+(c) India (d) Germany
+(e) UnitedStates
+Figure3:TimeevolutionofRMT-basedcomplexitymetricsforG5stockmarketsfortheITsector.
+The blue line represents the normalized largest eigenvalue λnorm(t), the orange line shows the
+max
+raw average correlation ρ(t), and the shaded region between them denotes the complexity gap
+∆(t). The vertical red dashed line marks the U.S. tariff announcement in April 2025. Across
+all markets, we observe a consistent three-phase pattern: a pre-event state with a persistent gap
+∆(t)<0, a sharp convergence with ∆(t)≈0 immediately following the shock, and a post-event
+recoverypatterncharacterizedbygapre-widening,asecondaryconvergence,andfinallysustained
+structuralrecovery.
+18
+
+--- Page 19 ---
+analysis using different rolling window sizes (L=30 and L=90 days) and mean
+absolute correlation, ρ(t) = ⟨|C |⟩. In all cases, the three-phase recovery pat-
+ij
+ternremainedconsistent,confirmingthattheobserveddynamicsarenotsensitive
+to parameter choices. These findings suggest that although the sign of the com-
+plexity gap, ∆(t), differs between the market and sectoral levels, the three-phase
+complexity response pattern remains consistent across both scales. The sectoral
+analysis,therefore,supportsthemarket-levelresultsbyshowingthatthetariffan-
+nouncement not only disrupted the broad market structure but also induced the
+samethree-phasereorganizationwithinindividualsectors.
+For investors, these structural patterns provide a clear advantage in under-
+standing post-shock market conditions. Our analysis identifies a distinct false-
+recovery pattern: immediately after a shock, the complexity gap ∆(t) may tem-
+porarily widen as the initial panic subsides, giving the appearance of a return to
+normal conditions. However, this regime is often misleading. Our results show
+that this early stabilization is followed by a secondary down-merge, in which
+λnorm(t) and ρ(t) re-synchronize and the gap ∆(t) ≈ 0 merges again. There-
+max
+fore, investors should view the first re-emergence of ∆(t) > 0 with caution. A
+premature re-entry during this phase may expose portfolios to the secondary syn-
+chronization risk. The robust signal for re-entry may appear only when the gap
+widens in a sustained manner, accompanied by both metrics stabilizing at lower
+levels. Byrecognizingthisthree-stageprocess,investorscandistinguishfalsesig-
+nals from genuine stability, avoiding the trap of premature allocation and waiting
+forconfirmedstructuralrestorationbeforerebuildingriskpositions.
+3.3. SectoralCollectiveModeStrength: HeatmapAnalysis
+Tofurtherexaminehowshockspropagateacrosssectorsandcountries,wevi-
+sualizethetemporalevolutionofsectoralcollectivedynamicsusingheatmapsfor
+theG5markets. Figure4showsthemonthlyevolutionofsectoralcollectivemode
+strength across the stock sectors, namely Consumer, Financial, Healthcare, Infor-
+mation Technology(IT), and Industrial sectors for China, Japan, India, Germany,
+and the United States. The heatmaps are constructed using the monthly average
+of the normalized largest eigenvalue, λnorm(t), obtained from rolling correlation
+max
+matrices within each sector. This quantity measures the strength of the dominant
+collective market mode. Higher values of λnorm(t) indicate stronger synchro-
+max
+nization among stocks within the sector and therefore stronger collective market
+behavior. In the heatmaps, rows correspond to each sector and columns represent
+monthly time intervals, while the color scale reflects the magnitude of collective
+synchronization. Warmer colors (yellow–red) indicate stronger collective market
+behavior and higher synchronization among stocks, whereas cooler colors (blue)
+representweakersynchronizationandmoreheterogeneousstockmovements.
+19
+
+--- Page 20 ---
+During normal market conditions, the heatmaps exhibit relatively dispersed
+patterns, with moderate variations across sectors. This indicates that stock move-
+mentsareinfluencedbyheterogeneoussector-specificdynamicsratherthanasin-
+gle dominant market mode. From Fig. 4, we observe localized red patches corre-
+sponding to country-specific domestic shocks during 2024. The Japanese market
+showsapronouncedincreaseincollectivemodestrengthduringAugust2024,co-
+inciding with the market disruption triggered by the Bank of Japan’s unexpected
+policyadjustment. Similarly,theChinesemarketexhibitsaclearspikeinOctober
+2024 associated with the volatility following the stimulus-driven rally and subse-
+quentdisappointmentregardingfiscalpolicyannouncements. Theseeventsappear
+in the heatmaps as temporally localized regions of strong collective synchroniza-
+tion confined to the affected country, while other markets remain relatively stable
+during the same period. During the period of the U.S. tariff announcement in
+April 2025, a different pattern emerges. Around this period, the heatmaps for
+all G5 stock markets simultaneously display large regions of elevated collective
+mode strength across multiple sectors. Unlike the localized domestic shocks ob-
+served earlier, this tariff event produces broad and synchronized increases in col-
+lective dynamics across all countries and sectors. The simultaneous emergence
+ofhigh-intensityregionsacrossgeographicallyandeconomicallydiversemarkets
+indicatesaglobalsynchronizationofsectoraldynamics. Thecross-sectoralnature
+of these high-intensity regions suggests that the tariff impact was not limited to
+a single industry but propagated across the full market structure. Financials, IT,
+Industrials,Consumer,andHealthcaresectorsacrossallcountriessimultaneously
+exhibit elevated collective mode strength. This synchronized sectoral response
+alignswiththeRMTresultspresentedearlier,wherethecomplexitygap∆(t)col-
+lapsed across all markets, indicating a temporary loss of structural differentiation
+and the dominance of a single global market mode. Together, the heatmap analy-
+sis reinforces the conclusions derived from the complexity-gap dynamics. While
+domestic shocks generate localized and country-specific disturbances, the U.S.
+tariff announcement produces simultaneous synchronization across multiple sec-
+torsandmarkets,confirmingitsroleasaglobalexogenousevent. Theconsistency
+between the RMT-based metrics and the sectoral heatmap visualization provides
+robust evidence that the tariff shock triggered a coordinated global restructuring
+offinancialmarketdynamics.
+3.4. OrdinalEntropyDuringtheTariffShock
+The Complexity Gap ∆(t) captures structural changes at the spectral level. To
+assess whether the observed collapse and recovery are also reflected in the direc-
+tional dynamics of individual stocks, we examine the Ordinal Entropy, H (t),
+ord
+which measures the diversity of three-day ordinal patterns across all stocks. A
+20
+
+--- Page 21 ---
+(a) China (b) Japan
+(c) India (d) Germany
+(e) UnitedStates
+Figure 4: Monthly evolution of sectoral collective mode strength measured by the normalized
+largest eigenvalue λnorm(t) across five sectors and five G5 markets. Warmer colors indicate
+max
+stronger synchronization. The U.S. tariff announcement in April 2025 triggers a simultaneous,
+cross-sectoral surge in collective dynamics across all markets, confirming its nature as a global
+exogenousshock,incontrasttothelocalizedresponsesobservedduringthe2024domesticevents
+inJapanandChina.
+21
+
+--- Page 22 ---
+valuenearlog6≈1.79natsindicatesarichmixtureofdirectionalreturnpatterns,
+whereas a sharp decline suggests that most stocks follow a common trajectory.
+We define four analysis windows to isolate the market response. The pre-shock
+reference period spans January 2 to March 31, 2025, representing three months
+of relatively stable conditions prior to the tariff announcement. The shock win-
+dow is defined as April 7–11, 2025, corresponding to ±2 trading days around
+the announcement. The false recovery phase extends from April 14 until the last
+daybeforeH (t)remainscontinuouslyabove1.0natsforatleast20consecutive
+ord
+trading days. The stabilized period is defined as June 16–July 15, 2025. Table 1
+presentsthemeanentropyforthepre-shockandstabilizedintervals,themeanover
+theshockwindow,andthe95thpercentileobservedduringtherecoveryphase.
+Table1:OrdinalentropystatisticsacrossG5marketsaroundthe2025U.S.tariffshock.Pre-shock
+and post-shock values are means ± standard deviation over the indicated intervals. The shock
+window is April 7–11, 2025 (±2 trading days). The false recovery 95th percentile (95th %ile)
+is taken over the false recovery phase. Entropy values are in nats. The sharp drop during the
+shockwindowandthesubsequentfalserecoveryconfirmthethree-phasepatternobservedinthe
+ComplexityGap.
+Country Pre-ShockMean ShockWindowMean FalseRecovery Post-ShockMean
+95th%ile
+UnitedStates 1.50±0.12 0.89±0.21 1.72 1.60±0.08
+China 1.53±0.14 1.10±0.48 1.67 1.62±0.09
+Japan 1.48±0.11 0.64±0.29 1.68 1.55±0.10
+India 1.49±0.13 0.95±0.19 1.63 1.58±0.08
+Germany 1.47±0.10 0.86±0.17 1.74 1.55±0.09
+Table 1 represents the mean H (t) across the four analysis windows. Before
+ord
+the shock, H averages between 1.47 and 1.53 nats across all five markets, es-
+ord
+tablishingabaselineofhealthydirectionaldiversity. DuringtheApril7-11shock
+window, this diversity collapses sharply, to 0.64 nats in Japan and 0.86 nats in
+Germany, as stocks synchronize onto a narrow set of ordinal sequences. China’s
+shock-window average is higher (1.10±0.48 nats), as the initial drop was fol-
+lowed by a rapid rebound within the same week. This may reflect the fact that
+ChineseequitieswerealreadyunderpressurefromongoingU.S.–Chinatradeten-
+sions and domestic policy adjustments, potentially reducing the incremental im-
+pact of the tariff announcement. In the false recovery phase, entropy rebounds
+to a 95th percentile of 1.63-1.74 nats, approaching pre-shock levels. However,
+thisrecoveryisshort-lived: intheUnitedStates,entropysubsequentlydipsbelow
+1.0 nats, while Japan, India, and Germany exhibit notable secondary declines of
+0.2 to 0.4 nats before finally stabilizing. China is the exception; after its rapid
+22
+
+--- Page 23 ---
+spike, entropy remains elevated without a secondary collapse. By the stabilized
+period, H settles between 1.55 and 1.65 nats across all markets, with standard
+ord
+deviations notably smaller than before the shock, indicating a new, more tightly
+bounded equilibrium of directional behavior. The three-phase pattern in H (t)
+ord
+mirrors the dynamics of the Complexity Gap ∆(t), confirming that the structural
+collapse,falserecovery,andstabilizationobservedatthespectrallevelareaccom-
+panied by a corresponding loss and temporary restoration of directional diversity.
+This convergent evidence reinforces the interpretation of the tariff announcement
+asagenuine,multi-facetedshocktoglobalequitymarkets.
+3.5. PortfolioRiskandtheComplexityGap
+To examine whether the complexity gap ∆ contains information about future
+portfolio risk, we perform a large-scale portfolio simulation across the G5 mar-
+kets over the period January to December 2025. This sample period covers three
+distinct periods: a pre-event period, the tariff shock in April 2025, and the sub-
+sequent post-event recovery period. Our approach uses a rolling window design,
+with 60-day estimation periods followed by 20-day out-of-sample test windows.
+Ateachstep,werandomlyselected500portfolios,eachcontaining10stocks. For
+every portfolio, we calculated the complexity gap ∆(t) = λnorm(t)−ρ(t) using
+max
+data from the estimation window. During each rolling step, we constructed two
+types of portfolios using the estimation window: minimum-variance portfolios
+(MVP), based on the estimated covariance matrix, and simple equal-weight port-
+folios(EW),whichserveasanaivebenchmark. Theseportfolioweightswerethen
+applied to the subsequent test window, where portfolio risk was measured as the
+annualizedvolatilityofreturns. Forcomparison,wealsocomputedtwotraditional
+predictors from the estimation window: the average correlation ρ and the histor-
+ical equal-weight volatility σ . In total, our analysis includes 416,500 portfolio
+hist
+observations. Toevaluatetherelationshipbetween∆andfutureportfoliorisk,we
+employ three complementary approaches: Spearman rank correlations between ∆
+andrealizedMVPvolatility,incrementalR2 measuresthatquantifytheadditional
+explanatory power of ∆ beyond each benchmark predictor, and a quintile analy-
+sis in which portfolios are sorted into five groups based on ∆ to examine whether
+highercomplexityissystematicallyassociatedwithlowerrealizedvolatility.
+Table 2 presents the relationship between the complexity gap (∆) and future
+portfolio volatility. The Spearman correlations between ∆ and MVP realized
+volatility are negative and statistically significant across all G5 stock markets,
+ranging from -0.144 to -0.235. This indicates that lower levels of complexity
+are associated with higher subsequent portfolio risk. The quintile analysis rein-
+forces this finding in all G5 stock markets. Average portfolio volatility declines
+monotonically as we move from the lowest ∆ group (Q0) to the highest ∆ group
+23
+
+--- Page 24 ---
+Table2:ThistablereportsSpearmanrankcorrelationsbetweenthecomplexitygap(∆)andout-of-
+sample portfolio volatility for both minimum-variance portfolios (MVP) and equal-weight port-
+folios(EW).ItalsopresentsannualizedMVPvolatilityacross∆quintiles. Thelong–short(L/S)
+spreadisdefinedasthedifferenceinvolatilitybetweenthehighestandlowest∆quintiles(Q4−
+Q0). Allvolatilitiesareannualized(%). Intotal,theanalysisincludes416,500portfolioobserva-
+tions.
+SpearmanCorr. L/S MVPVolatilityby∆Quintile(%)
+Country ρ(∆,σ ) ρ(∆,σ ) Spread(%) Q0 Q1 Q2 Q3 Q4
+MVP EW
+US −0.176∗∗∗ −0.046∗∗∗ −2.033 16.98 16.28 15.73 15.43 14.95
+China −0.150∗∗∗ +0.191∗∗∗ −1.701 13.33 12.78 12.32 11.81 11.63
+India −0.160∗∗∗ −0.074∗∗∗ −2.210 14.85 14.36 13.83 13.36 12.64
+Japan −0.235∗∗∗ +0.077∗∗∗ −4.465 20.18 17.86 16.96 16.26 15.71
+Germany −0.144∗∗∗ −0.035∗∗∗ −2.056 17.54 16.55 15.94 15.85 15.49
+∗∗∗p<0.001. Q0: lowest∆(complexitycollapse);Q4: highest∆(structuraldiversity).
+(Q4). Here, Q0 represents the set of portfolios with the lowest values of the com-
+plexity gap, corresponding to periods when λnorm(t) and ρ(t) converge during
+max
+market stress. In contrast, Q4 represents portfolios with the highest complexity
+gap, reflecting periods of normal market conditions with well-developed struc-
+tural diversity. The annualized volatility difference between the extreme quin-
+tiles is reaching up to 4.47 percent in Japan. The correlations between ∆ and
+equal-weight portfolio volatility vary in both sign and magnitude across markets,
+indicating that the predictive content of ∆ arises primarily from the correlation
+structure rather than broad market movements. Table 3 reports results for bench-
+markpredictorsandtheadditionalcontributionofthecomplexitygap∆. Average
+correlation and historical volatility show a positive association with future MVP
+volatility, reflecting persistence in market risk. In contrast, ∆ exhibits a negative
+relationship, indicating that it captures a distinct structural feature of market dy-
+namics. The incremental R2 results show that ∆ adds modest explanatory power
+beyond these benchmarks, suggesting that it does not operate as a purely linear
+predictor but varies across market conditions. During the pre-shock period, the
+relationship between ∆ and future volatility is weak in most markets. Follow-
+ing the tariff shock, however, the relationship turns strongly negative across all
+markets, with correlations ranging from -0.141 to -0.239. This indicates that ∆
+becomesinformativeduringperiodsofmarketstress,whentheunderlyingmarket
+structure breaks down. During stable periods, when the complexity gap remains
+steady,itspredictivepowerislimited.
+24
+
+--- Page 25 ---
+Table3: ThetablereportsSpearmanrankcorrelationsbetweenbenchmarkpredictors,namelyav-
+eragecorrelation(ρ)andhistoricalequal-weightvolatility(σ ),andout-of-sampleMVPvolatility.
+h
+ItalsoreportstheincrementalR2 obtainedbyaddingthecomplexitygap(∆)toeachbenchmark
+predictor. Inaddition, itpresentstheSpearmancorrelationbetween∆andMVPvolatilityinthe
+pre-shockandpost-shockperiodssurroundingtheApril2025tariffevent.
+BenchmarkSpearman Incr.R2of∆ SubperiodSpearman
+Country ρ(ρ,σ ) ρ(σ ,σ ) overρ overσ Pre-shock Post-shock
+MVP h MVP h
+US +0.522 +0.578 +0.0008 +0.0000 +0.045 −0.206
+China +0.145 +0.079 +0.0043 +0.0118 +0.041 −0.141
+India +0.443 +0.555 +0.0033 +0.0054 −0.072 −0.150
+Japan +0.285 +0.333 +0.0037 +0.0055 +0.001 −0.239
+Germany +0.285 +0.334 +0.0024 +0.0028 +0.018 −0.158
+4. Conclusion
+In this study, we introduced the complexity gap ∆(t), derived from RMT, to
+uncoveraconsistentandeconomicallymeaningfulstructuralpatterninstockmar-
+kets during exogenous shock events. We analyze both market-level and sector-
+level stock dynamics across the G5 economies, namely the United States, China,
+Germany, India, and Japan, covering shock events, the U.S. tariff announcement
+of 2025, and the COVID-19 crisis. Using a rolling-window RMT framework, we
+definethecomplexitygapasthedifferencebetweenthenormalizedlargesteigen-
+value,λnorm(t),andtheaveragecorrelation,ρ(t). Thismeasurecaptureswhether
+max
+market dynamics are dominated by a single common factor or by multiple inter-
+actingcomponents.
+AcrossalltheG5stockmarkets,weobserveaconsistentthree-phasestructural
+pattern at both the market and sector levels during these exogenous shock events.
+Before the shock events, markets exhibit a positive complexity gap ∆(t)>0, in-
+dicating a well-developed internal structure with sector-specific dynamics oper-
+ating alongside the common market mode. However, during the shock periods,
+this structure collapses across all G5 markets, as both λnorm(t) and ρ(t) increase
+max
+sharply and converge, leading to a rapid contraction of the complexity gap to-
+ward zero, ∆(t)≈0. This reflects a state of strong market-wide synchronization
+in which stock dynamics become dominated by a single global factor, resulting
+in a loss of structural diversity and an effective reduction in the informational
+content of the correlation matrix. In this regime, sector-specific and idiosyncratic
+interactions are suppressed, and market behavior is largely governed by a single
+collectivemode. Inthepost-shockregime,weobserveanon-monotonicrecovery
+patterncharacterizedbyaninitialre-wideningofthecomplexitygap,followedby
+a secondary convergence during which both λnorm(t) and ρ(t) decline simulta-
+max
+25
+
+--- Page 26 ---
+neously and move closer together, leading to a renewed contraction of ∆(t)≈0.
+Finally, the gap widens again in a sustained manner, restoring ∆(t) > 0. This
+three-stage recovery reveals intermediate false recovery phases, where the com-
+plexitygapinitiallywidensaftertheshock,givingtheappearanceofstabilization,
+butthemarketbecomessynchronizedagainbrieflybeforefullyrecovering. Atthe
+sectorallevel,weobserveastructurallydistinctbehaviorinwhichthecomplexity
+gap is negative, ∆(t) < 0, reflecting the inherent homogeneity and stronger cor-
+relations within individual sectors. Despite this inversion, the same three-phase
+structural pattern persists across sectors, demonstrating that the collapse and re-
+covery of market structure is a robust phenomenon operating across both market
+and sector levels. The same three-phase pattern is observed across both global
+and country-specific shocks, including the U.S. tariff event, the COVID-19 cri-
+sis, and localized shocks in Japan and China, highlighting the robustness of the
+complexitygapincapturingstructuralchangesacrossdifferenttypesofshocks.
+TheheatmapanalysisconfirmsthattheU.S.tariffeventactsasaglobalshock,
+producingsimultaneoussynchronizationacrossallG5marketsandsectors,whereas
+domesticshocksremainlocalizedwithinindividualcountries. Thisfindingestab-
+lishes that the 2025 tariff announcement fundamentally altered the global stock
+market structure, inducing a coordinated regime shift across geographically and
+economically diverse markets. Ordinal entropy analysis of cross-sectional re-
+turn patterns further corroborates these results, revealing a parallel collapse and
+false restoration of directional diversity that aligns closely with the three-phase
+complexity gap dynamics. We also analyze portfolio risk using the complexity
+gap. We find that lower values of ∆(t) are associated with higher future portfo-
+lio volatility, while higher values correspond to more stable market conditions.
+This indicates that the complexity gap provides useful information about portfo-
+lio risk, particularly during periods of market stress. Overall, our results show
+that the complexity gap can be used to characterize structural dynamics in stock
+markets. By linking correlation structure, eigenvalue dynamics, and collective
+synchronization, this framework provides a unified view of how markets respond
+tobothglobalandlocalshocks. Theconsistentemergenceofthethree-phasepat-
+ternacrosscountries,sectors,anddifferentshockeventssuggeststhatitrepresents
+afundamentalstructuralsignatureoffinancialsystemsunderstress.
+For investors, recognizing the false-recovery signal embedded in the initial
+post-shockgapwideningmayhelpavoidprematurere-entryduringperiodswhen
+market structure remains fragile. The sustained re-widening of ∆, accompanied
+by stabilization of both spectral measures at lower levels, appears to be a more
+reliableindicatorofgenuinestructuralrecovery.
+26
+
+--- Page 27 ---
+AppendixA. Complexity Gap During the Tariff 2025 Shock: Sector-level
+Analysis
+27
+
+--- Page 28 ---
+(a) China (b) Japan
+(c) India (d) Germany
+(e) UnitedStates
+Figure A.5: Time evolution of RMT-based complexity metrics for G5 stock markets for the In-
+dustrialssector. Theredlinerepresentsthenormalizedlargesteigenvalueλnorm(t),thegreenline
+max
+shows the raw average correlation ρ(t), and the shaded region between them denotes the com-
+plexitygap∆(t). TheverticalreddashedlinemarkstheU.S.tariffannouncementinApril2025.
+Acrossallmarkets,weobserveaconsistentthree-phasepattern: apre-eventstatewithapersistent
+gap ∆(t)<0, a sharp convergence with ∆(t)≈0 immediately following the shock, and a post-
+event recovery pattern characterized by gap re-widening, a secondary convergence, and finally
+sustainedstructuralrecovery.
+28
+
+--- Page 29 ---
+(a) China (b) Japan
+(c) India (d) Germany
+(e) UnitedStates
+FigureA.6:TimeevolutionofRMT-basedcomplexitymetricsforG5stockmarketsfortheFinan-
+cialsector.Theredlinerepresentsthenormalizedlargesteigenvalueλnorm(t),thegreenlineshows
+max
+therawaveragecorrelationρ(t),andtheshadedregionbetweenthemdenotesthecomplexitygap
+∆(t). The vertical red dashed line marks the U.S. tariff announcement in April 2025. Across
+all markets, we observe a consistent three-phase pattern: a pre-event state with a persistent gap
+∆(t)<0, a sharp convergence with ∆(t)≈0 immediately following the shock, and a post-event
+recoverypatterncharacterizedbygapre-widening,asecondaryconvergence,andfinallysustained
+structuralrecovery.
+29
+
+--- Page 30 ---
+(a) China (b) Japan
+(c) India (d) Germany
+(e) UnitedStates
+FigureA.7:TimeevolutionofRMT-basedcomplexitymetricsforG5stockmarketsfortheHealth
+sector. The red line represents the normalized largest eigenvalue λnorm(t), the green line shows
+max
+the raw average correlation ρ(t), and the shaded region between them denotes the complexity
+gap∆(t). TheverticalreddashedlinemarkstheU.S.tariffannouncementinApril2025. Across
+all markets, we observe a consistent three-phase pattern: a pre-event state with a persistent gap
+∆(t)<0, a sharp convergence with ∆(t)≈0 immediately following the shock, and a post-event
+recoverypatterncharacterizedbygapre-widening,asecondaryconvergence,andfinallysustained
+structuralrecovery.
+30
+
+--- Page 31 ---
+(a) China (b) Japan
+(c) India (d) Germany
+(e) UnitedStates
+FigureA.8: TimeevolutionofRMT-basedcomplexitymetricsforG5stockmarketsfortheCon-
+sumer sector. The red line represents the normalized largest eigenvalue λnorm(t), the green line
+max
+shows the raw average correlation ρ(t), and the shaded region between them denotes the com-
+plexitygap∆(t). TheverticalreddashedlinemarkstheU.S.tariffannouncementinApril2025.
+Across all markets, we observe a consistent three-phase response: a pre-event state with a per-
+sistentgap∆(t)<0, asharpconvergencewith∆(t)≈0immediatelyfollowingtheshock, anda
+post-event recovery pattern characterized by gap re-widening, a secondary convergence, and fi-
+nallysustainedstructuralrecovery.
+31
+
+--- Page 32 ---
+AppendixB. ListofStockTickers
+Table B.4: Stock tickers across five sectors and five countries analyzed in this
+study. Thesamplecomprises125listedequitiesspanningtheFinance,Industrials,
+Consumer Discretionary, Information Technology, and Healthcare sectors drawn
+from the United States, India, Japan, China, and Germany, sourced from Yahoo
+Finance,andcoveringmajorbenchmarkindicesineachmarket.
+S.No. Sector US India Japan China Germany
+1 Finance JPM HDFCBANK.NS 8306.T 601398.SS ALV.DE
+2 Finance V ICICIBANK.NS 8316.T 601288.SS DBK.DE
+3 Finance MA SBIN.NS 8411.T 601939.SS MUV2.DE
+4 Finance BAC LICI.NS 8766.T 601988.SS DB1.DE
+5 Finance WFC AXISBANK.NS 8750.T 601318.SS HNR1.DE
+6 Finance BRK-B KOTAKBANK.NS 8604.T 600036.SS CBK.DE
+7 Finance GS BAJFINANCE.NS 7182.T 601628.SS TLX.DE
+8 Finance MS BAJAJFINSV.NS 6178.T 601166.SS DWS.DE
+9 Finance AXP INDUSINDBK.NS 8725.T 600030.SS GLJ.DE
+10 Finance C JIOFIN.NS 8630.T 601658.SS HYQ.DE
+11 Finance BLK PNB.NS 8308.T 601328.SS WUW.DE
+12 Finance SPGI BANKBARODA.NS 8591.T 600000.SS PBB.DE
+13 Finance SCHW CHOLAFIN.NS 8309.T 601601.SS MLP.DE
+14 Finance PGR SHRIRAMFIN.NS 8473.T 601688.SS ARL.DE
+15 Finance CB HDFCLIFE.NS 7186.T 600919.SS DBAN.DE
+16 Finance CME SBILIFE.NS 8331.T 000001.SZ FTK.DE
+17 Finance ICE MUTHOOTFIN.NS 8354.T 600016.SS BNP.DE
+18 Finance MMC CANBK.NS 5831.T 601998.SS PAT.DE
+19 Finance MCO PFC.NS 8795.T 600958.SS G24.DE
+20 Finance COF RECLTD.NS 8593.T 600837.SS LEG.DE
+21 Finance AON UNIONBANK.NS 8304.T 000166.SZ OLB.DE
+22 Finance MET IRFC.NS 8303.T 000776.SZ PCZ.DE
+23 Finance PRU IDFCFIRSTB.NS 8253.T 601211.SS LUS.DE
+24 Finance TRV YESBANK.NS 8410.T 601881.SS XTP.DE
+25 Finance IBKR ICICIPRULI.NS 5838.T 002142.SZ VNA.DE
+26 Industrials GE LT.NS 6861.T 300750.SZ SIE.DE
+27 Industrials CAT ADANIPORTS.NS 8058.T 601800.SS DHL.DE
+28 Industrials RTX HAL.NS 8001.T 600031.SS AIR.DE
+29 Industrials GEV ADANIENT.NS 8031.T 601668.SS SND.DE
+32
+
+--- Page 33 ---
+TableB.4
+S.No. Sector US India Japan China Germany
+30 Industrials BA EICHERMOT.NS 6954.T 601919.SS SDF.DE
+31 Industrials HON INDIGO.NS 6273.T 601766.SS SZG.DE
+32 Industrials LMT TATAMOTORS.NS 6301.T 601390.SS DTG.DE
+33 Industrials DE ABB.NS 9022.T 600893.SS RHM.DE
+34 Industrials UNP ASHOKLEY.NS 9020.T 000338.SZ MTX.DE
+35 Industrials ETN CUMMINSIND.NS 6367.T 002475.SZ BNR.DE
+36 Industrials PH SIEMENS.NS 6594.T 601989.SS G1A.DE
+37 Industrials NOC POLYCAB.NS 6326.T 000157.SZ KGX.DE
+38 Industrials GD MAZDOCK.NS 7011.T 000425.SZ TKA.DE
+39 Industrials TT GMRAIRPORT.NS 8002.T 600089.SS FRA.DE
+40 Industrials UPS CGPOWER.NS 8053.T 600406.SS LHA.DE
+41 Industrials WM BHEL.NS 6201.T 300014.SZ HLAG.DE
+42 Industrials EMR POWERINDIA.NS 6506.T 688599.SS HEI.DE
+43 Industrials HWM GVT&D.NS 6501.T 300274.SZ RAA.DE
+44 Industrials MMM HAVELLS.NS 9202.T 002459.SZ JUN3.DE
+45 Industrials CMI WAAREEENER.NS 9201.T 601012.SS DUE.DE
+46 Industrials TDG BEL.NS 9101.T 601111.SS KRN.DE
+47 Industrials ITW ASTRAL.NS 9104.T 600029.SS GBF.DE
+48 Industrials CTAS KEI.NS 9107.T 002352.SZ HOT.DE
+49 Industrials FDX CONCOR.NS 1802.T 688187.SS NDA.DE
+50 Industrials VRT BHARATFORG.NS 1812.T 601006.SS DEZ.DE
+51 Consumer AMZN MARUTI.NS 7203.T 000333.SZ MBG.DE
+52 Consumer TSLA M&M.NS 6758.T 002594.SZ BMW.DE
+53 Consumer HD TITAN.NS 7267.T 000651.SZ VOW3.DE
+54 Consumer MCD DMART.NS 7974.T 600104.SS P911.DE
+55 Consumer LOW BAJAJ-AUTO.NS 9983.T 600690.SS ADS.DE
+56 Consumer NKE TVSMOTOR.NS 6902.T 601888.SS CON.DE
+57 Consumer SBUX JUBLFOOD.NS 4661.T 601127.SS PUM.DE
+58 Consumer TJX TRENT.NS 5108.T 600660.SS DHER.DE
+59 Consumer BKNG HEROMOTOCO.NS 7269.T 601633.SS ZAL.DE
+60 Consumer ABNB ASIANPAINT.NS 6752.T 000625.SZ HFG.DE
+61 Consumer CMG INDHOTEL.NS 7201.T 600741.SS BOSS.DE
+62 Consumer F MOTHERSON.NS 4755.T 002027.SZ TUI1.DE
+63 Consumer GM ZOMATO.NS 7202.T 300144.SZ EVD.DE
+64 Consumer MAR SWIGGY.NS 7272.T 603515.SS HBM.DE
+65 Consumer LULU PAGEIND.NS 7832.T 603486.SS FIE.DE
+66 Consumer HLT BERGEPAINT.NS 4911.T 000921.SZ SIX2.DE
+33
+
+--- Page 34 ---
+TableB.4
+S.No. Sector US India Japan China Germany
+67 Consumer ROST KALYANKJIL.NS 9843.T 002032.SZ HBH.DE
+68 Consumer AZO APOLLOTYRE.NS 7270.T 002508.SZ ZOO.DE
+69 Consumer RCL BALKRISIND.NS 7261.T 601058.SS CEC.DE
+70 Consumer LEN DLF.NS 3099.T 601021.SS B4B.DE
+71 Consumer TGT METROBRAND.NS 7532.T 603885.SS PAH3.DE
+72 Consumer DHI NYKAA.NS 7453.T 300413.SZ HLE.DE
+73 Consumer EBAY MANYAVAR.NS 7731.T 002739.SZ TRG.DE
+74 Consumer ULTA VEDANT.NS 6952.T 600177.SS VIB3.DE
+75 Consumer TPR SHOPERSTOP.NS 5802.T 600754.SS ST5.DE
+76 IT NVDA TCS.NS 8035.T 688981.SS SAP.DE
+77 IT MSFT INFY.NS 6857.T 603501.SS IFX.DE
+78 IT AAPL HCLTECH.NS 9984.T 601138.SS SHL.DE
+79 IT GOOGL WIPRO.NS 6971.T 002415.SZ TMV.DE
+80 IT AVGO LTIM.NS 6981.T 000063.SZ NEM.DE
+81 IT ORCL TECHM.NS 6723.T 002230.SZ BC8.DE
+82 IT CRM OFSS.NS 6703.T 002371.SZ COK.DE
+83 IT AMD PERSISTENT.NS 6920.T 002049.SZ SOW.DE
+84 IT ADBE LTTS.NS 6146.T 603986.SS AIXA.DE
+85 IT IBM MPHASIS.NS 6702.T 300782.SZ WAF.DE
+86 IT CSCO COFORGE.NS 6701.T 000977.SZ UTDI.DE
+87 IT TXN KPITTECH.NS 6963.T 688012.SS 1U1.DE
+88 IT INTC TATAELXSI.NS 6762.T 600584.SS AOF.DE
+89 IT NOW NAUKRI.NS 7735.T 600745.SS JEN.DE
+90 IT AMAT CYIENT.NS 9613.T 300661.SZ COP.DE
+91 IT QCOM ZENSARTECH.NS 4307.T 603019.SS GFT.DE
+92 IT LRCX SONATSOFTW.NS 4704.T 600570.SS SANT.DE
+93 IT PANW HAPPISTMND.NS 4684.T 688256.SS NA9.DE
+94 IT ANET INTELLECT.NS 9719.T 688126.SS YSN.DE
+95 IT MU AFFLE.NS 4739.T 300124.SZ ADN1.DE
+96 IT SNOW NEWGEN.NS 6645.T 002241.SZ SMHN.DE
+97 IT CRWD TANLA.NS 6965.T 000725.SZ PFV.DE
+98 IT SNPS LATENTVIEW.NS 6976.T 000100.SZ ELG.DE
+99 IT CDNS RATEGAIN.NS 4062.T 600703.SS BSL.DE
+100 IT PLTR MAPMYINDIA.NS 3436.T 688008.SS LPK.DE
+101 Healthcare LLY SUNPHARMA.NS 4502.T 600276.SS BAYN.DE
+102 Healthcare UNH DIVISLAB.NS 4503.T 300760.SZ MRK.DE
+103 Healthcare JNJ CIPLA.NS 4568.T 603259.SS SHL.DE
+34
+
+--- Page 35 ---
+TableB.4
+S.No. Sector US India Japan China Germany
+104 Healthcare MRK DRREDDY.NS 4543.T 600436.SS FRE.DE
+105 Healthcare ABBV APOLLOHOSP.NS 4519.T 000538.SZ FME.DE
+106 Healthcare TMO TORNTPHARM.NS 7733.T 300015.SZ SRT3.DE
+107 Healthcare ABT MANKIND.NS 6869.T 300122.SZ QIA.DE
+108 Healthcare DHR ZYDUSLIFE.NS 4523.T 000661.SZ 22UA.DE
+109 Healthcare AMGN MAXHEALTH.NS 4507.T 300142.SZ AFX.DE
+110 Healthcare PFE LUPIN.NS 4578.T 600196.SS BEI.DE
+111 Healthcare ISRG AUROPHARMA.NS 2413.T 000963.SZ EVT.DE
+112 Healthcare SYK ALKEM.NS 4151.T 002422.SZ GXI.DE
+113 Healthcare MDT ABBOTT.NS 4528.T 600332.SS COP.DE
+114 Healthcare ELV BIOCON.NS 4536.T 600998.SS MOR.DE
+115 Healthcare GILD GLENMARK.NS 4508.T 300003.SZ EUZ.DE
+116 Healthcare BSX SYNGENE.NS 4581.T 002044.SZ DMP.DE
+117 Healthcare VRTX FORTIS.NS 4530.T 002007.SZ SAE.DE
+118 Healthcare REGN GSK.NS 4527.T 002030.SZ DRW3.DE
+119 Healthcare ZTS IPCALAB.NS 4506.T 002603.SZ MEDP.DE
+120 Healthcare HCA MEDANTA.NS 6849.T 688363.SS NXU.DE
+121 Healthcare BDX NH.NS 4544.T 600763.SS SBS.DE
+122 Healthcare HUM LAURUSLABS.NS 4887.T 300759.SZ FYB.DE
+123 Healthcare MRNA NATCOPHARM.NS 4516.T 603658.SS SYAB.DE
+124 Healthcare EW ASTERDM.NS 4587.T 002821.SZ PHH2.DE
+125 Healthcare DXCM GRANULES.NS 7747.T 600085.SS BIO3.DE
+References
+[1] R. N. Mantegna, H. E. Stanley, Introduction to econophysics: correlations
+andcomplexityinfinance,Cambridgeuniversitypress,1999.
+[2] J.-P. Bouchaud, M. Potters, Theory of financial risk and derivative pricing:
+from statistical physics to risk management, Cambridge university press,
+2003.
+[3] R. N. Mantegna, Hierarchical structure in financial markets, The European
+Physical Journal B-Condensed Matter and Complex Systems 11 (1) (1999)
+193–197.
+[4] D. Sornette, Why stock markets crash: critical events in complex financial
+systems,Princetonuniversitypress,2017.
+35
+
+--- Page 36 ---
+[5] K.Mukhia,B.N.Sharma,S.R.Luwang,M.Nurujjaman,C.Hens,S.Saha,
+T.Chakraborty,Early-warningsignalsofpoliticalriskinstablecoinmarkets:
+Humanandalgorithmicbehavioraroundthe2024uselection,arXivpreprint
+arXiv:2512.00893(2025).
+[6] J.-P. Onnela, A. Chakraborti, K. Kaski, J. Kertesz, A. Kanto, Dynamics of
+market correlations: Taxonomy and portfolio analysis, Physical Review E
+68(5)(2003)056110.
+[7] M. Tumminello, T. Aste, T. Di Matteo, R. N. Mantegna, A tool for filtering
+information in complex systems, Proceedings of the National Academy of
+Sciences102(30)(2005)10421–10426.
+[8] I. Ansari, C. Sharma, A. Agrawal, N. Sahni, A novel portfolio construc-
+tionstrategybasedonthecore-peripheryprofileofstocks,ScientificReports
+15(1)(2025)36882.
+[9] M. Billio, M. Getmansky, A. W. Lo, L. Pelizzon, Econometric measures of
+connectednessandsystemicriskinthefinanceandinsurancesectors,Journal
+offinancialeconomics104(3)(2012)535–559.
+[10] P. Pawanesh, I. Ansari, N. Sahni, Exploring the core–periphery and com-
+munity structure in the financial networks through random matrix theory,
+PhysicaA:StatisticalMechanicsanditsApplications661(2025)130403.
+[11] G. Bonanno, G. Caldarelli, F. Lillo, R. N. Mantegna, Topology of
+correlation-based minimal spanning trees in real and model markets, Physi-
+calReviewE68(4)(2003)046130.
+[12] C.Sharma,K.Banerjee,Astudyofcorrelationsinthestockmarket,Physica
+A:StatisticalMechanicsandItsApplications432(2015)321–330.
+[13] L. S. Junior, I. D. P. Franca, Correlation of financial markets in times of
+crisis,PhysicaA:StatisticalMechanicsanditsApplications391(1-2)(2012)
+187–208.
+[14] D.-M. Song, M. Tumminello, W.-X. Zhou, R. N. Mantegna, Evolution
+of worldwide stock markets, correlation structure, and correlation-based
+graphs, Physical Review E—Statistical, Nonlinear, and Soft Matter Physics
+84(2)(2011)026108.
+36
+
+--- Page 37 ---
+[15] K. Mukhia, A. Rai, S. Luwang, M. Nurujjaman, S. Majhi, C. Hens, Com-
+plex network analysis of cryptocurrency market during crashes, Physica A:
+StatisticalMechanicsanditsApplications653(2024)130095.
+[16] V. Plerou, P. Gopikrishnan, B. Rosenow, L. A. N. Amaral, T. Guhr, H. E.
+Stanley, Random matrix approach to cross correlations in financial data,
+PhysicalReviewE65(6)(2002)066126.
+[17] Y. Malevergne, D. Sornette, Collective origin of the coexistence of apparent
+randommatrixtheorynoiseandoffactorsinlargesamplecorrelationmatri-
+ces, Physica A: Statistical Mechanics and its Applications 331 (3-4) (2004)
+660–668.
+[18] D.Y.Kenett,M.Tumminello,A.Madi,G.Gur-Gershgoren,R.N.Mantegna,
+E. Ben-Jacob, Dominating clasp of the financial sector revealed by partial
+correlationanalysisofthestockmarket,PloSone5(12)(2010)e15032.
+[19] T.Preis,J.J.Schneider,H.E.Stanley,Switchingprocessesinfinancialmar-
+kets, Proceedings of the National Academy of Sciences 108 (19) (2011)
+7674–7678.
+[20] J.-P.Bouchaud,Radicalcomplexity,Entropy23(12)(2021)1676.
+[21] H.K.Pharasi,K.Sharma,A.Chakraborti,T.H.Seligman,Complexmarket
+dynamics in the light of random matrix theory, in: New perspectives and
+challengesineconophysicsandsociophysics,Springer,2019,pp.13–34.
+[22] R. K. Pan, S. Sinha, Collective behavior of stock price movements in an
+emerging market, Physical Review E—Statistical, Nonlinear, and Soft Mat-
+terPhysics76(4)(2007)046116.
+[23] L.Laloux,P.Cizeau,J.-P.Bouchaud,M.Potters,Noisedressingoffinancial
+correlationmatrices,Physicalreviewletters83(7)(1999)1467.
+[24] B.Rosenow,V.Plerou,P.Gopikrishnan,L.A.N.Amaral,H.E.Stanley,Ap-
+plicationofrandommatrixtheorytostudycross-correlationsofstockprices,
+InternationalJournalofTheoreticalandAppliedFinance3(03)(2000)399–
+403.
+[25] K.Mukhia,I.Ansari,S.Luwang,M.Nurujjaman,Core-peripherydynamics
+inmarket-conditionedfinancial networks: Aconditionalp-threshold mutual
+informationapproach,arXivpreprintarXiv:2601.00395(2026).
+37
+
+--- Page 38 ---
+[26] Y. Tang, J. Xiong, Z. Cheng, Y. Zhuang, K. Li, J. Xie, Y. Zhang, Looking
+into the market behaviors through the lens of correlations and eigenvalues:
+An investigation on the chinese and us markets using rmt, Entropy 25 (10)
+(2023)1460.
+[27] M. Potters, J.-P. Bouchaud, L. Laloux, Financial applications of random
+matrix theory: Old laces and new pieces, arXiv preprint physics/0507111
+(2005).
+[28] M.L.Mehta,Randommatrices,Vol.142,Elsevier,2004.
+[29] V. Plerou, P. Gopikrishnan, B. Rosenow, L. A. N. Amaral, H. E. Stanley,
+Universal and nonuniversal properties of cross correlations in financial time
+series,Physicalreviewletters83(7)(1999)1471.
+[30] Z. Zheng, B. Podobnik, L. Feng, B. Li, Changes in cross-correlations as an
+indicatorforsystemicrisk,Scientificreports2(1)(2012)888.
+[31] D.Y.Kenett,Y.Shapira,A.Madi,S.Bransburg-Zabary,G.Gur-Gershgoren,
+E. Ben-Jacob, Dynamics of stock market correlations., AUCO Czech Eco-
+nomicReview4(3)(2010).
+[32] L. Sandoval Jr, Structure of a global network of financial companies based
+ontransferentropy,Entropy16(8)(2014)4443–4482.
+[33] A. Domínguez-Monterroza, A. Jiménez-Martín, A. Mateos-Caballero, Cor-
+relationstructureofthespanishstockmarketaroundcovid-19usingrandom
+matrixtheory,ComputationalEconomics66(6)(2025)4543–4558.
+[34] D.Y.Kenett,T.Preis,G.Gur-Gershgoren,E.Ben-Jacob,Quantifyingmeta-
+correlationsinfinancialmarkets,EurophysicsLetters99(3)(2012)38001.
+[35] L. Molero González, R. Cerqueti, R. Mattera, J. E. Trinidad Segovia, The
+random matrix-based informative content of correlation matrices in stock
+markets, Chaos: An Interdisciplinary Journal of Nonlinear Science 35 (9)
+(2025).
+[36] S. Nayak, B. B. Misra, H. S. Behera, Impact of data normalization on stock
+index forecasting, International Journal of Computer Information Systems
+andIndustrialManagementApplications6(2014)13–13.
+[37] S. Bhanja, A. Das, Impact of data normalization on deep neural network for
+timeseriesforecasting,arXivpreprintarXiv:1812.05519(2018).
+38
+
+--- Page 39 ---
+[38] C. Bandt, B. Pompe, Permutation entropy: A natural complexity mea-
+sure for time series, Phys. Rev. Lett. 88 (2002) 174102. doi:10.1103/
+PhysRevLett.88.174102.
+URLhttps://link.aps.org/doi/10.1103/PhysRevLett.88.174102
+[39] H. Markowitz, Modern portfolio theory, Journal of Finance 7 (11) (1952)
+77–91.
+[40] S.Maillard,T.Roncalli,J.Teïletche,Thepropertiesofequallyweightedrisk
+contributionportfolios,Journalofportfoliomanagement36(4)(2010)60.
+[41] J.B.Detemple,R.Garcia,M.Rindisbacher,Amontecarlomethodforopti-
+malportfolios,ThejournalofFinance58(1)(2003)401–446.
+[42] R. O. Michaud, R. Michaud, Estimation error and portfolio optimization: a
+resamplingsolution,AvailableatSSRN2658657(2007).
+[43] Yahoofinance,https://finance.yahoo.com/,accessed: 2026.
+39

@@ -1,0 +1,807 @@
+--- Page 1 ---
+Systemic Risk and Default Cascades in Global Equity Markets: A
+Network and Tail-Risk Approach Based on the Gai Kapadia
+Framework
+AnaI.CastilloPereda
+InstituteofMathematicsandStatistics,UniversityofSãoPaulo,SãoPaulo,SP,Brazil
+Correspondence: anacp20@gmail.com;anaicp@ime.usp.br
+Tel.: +55-11-983967981
+April2026
+Abstract
+This study extends the Gai–Kapadia framework, originally developed for interbank contagion, to
+assess systemic risk and default cascades in global equity markets. We analyze a 30-asset network
+comprisingBraziliananddeveloped-marketequitiesovertheperiod2015–2026,constructingexposure-
+basedfinancialnetworksfrompriceco-movements. Thresholdfiltering(θ = 0.3andθ = 0.5)isapplied
+toisolatesignificantinterconnections.
+Cascadedynamicsareanalyzedthroughacombinationofdeterministicpropagationandstochastic
+MonteCarlosimulations(n = 1000)undervaryingshockintensities. Theresultsshowthatthesystem
+exhibits strong global resilience, with a negligible probability of large-scale failure, while maintaining
+localizedvulnerabilitywithinhighlyclusteredsubnetworks. Inparticular,shocksleadtoanaverageof
+1.0failedassetforsingleshocksand2.0forsimultaneousshocks,indicatinglimitedpropagationbelow
+acriticalthreshold.
+Networkanalysisrevealsaclearstructuralasymmetry:Brazilianassetsdisplayhighclustering(C ≈
+i
+0.8-1.0) and dense connectivity, which amplifies local shock propagation, whereas developed-market
+assets exhibit lower connectivity (C ≈ 0.2-0.5), limiting systemic spread. Tail risk analysis, based on
+i
+empiricalCCDFandHillestimators,confirmsthepresenceofheavy-tailedlossdistributions,particularly
+inemergingmarkets,reinforcingtheirexposuretoextremeevents.
+Thesefindingsdemonstratethatsystemicriskarisesfromtheinteractionbetweennetworktopology
+and tail behavior, rather than from isolated asset characteristics. The proposed framework provides a
+scalable and empirically grounded approach for stress testing and systemic risk assessment, offering
+relevantinsightsforregulatorsandportfoliomanagersinincreasinglyinterconnectedfinancialmarkets.
+Keywords: Systemicrisk; Defaultcascades; Financialnetworks; Equitymarkets; Networkcontagion;
+Tailrisk;Heavy-taileddistributions;MonteCarlosimulations;Value-at-Risk(VaR);ConditionalValue-
+at-Risk(CVaR)
+1 Introduction
+Systemicriskanddefaultcascadesposesignificantthreatstofinancialstability,asinterconnectedassetscan
+amplifyshocksacrossglobalequitymarkets. ThisstudyextendstheGaiKapadiaframeworkGaiandKapa-
+dia (2010), originally developed for interbank contagion, to quantify systemic risk in equity markets using
+price co-movements, exposure networks, and stochastic simulations. We analyze a network of 30 assets
+(15 Brazilian and 15 developed-market equities) over the period 2015 - 2026, constructing exposure-based
+1
+6202
+rpA
+01
+]TS.nif-q[
+1v69791.4062:viXra
+
+--- Page 2 ---
+networksunderthresholdsθ ∈ {0.3,0.5}andevaluatingcascadedynamicsthroughMonteCarlosimulations
+(n = 1000)withshocksrangingfrom10%to50%.
+Traditional risk measures such as Value-at-Risk (VaR) and Conditional Value-at-Risk (CVaR) provide
+important insights into downside risk but often fail to capture network-driven contagion effects Mantegna
+and Stanley (1999); Eisenberg and Noe (2001). This limitation motivates the use of graph-theoretic ap-
+proaches, which explicitly account for interdependencies among assets Newman (2010); Strogatz (2001);
+Poledna et al. (2021); Ellis et al. (2022). In this context, financial networks offer a natural framework for
+modelinghowshockspropagatethroughinterconnectedsystems.
+WhiletheGaiKapadiaframeworkprovidesarobustfoundationformodelingsystemicriskthroughex-
+posurenetworks,itsapplicationtoequitymarketsremainsrelativelyunderexploredGlassermanandYoung
+(2016). Our study contributes to this literature by integrating correlation-based networks, exposure dy-
+namics, and stochastic simulations, providing a unified approach to modeling contagion in equity markets.
+Building on prior work by Acemoglu et al. Acemoglu et al. (2015) and Battiston et al. Battiston et al.
+(2012), we analyze how network structure influences systemic stability, extending systemic risk measures
+proposedbyBillioetal. Billioetal.(2012)andHaldaneandMayHaldaneandMay(2011).
+A key contribution of this study is the integration of tail risk into the network framework. Empirical
+evidenceshowsthatfinancialreturnsexhibitheavy-tailedbehavior,implyingahigherlikelihoodofextreme
+eventsthanpredictedbyGaussianmodelsCont(2001);Mandelbrot(1963). Bycombiningnetworktopology
+withtailriskmeasures, thisstudyprovidesamorecomprehensiveunderstandingofsystemicvulnerability,
+wherehighlyconnectedassetswithheavy-tailedlossdistributionsactaspotentialamplifiersofcontagion.
+Recentgeopoliticalandmacroeconomicdisruptionsfurtherunderscoretheimportanceofsystemicrisk
+modeling in globally interconnected markets. Shocks originating in specific sectors such as energy supply
+disruptions or trade fragmentation can propagate across financial systems, reinforcing the need for models
+thatcapturecross-marketcontagionmechanisms. Thesereal-worlddynamicsalignwiththenetwork-based
+perspectiveadoptedinthisstudy,wherelocalizedshockscangeneratebroadersystemiceffects.
+Thecontributionsofthisstudyareasfollows:
+• Extension of the Gai Kapadia framework to global equity markets using price-based exposure net-
+works.
+• Integrationofnetworktopologyandtailrisk(heavy-taileddistributions)insystemicriskanalysis.
+• Quantificationofcascadedynamicsthroughdeterministicandstochasticsimulations.
+• Identificationofstructuralasymmetriesbetweenemerginganddevelopedmarkets.
+• Empiricalevidenceoflocalizedcontagiondrivenbyclusteredconnectivity.
+This study builds upon our previous work Castillo Pereda (2025), where systemic risk and default cas-
+cades were initially analyzed using network-based approaches. The present paper extends that framework
+by incorporating stochastic simulations, threshold sensitivity analysis, and tail risk estimation, providing a
+morecomprehensiveandscalablemethodology.
+By integrating network science, stochastic modeling, and tail risk analysis, this framework advances
+systemic risk assessment in equity markets. The results offer practical insights for regulators and portfolio
+managers, supporting stress testing, risk monitoring, and diversificationstrategies in increasingly intercon-
+nectedfinancialsystems.
+2
+
+--- Page 3 ---
+2 Materials and Methods
+2.1 DataandRiskMeasures
+The dataset consists of daily low prices for 30 equity assets spanning the period from January 1, 2015, to
+April2026,sourcedfromYahooFinance,awidelyusedandreliablepublicdatabaseforfinancialtimeseries
+YahooFinance(2023). ThesampleincludesabalancedselectionofBrazilianandinternationalassetsfrom
+developedmarkets,chosenbasedondataavailability,marketcapitalization,andsectoraldiversity.
+This configuration ensures analytical tractability while preserving sufficient structural complexity for
+network analysis, as larger networks often result in excessively dense graphs that obscure topological in-
+sightsNewman(2010). The30-assetstructureenablesclearidentificationofnodesandedges(e.g.,Figures3
+and4),allowingforameaningfulcomparisonbetweenemerginganddevelopedmarketdynamics.
+Data preprocessing was conducted using Python, with yfinance for data acquisition, pandas and
+numpyfordatamanipulation, andmatplotlibandseabornforvisualization. Missingobservationswere
+handledbyexcludingdayswithincompleterecordsandapplyinglinearinterpolationtoaddressminorgaps,
+followedbyforwardandbackwardfillingtoensurecontinuityofthetimeseries.
+To mitigate the impact of extreme outliers while preserving tail behavior, observations were filtered
+using the interquartile range (IQR) method, with bounds defined as Q −1.5×IQR and Q +1.5×IQR,
+1 3
+where Q and Q denotethefirstandthirdquartiles,respectivelyTukey(1977).
+1 3
+The focus on daily low prices is intended to emphasize downside risk, aligning with the objective of
+capturing systemic vulnerability under adverse market conditions Cont (2001); Das and Fasen-Hartmann
+(2023a,b). Logarithmic returns were computed to standardize relative price variations across assets, as
+givenby:
+(cid:32) (cid:33)
+P
+r = ln i,t , (1)
+i,t
+P
+i,t−1
+where P denotesthelowpriceofassetsiattimet.
+i,t
+IndividualriskexposurewasquantifiedusingValue-at-Risk(VaR)andConditionalValue-at-Risk(CVaR)
+atthe95%confidencelevel. VaR,representingthelowerquantileofthereturndistribution,isdefinedas:
+VaR = F−1(1−α), (2)
+i,α i
+where F denotestheempiricalcumulativedistributionfunctionofreturnsr ,withα = 0.95.
+i i,t
+CVaR,capturingtheexpectedlossconditionalonexceedingtheVaRthreshold,iscomputedas:
+CVaR = E[r | r ≤ VaR ], (3)
+i,α i,t i,t i,α
+consistentwithcoherentriskmeasureframeworksArtzneretal.(1999).
+Thesetailriskmeasuresplayacentralroleinsystemicriskanalysis,asextremelossesinthelowertailof
+return distributions can act as triggers for cascading failures. By integrating VaR and CVaR with network-
+based contagion modeling, this study captures both individual asset vulnerability and the propagation of
+extremeeventsthroughinterconnectedfinancialstructures.
+2.2 NetworkConstruction
+Anexposure-basedfinancialnetworkisconstructedusinganadaptedGaiKapadiaframework. Thecorrela-
+tionmatrixρoflogreturnsisfirstcomputed,whereassetvolatilityσ isdefinedasthestandarddeviationof
+i
+r .
+i,t
+Pairwiseexposuresbetweenassetsiand jaredefinedas:
+E = ρ ·σ ·P, (4)
+ij ij i i
+3
+
+--- Page 4 ---
+where P represents a reference price level of asset i, used to scale exposures. This formulation induces a
+i
+directedweightednetwork,whereexposuresareasymmetricanddependontheoriginatingasset’svolatility
+andscale.
+Toextractthemostrelevantconnections,exposuresarefilteredusingthresholdsθ ∈ {0.3,0.5}:
+
+E˜ =
+ E
+ij
+if E
+ij
+≥ θ,
+(5)
+ij 0
+otherwise.
+The filtered matrix E˜ defines the adjacency structure of the network G, where nodes correspond to
+ij
+assetsandedgesrepresentsignificantexposurerelationships. Thisproxycapturesrelativeexposureintensity
+basedonco-movementandvolatility,ratherthanbalance-sheetlinkages.
+Localclusteringcoefficientsarecomputedtoquantifynetworkconnectivity:
+2T
+C = i , (6)
+i k(k −1)
+i i
+whereT denotesthenumberoftrianglesinvolvingnodei,andk isitsdegree.
+i i
+The network is visualized using a force-directed (spring) layout, with nodes colored according to their
+clusteringcoefficientsC,enablingstructuralcomparisonacrossdifferentthresholdlevelsandshockscenar-
+i
+ios.
+The thresholds θ ∈ {0.3,0.5} are selected to balance network density and sparsity, ensuring meaning-
+ful connectivity while avoiding overly dense graphs that obscure cascade dynamics, a standard approach
+in financial network analysis Glasserman and Young (2016). These statistical properties not only charac-
+terize individual asset risk but also directly shape the structure of the financial network, as volatility and
+correlationsdeterminetheintensityofinter-assetexposuresinthesubsequentnetworkconstruction.
+2.3 DefaultCascadeModel
+DefaultcascadesaremodeledusinganadaptedGaiKapadiaframework,implementedthroughbothstochas-
+ticanddeterministicapproaches.
+Stochastic Simulations. Each asset i is assigned an initial capital K = 0.2·P and a failure threshold
+i i
+K = 0.1·P. Atotalofn = 1000MonteCarlosimulationsareperformed,whereeachiterationappliesa
+min,i i
+randomshock s ∼ Uniform(0.1,0.5),reducingthecapitalofaffectedassets.
+Lossespropagatethroughthenetworkaccordingto:
+(cid:16) (cid:17)
+L = max 0,E˜ −(K −D) , (7)
+ij ij i i
+where D = (cid:80) E˜ representsthetotalincomingexposuretoasseti.
+i j ji
+Anasset jdefaultsifitscapitalfallsbelowthethreshold,i.e., K < K ,triggeringfurthercontagion.
+j min,j
+The process iterates until no additional defaults occur. Systemic failure is defined as the collapse of more
+thanfiveassets. Thesimulationsproducemeasuresincludingtheprobabilityofsystemicfailure,theaverage
+numberoffailedassets,andpatternsofnetworkfragility.
+Deterministic Propagation. To analyze cascade dynamics, a deterministic version of the model is
+applied. An initial shock is introduced by setting a representative asset (e.g., VIVT3.SA) to default, and
+propagationissimulatediteratively.
+Foreachasseti,theinfluencefromdefaultedneighborsisgivenby:
+(cid:88)
+I = ρ ·S , (8)
+i ij j
+j
+4
+
+--- Page 5 ---
+whereS = 1ifasset jisindefaultand0otherwise,andρ isfilteredbythethresholdθ.
+j ij
+Assetientersdefaultif:
+I > T , (9)
+i i
+where T is a fixed threshold (set to 0.5 in this study). The threshold T = 0.5 is chosen as a benchmark to
+i i
+representacriticallevelofcumulativeinfluencerequiredtotriggerdefault.
+Defaultstatesaretrackedacrossiterationstocharacterizecascadedynamics. Complementaryevidence
+on the distribution of losses, including Pareto tail index estimates, is provided in the Appendix (Table 4),
+supportingtheroleofextremeeventsinshapingsystemicvulnerability.
+3 Results and Discussion
+3.1 EvolutionofAssetPricesandDescriptiveStatistics
+Evolution of Normalized Asset Prices. Figure 1 depicts the evolution of normalized asset prices for se-
+lectedBrazilianandinternationalassetsfrom2015to2026. Pricesarenormalizedas:
+P
+P = i,t , (10)
+norm,i,t
+P
+i,0
+where P is the price of asset i at time t, and P is its initial price. Plotted on a logarithmic scale, the
+i,t i,0
+figure highlights stark contrasts in volatility and trends: Brazilian assets such as PETR4.SA and BBAS3.SA
+exhibit pronounced drawdowns during the 2020 market stress episode, reflecting their higher sensitivity to
+external shocks such as COVID-19. This behavior is consistent with their strong intra-market correlations
+andelevatedclusteringcoefficients(C ≈ 0.7–1.0),asdiscussedinSection3.2.
+i
+In contrast, developed-market assets such as AAPL and AMZN display smoother trajectories and more
+stablerecoverypatterns,withlowervolatilityandreducedsensitivitytosystemicdisturbances(seeTable1).
+Thisdifferencehighlightsthegreaterresilienceofdevelopedmarkets,whichisassociatedwithlowereffec-
+tiveconnectivity(C ≈ 0.2–0.4).
+i
+Overall,thesedynamicsillustratetheheterogeneousimpactofsystemicshocksacrossmarkets,provid-
+ingvisualsupportforthecontagionmechanismsanalyzedinSections3.3and3.4,whereemerging-market
+assetsexhibithighersusceptibilitytocascadeeffects. Thesefindingsreinforcetheinterpretationoffinancial
+marketsasclusterednetworks,wheredenselyconnectedregionsamplifylocalshocks,leadingtoasymmet-
+ricpropagationpatterns.
+5
+
+--- Page 6 ---
+Figure 1: Evolution of normalized asset prices for selected Brazilian and developed-market assets over the
+period 2015–2026, displayed on a logarithmic scale. The shaded region highlights the 2020 market stress
+episode, while the inset zoom provides a detailed view of the crisis dynamics. Brazilian assets exhibit
+stronger drawdowns and higher dispersion during the shock, whereas developed-market assets show com-
+parativelysmootherrecoverytrajectories.
+Descriptive Statistics. Table 1 reports the descriptive statistics of log returns for the full set of assets.
+A clear distinction emerges between emerging and developed markets in terms of volatility and extreme
+returns. Brazilian assets such as PETR4.SA (Std. Dev. = 0.0140) and MGLU3.SA (Std. Dev. = 0.0190)
+exhibithighervolatilitycomparedtodeveloped-marketassetssuchasAAPL(Std. Dev. =0.0087)andMSFT
+(Std. Dev. =0.0079),indicatinggreatersensitivitytomarketshocks.
+Moreover, certain emerging-market assets display pronounced downside risk. For instance, AMER3.SA
+exhibits extreme negative returns (Min = -1.0553), suggesting exposure to idiosyncratic shocks and struc-
+tural fragility. In contrast, developed-market assets tend to exhibit more concentrated return distributions
+andlesssevereextremes,reflectinghighermarketstabilityandliquidityMantegnaandStanley(1999);Lux
+(2016).
+Thesedifferencesinvolatilityandextremebehaviorareconsistentwithwell-documentedstylizedfacts
+in financial markets, where emerging economies typically exhibit heavier tails and higher kurtosis Cont
+(2001); Mandelbrot (1963). This asymmetry is particularly relevant for systemic risk analysis, as assets
+withhighervolatilityandmoreextremelossescontributedisproportionatelytotailrisk,asfurtherevidenced
+bytheVaRandCVaRmeasuresreportedinTable2.
+Importantly, these statistical properties directly inform the construction of the exposure-based network
+in Section 3.2. In particular, asset volatility (σ) enters the exposure metric E = ρ ·σ · P, amplifying
+i ij ij i i
+connections associated with more volatile assets and increasing their potential to propagate shocks across
+thenetwork.
+Overall, the descriptive statistics highlight the heterogeneous risk structure across assets and markets,
+providing a quantitative foundation for the network-based systemic analysis developed in the subsequent
+sections. These patterns also support the interpretation that emerging-market assets play a central role in
+amplifyingcontagiondynamicsunderstressconditions.
+This evidence reinforces the interpretation of financial markets as clustered systems, where volatility
+andextremelossesjointlydeterminethepathwaysofsystemicrisktransmission.
+6
+
+--- Page 7 ---
+Table1: DescriptiveStatisticsofLogReturns(2015-2026).
+Asset Mean Std. Dev. Min Max
+VIVT3.SA 0.0003 0.0072 -0.0569 0.0361
+PETR4.SA 0.0005 0.0140 -0.2084 0.1292
+ABEV3.SA 0.0001 0.0075 -0.0642 0.0654
+AMER3.SA -0.0010 0.0308 -1.0553 0.4155
+BBAS3.SA 0.0003 0.0116 -0.1507 0.0925
+BBDC4.SA 0.0002 0.0099 -0.1021 0.0615
+BOVA11.SA 0.0002 0.0069 -0.0804 0.0492
+RAIL3.SA 0.0000 0.0149 -0.2371 0.2202
+CSNA3.SA 0.0001 0.0165 -0.1710 0.0980
+ITUB4.SA 0.0003 0.0086 -0.1110 0.0528
+MGLU3.SA 0.0003 0.0190 -0.1420 0.1438
+VALE3.SA 0.0004 0.0119 -0.0984 0.1071
+WEGE3.SA 0.0004 0.0093 -0.0787 0.0887
+SUZB3.SA 0.0002 0.0092 -0.0864 0.1168
+LREN3.SA 0.0001 0.0121 -0.1666 0.0667
+AAPL 0.0004 0.0087 -0.0716 0.0606
+JPM 0.0003 0.0085 -0.1265 0.0921
+AMZN 0.0005 0.0101 -0.0740 0.0669
+MSFT 0.0004 0.0079 -0.0824 0.1001
+GOOGL 0.0004 0.0085 -0.0497 0.0738
+TSLA 0.0006 0.0173 -0.1114 0.1125
+V 0.0003 0.0075 -0.0874 0.0535
+SAP 0.0002 0.0084 -0.1396 0.0519
+NSRGY 0.0001 0.0058 -0.0434 0.0470
+SAN 0.0001 0.0108 -0.1220 0.0706
+HSBC 0.0002 0.0078 -0.0733 0.0571
+BABA 0.0000 0.0129 -0.1786 0.0902
+TM 0.0001 0.0072 -0.0519 0.0612
+SONY 0.0003 0.0093 -0.0672 0.0649
+HMC 0.0000 0.0080 -0.0753 0.0603
+Note: Thistablepresentsthemean,standarddeviation,minimum,andmaximumofdailylogreturnsfor
+30assetsacrossBrazilanddevelopedmarketsbetween2015and2026.
+3.2 NetworkStructureandClusteringAnalysis
+CorrelationMatrix. Figure2presentsthePearsoncorrelationmatrixoflogreturns,definedas:
+Cov(R,R )
+ρ = i j , (11)
+ij
+σ σ
+Ri Rj
+where Cov(R,R ) denotes the covariance between asset returns, and σ , σ are their respective standard
+i j Ri Rj
+deviations.
+Thematrixrevealsaclearblockstructure,withstrongintra-marketcorrelationsamongBrazilianassets
+oftenexceeding0.6andmoremoderatecorrelationsamongdeveloped-marketassets. Forinstance,financial
+institutions such as BBAS3.SA, ITUB4.SA, and BBDC4.SA exhibit consistently high pairwise correlations,
+7
+
+--- Page 8 ---
+indicating synchronized movements within the Brazilian market. In contrast, cross-market correlations
+between Brazilian and developed-market assets (e.g., AAPL, MSFT) remain relatively low, typically around
+0.1–0.3,suggestingpartialdecouplingandpotentialdiversificationeffects.
+Thiscorrelationstructuredirectlyinformstheconstructionoftheexposure-basednetworkinSection3.2,
+whereρ enterstheexposuremetricE = ρ ·σ ·P. Asaresult,denselyconnectedclusters—particularly
+ij ij ij i i
+withintheBrazilianmarket—generatestrongereffectivelinks, increasingthelikelihoodoflocalizedshock
+amplification.
+These patterns are consistent with the cascade dynamics observed in Section 3.3, where shocks propa-
+gatemorerapidlywithinhighlycorrelatedclusters,whiletransmissiontolessconnecteddeveloped-market
+assets remains more limited. Consequently, the correlation matrix provides key evidence of a clustered
+network topology, in which tightly connected regions drive contagion, while weaker cross-market links
+contributetopartialsystemicresilience.
+This empirical structure aligns with network-based theories of systemic risk, where clustering and het-
+erogeneityinconnectivityplayacentralroleinshapingcontagionpathways.
+Figure 2: Correlation matrix of log returns for 30 assets (15 Brazilian and 15 developed-market assets)
+overtheperiod2015–2026. Theheatmaprevealsstrongintra-marketcorrelationsamongBrazilianequities
+and more moderate correlations among developed-market assets, while cross-market dependencies remain
+comparatively weaker. This clustered structure highlights the presence of localized connectivity patterns,
+withimplicationsfordiversificationandthepropagationofsystemicrisk.
+8
+
+--- Page 9 ---
+3.3 DeterministicShockAnalysis
+Figure 3 compares the network before and after a deterministic 30% negative shock applied to VIVT3.SA.
+TheresultsshowthattheclusteringcoefficientsofBrazilianassetsexhibitnoticeableadjustments,reflecting
+areconfigurationoflocalconnectivitywithinthecluster.
+Highly connected nodes such as PETR4.SA, BBAS3.SA, and ITUB4.SA - remain central to the network
+structure, but changes in edge intensities and clustering patterns indicate a redistribution of dependencies
+following the shock. In contrast, developed-market assets display minimal variation in their clustering
+coefficients,remaininglargelyunaffectedbythelocalizeddisturbance.
+These findings suggest that deterministic shocks primarily impact densely connected regions of the
+network, where higher clustering facilitates local propagation. Conversely, weaker connectivity in the
+developed-marketsubnetworklimitsthetransmissionofshocks,contributingtogreaterstructuralstability.
+Figure 3: Correlation network before and after a 30% negative shock applied to VIVT3.SA (2015−2026,
+θ = 0.3). Thepanelsdisplaycorrelation-basednetworksofBrazilian(circles)anddeveloped-marketassets
+(squares). Nodesarecoloredaccordingtotheirclusteringcoefficients,withwarmercolorsindicatinghigher
+local connectivity. The shock induces noticeable adjustments in the topology of the Brazilian subnetwork,
+whilethedeveloped-marketsubnetworkremainscomparativelystable,reflectingdifferencesinconnectivity
+andsystemicresilience.
+Thisresultreinforcestheinterpretationthatclusteringplaysacentralroleinshapingshockpropagation,
+actingasalocalamplificationmechanismwithinfinancialnetworks.
+ThresholdSensitivityand CascadeEffects. Figures5and 4–6extendthenetworkanalysisby exam-
+iningtheimpactofdifferentcorrelationthresholdsandexposure-basedinteractionsonshockpropagation.
+At a higher threshold (θ = 0.5), the correlation network becomes significantly sparser, retaining only
+the strongest connections. In this regime, the Brazilian subnetwork remains relatively cohesive, while the
+developed-marketassetsappearmorefragmented. FollowingtheshocktoVIVT3.SA,onlyminorstructural
+adjustments are observed, indicating that strong connections are more stable and less sensitive to localized
+perturbations.
+In contrast, the exposure-based networks reveal a richer and more dynamic structure. Prior to the cas-
+cade,thenetworkalreadyexhibitsheterogeneousconnectivity,withcertainassetsactingashubsduetotheir
+combined correlation and volatility profiles. After the cascade, the network undergoes a visible reconfigu-
+ration,withincreasededgedensityandstrongerconnectionsemergingaroundkeynodes.
+Notably, the Brazilian assets continue to form a tightly connected core, while developed-market assets
+remainmoreperipherallyconnected. Thispatternpersistsacrossboththresholdlevels, reinforcingtherole
+9
+
+--- Page 10 ---
+ofclusteredstructuresinfacilitatinglocalcontagion.
+Overall, these results demonstrate that shock propagation is highly sensitive to both network construc-
+tion and threshold selection. While higher thresholds isolate the most stable connections, exposure-based
+networks capture amplification effects more effectively, highlighting the importance of incorporating both
+correlationandvolatilityinsystemicriskmodeling.
+3.4 DefaultCascadesandStochasticSimulations
+Figure 4 illustrates the network before and after a default cascade simulation, where a random shock to
+VIVT3.SA(10%to50%)triggerslosspropagationpertheGai-Kapadiamechanism. Inthisexample,mini-
+malnoderemovaloccurs,butclusteringadjustments(∆C ≈ −0.05)indicatelocalizedimpacts.
+VIVT3.SA
+Figure4: Exposure-basednetworkbeforeandafteradefaultcascade(examplesimulation,θ = 0.3).
+NetworkStructureBeforeandAfterShock. Figures3and4depictthenetworkstructurewithθ = 0.5
+before and after a 30% shock in VIVT3.SA. Brazilian assets (e.g., BBAS3.SA, BOVA11.SA) form a densely
+connectedcore(C ≈ 0.8−1.0),whiledevelopedmarketassets(e.g.,AAPL,AMZN)showlowerconnectivity
+i
+(C ≈ 0.0−0.4). Post-shock,thetopologyremainslargelyunchanged,reflectingstructuralresilience.
+i
+Figure5: NetworkStructureBeforeShock(2015-2026,θ = 0.5),withNodesColoredbyClusteringCoeffi-
+cient(C).
+i
+10
+
+--- Page 11 ---
+Figure 6: Network Structure After a 30% Shock in VIVT3.SA (2015–2026, θ = 0.5), with Nodes Colored
+byClusteringCoefficient(C).
+i
+Relevance of Network Visualizations. Figures 3, 5, and 4-6 collectively illustrate the structural dy-
+namics of correlation and exposure-based networks under varying shock scenarios and thresholds (θ = 0.3
+andθ = 0.5).
+These visualizations provide key insights into systemic risk propagation by revealing how network
+topology governs cascade dynamics. In particular, Brazilian assets consistently exhibit high clustering co-
+efficients (C ≈ 0.8-1.0) and significantly higher average degrees compared to developed-market assets,
+i
+formingadenseandhighlyinterconnectedsubnetwork. Thisstructurefacilitatesrapidlocalshocktransmis-
+sion,asevidencedbythepronouncedstructuraladjustmentsobservedaftershockstoVIVT3.SA,including
+reductionsinclusteringandreconfigurationoflocalconnectivity.
+In contrast, developed-market assets display lower clustering (C ≈ 0.0-0.4) and sparser connectivity,
+i
+resulting in more stable average degrees and limited structural changes following shocks. This relative
+sparsityactsasabufferagainstcontagion,restrictingthepropagationofdisturbancesacrossregions.
+The exposure-based networks further emphasize these dynamics by incorporating both correlation and
+volatility into the link structure. Following cascade simulations, localized reductions in connectivity and
+edge intensities are observed around highly connected nodes, reflecting the sensitivity of the network to
+exposurethresholdsintheGaiKapadiaframework.
+Overall, the combined analysis of clustering coefficients, average degree, and edge dynamics provides
+arobustquantitativeframeworkforassessingsystemicvulnerabilities. Theseresultsalignwithestablished
+findingsinfinancialnetworkliteratureGaiandKapadia(2010);GlassermanandYoung(2016),highlighting
+the critical role of clustered connectivity in amplifying contagion and shaping the resilience of financial
+systems. Suchinsightsareparticularlyrelevantforidentifyingsystemicallyimportantnodesandinforming
+riskmanagementanddiversificationstrategiesininterconnectedmarkets.
+ClusteringCoefficients. Table2reportsclusteringcoefficientsforθ = 0.3andθ = 0.5alongsidetailrisk
+measures. The results confirm that Brazilian assets exhibit consistently higher clustering (e.g., PETR4.SA,
+C = 0.855 at θ = 0.3 and 0.700 at θ = 0.5; BBAS3.SA,C = 0.929 at θ = 0.3), whereas developed-market
+i i
+assets display more moderate values (e.g., JPM, C = 0.473; MSFT, C = 0.505 at θ = 0.3), despite some
+i i
+highlyconnectednodes(e.g.,NSRGY,C = 1.000).
+i
+This disparity highlights a more densely interconnected Brazilian subnetwork, in which highC values
+i
+reflecttightlyclusteredlocalstructuresthatfacilitaterapidintra-clustertransmissionofshocks. Consistently,
+under deterministic shocks (Section 3.3), perturbations to VIVT3.SA lead to observable reconfigurations
+withinthiscluster,withchangesinclusteringandedgeintensitiesindicatinglocalizedamplification.
+Moreover,whencombinedwithtailriskmeasures,highlyclusteredassetstendtoexhibitlargerdownside
+11
+
+--- Page 12 ---
+risk (e.g., AMER3.SA, C = 0.964 at θ = 0.3, CVaR = −0.0633), reinforcing the link between network
+i
+connectivity and vulnerability to extreme events. Overall, these findings support the interpretation that
+clustering plays a central role in shaping contagion dynamics, acting as a local amplification mechanism
+withinfinancialnetworks.
+Table2: ClusteringCoefficientsandRiskMeasuresofAssets(2015-2026).
+Asset θ = 0.3 θ = 0.5 VaR(95%) CVaR(95%)
+VIVT3.SA 0.000 0.000 -0.0110 -0.0169
+PETR4.SA 0.855 0.700 -0.0191 -0.0336
+ABEV3.SA 1.000 0.000 -0.0108 -0.0179
+AMER3.SA 0.964 0.333 -0.0302 -0.0633
+BBAS3.SA 0.929 0.000 -0.0164 -0.0267
+BBDC4.SA 0.893 0.000 -0.0143 -0.0232
+BOVA11.SA 0.407 0.026 -0.0098 -0.0156
+RAIL3.SA 0.952 0.000 -0.0189 -0.0361
+CSNA3.SA 0.802 0.694 -0.0249 -0.0367
+ITUB4.SA 0.857 0.000 -0.0120 -0.0193
+MGLU3.SA 0.944 0.667 -0.0282 -0.0446
+VALE3.SA 0.733 0.733 -0.0178 -0.0269
+WEGE3.SA 1.000 0.000 -0.0132 -0.0213
+SUZB3.SA 0.000 0.000 -0.0133 -0.0211
+LREN3.SA 0.952 0.333 -0.0173 -0.0276
+AAPL 0.626 0.769 -0.0135 -0.0210
+JPM 0.473 0.468 -0.0124 -0.0204
+AMZN 0.857 0.945 -0.0150 -0.0243
+MSFT 0.505 0.437 -0.0121 -0.0191
+GOOGL 0.547 0.705 -0.0132 -0.0205
+TSLA 0.547 0.625 -0.0263 -0.0422
+V 0.473 0.480 -0.0115 -0.0193
+SAP 0.838 0.945 -0.0122 -0.0202
+NSRGY 1.000 1.000 -0.0084 -0.0135
+SAN 0.924 1.000 -0.0162 -0.0258
+HSBC 1.000 1.000 -0.0121 -0.0195
+BABA 0.857 1.000 -0.0193 -0.0301
+TM 0.719 0.769 -0.0112 -0.0168
+SONY 0.927 1.000 -0.0136 -0.0218
+HMC 1.000 1.000 -0.0127 -0.0185
+Note: Clusteringcoefficientsforθ = 0.3reflectthedensernetworkstructureatthisthreshold,leadingto
+more uniform values for developed market assets due to lower connectivity. VaR and CVaR (95%) are
+calculatedbasedondailyreturnsfrom2015to2026.
+Incontrast,thelowerclusteringofdevelopedmarketassetsreflectsamorefragmentednetworkstructure,
+contributing to their resilience against contagion, as evidenced by the absence of failures beyond Brazilian
+assetsinstochasticsimulations(Section3.4).
+12
+
+--- Page 13 ---
+3.5 RiskMeasures
+Table 2 reports VaR and CVaR at the 95% confidence level alongside clustering coefficients. The re-
+sults highlight higher tail risks among several emerging-market assets (e.g., AMER3.SA, CVaR = −0.0633;
+MGLU3.SA, CVaR = −0.0446) compared to developed-market assets (e.g., AAPL, CVaR = −0.0210; MSFT,
+CVaR= −0.0191),underscoringheterogeneousexposuretoextremelosses.
+Theseriskmeasuresprovidecriticalinsightsintodownsidevulnerabilityand, whencombinedwiththe
+elevatedclusteringobservedinBrazilianassets(C ≈ 0.8–1.0),pointtoanamplificationmechanismwithin
+i
+densely connected subnetworks. In such structures, extreme losses are more likely to propagate locally,
+increasingsystemicimpact.
+Consistent with the deterministic cascade analysis (Section 3.3), shocks to VIVT3.SA lead to localized
+reconfigurations and propagation within the Brazilian cluster, while the comparatively lower tail risks and
+weakerconnectivityofdeveloped-marketassetslimitcontagioneffectsinbothdeterministicandstochastic
+settings(Sections3.3and3.4).
+Overall,thejointevidencefromtailriskmeasuresandnetworktopologysupportstheviewthatsystemic
+risk arises from the interaction between extreme loss potential and clustered connectivity, rather than from
+isolatedassetcharacteristicsalone.
+3.6 StochasticandDeterministicCascadeAnalysis
+StochasticSimulations. Table3summarizestheresultsoftheMonteCarlosimulations(n = 1000). Across
+allscenariosandthresholds(θ = 0.3andθ = 0.5),theprobabilityofsystemicfailure(definedasmorethan
+5 assets failing) remains equal to zero, indicating the absence of large-scale collapse under the simulated
+conditions.
+Regardlessoftheshockconfiguration—whethergeneral,single-asset(e.g.,ITUB4.SA),orsimultaneous
+shocks (e.g., ITUB4.SA + VALE3.SA)—the average number of failed assets remains stable, equal to 1.000
+for isolated shocks and 2.000 for simultaneous shocks. This consistency suggests that the system exhibits
+localizedvulnerability,whereshocksproducelimitedpropagationconfinedtoasmallsubsetofnodes.
+Thesefindingsindicatethat,whilethenetworkissusceptibletolocalizeddisturbances,itoperatesbelow
+acriticalthresholdrequiredforsystemiccascades. Thisbehaviorisconsistentacrossboththresholdlevels,
+highlightingtherobustnessofthesystemundermoderateshockintensities.
+Overall, the results support the interpretation that systemic risk in this setting manifests through con-
+tained, localized failures rather than widespread collapse, in line with the predictions of the Gai–Kapadia
+framework.
+Table3: MonteCarloSimulationResults(n = 1000)underdifferentshockscenariosandthresholds.
+Scenario/Metric θ FailureProbability(> 5assets) Avg. FailedAssets
+GeneralSimulation 0.3 0.000 1.000
+GeneralSimulation 0.5 0.000 1.000
+SingleShock(VIVT3.SA) 0.3 0.000 1.000
+SingleShock(VIVT3.SA) 0.5 0.000 1.000
+SimultaneousShock(VIVT3.SA+AAPL) 0.3 0.000 2.000
+SimultaneousShock(VIVT3.SA+AAPL) 0.5 0.000 2.000
+DefaultPropagationDynamics. Tofurtherinvestigatethetemporalevolutionofcontagion,weanalyze
+thepropagationofdefaultsacrossiterationswithintheGaiKapadiaframework. Figure7presentsaheatmap
+13
+
+--- Page 14 ---
+representationofdefaultstates,whereeachrowcorrespondstoaniterationstepandeachcolumnrepresents
+anasset.
+Figure 7: Default propagation heatmap under the Gai-Kapadia model (θ = 0.3), following a shock to
+VIVT3.SA.Thefigureillustratestheevolutionofdefaultstatesacrossiterations,highlightingtheprogressive
+spreadoffailureswithintheBraziliansubnetworkandtheabsenceofcontagionindeveloped-marketassets.
+Theheatmaprevealsarapidtransitionfromaninitiallocalizedshocktoastableconfigurationinwhich
+failures remain confined to a subset of assets. Notably, the propagation stabilizes after a small number of
+iterations,indicatingthatthesystemreachesasteadystatewithouttriggeringafullcascade.
+Formally,thedefaultdynamicsfollowtherecursivecondition:
+ 
+D(
+i
+t+1) = I
+ (cid:88)
+E
+ij
+D(
+j
+t) > τ
+i
+
+, (12)
+j
+where D(t) denotesthedefaultstateofassetiatiterationt, E representstheexposurematrix, andτ isthe
+i ij i
+defaultthreshold.
+This result confirms that contagion is driven by local network structure and exposure intensity, rather
+thanglobalinterdependence.
+Tail Risk Analysis. To quantify extreme loss behavior, we examine the empirical complementary cu-
+mulativedistributionfunction(CCDF)oflossesforselectedassets.
+14
+
+--- Page 15 ---
+Figure8: EmpiricaltailCCDFoflossesforselectedassets. Thedashedlinesrepresentpower-lawfitsabove
+the95thpercentilethreshold,highlightingdifferencesintailbehavioracrossassets. Brazilianassetsexhibit
+heaviertailscomparedtodeveloped-marketassets,indicatinghigherexposuretoextremelosses.
+TheCCDFexhibitsapproximatelylinearbehaviorinlog-logscale,suggestingapower-lawdecayofthe
+form:
+P(X ≥ x) ∼ x−α, (13)
+whereαistheParetotailindex.
+AssetssuchasAMER3.SAdisplaysignificantlyheaviertails(α ≈ 1.5),indicatingahigherprobabilityof
+extremelosses,whiledeveloped-marketassetsexhibitsteeperdecayandgreaterstability.
+These findings reinforce the link between tail risk and systemic vulnerability, particularly when com-
+binedwithhighclusteringinthenetworkstructure.
+Tail Index Estimation. To assess the robustness of the tail behavior, we estimate the Pareto tail index
+usingtheHillestimator.
+15
+
+--- Page 16 ---
+Figure9: HillplotforAMER3.SA,showingtheestimatedParetotailindexαasafunctionofthenumberof
+upperorderstatisticsk. Theshadedregionindicatesthestableestimationinterval,withα ≈ 1.84.
+TheHillestimatorisdefinedas:
+αˆ−1(k) = 1
+(cid:88)k
+(cid:0) logX (i) −logX (k+1) (cid:1) , (14)
+k
+i=1
+where X denotestheorderedsample.
+(i)
+The plot reveals a stable region for intermediate values of k, supporting the presence of a heavy-tailed
+distribution. The estimated tail index (α ≈ 1.84) confirms that extreme events aresignificantly more likely
+thanunderGaussianassumptions.
+This behavior is consistent with the CCDF results and provides further evidence that tail risk plays a
+centralroleinsystemicvulnerability.
+The evolution of defaults across iterations (Figure 7) provides further insight into the mechanisms of
+contagion within the network. Starting from an initial shock to VIVT3.SA, failures propagate rapidly to a
+subsetofBrazilianassetswithinthefirstiteration,reflectingstronginterdependencedrivenbyhighcorrela-
+tionandexposurelevels.
+By the second iteration, the system reaches a stable configuration in which defaults remain confined
+to a localized cluster, with no further propagation across the global network. This behavior indicates that,
+although contagion is present, it is limited by the network structure and does not escalate into a systemic
+cascade.
+Incontrast,developed-marketassets(e.g.,AAPL)remainunaffectedthroughoutalliterations,highlight-
+ingtheirlowerconnectivityandreducedexposuretocontagionchannels. Thisasymmetryreinforcestherole
+of network topology in shaping financial stability, where densely connected subnetworks act as amplifiers
+oflocalshocks,whilesparsestructuresprovideresilience.
+KeyFindings:
+• Brazilianassetsexhibithigherclusteringandstrongerlocalcontagioneffects.
+• Developedmarketsremainlargelyinsulatedduetoweakerconnectivity.
+16
+
+--- Page 17 ---
+• Defaultpropagationstabilizesafterafewiterations,preventingsystemiccollapse.
+• Tailriskandnetworkstructurejointlydeterminesystemicvulnerability.
+The empirical findings presented above provide a consistent picture of how network topology and tail
+behaviorjointlyshapesystemicrisk,whichwenowinterpretinabroaderfinancialandtheoreticalcontext.
+4 Discussion
+This study integrates deterministic cascade modeling and stochastic simulations within an extended Gai–
+Kapadiaframeworktoanalyzesystemicriskina30-assetglobalequitynetworkovertheperiod2015–2026.
+The results provide consistent evidence that systemic risk is primarily shaped by the interaction between
+networktopologyandtailriskcharacteristics.
+The network analysis reveals a clear structural asymmetry between emerging and developed markets.
+Brazilian assets exhibit high clustering coefficients (C ≈ 0.8–1.0) and dense connectivity, forming tightly
+i
+interconnected subnetworks. In contrast, developed-market assets display lower clustering (C ≈ 0.2–0.5)
+i
+andsparserconnections,actingasstructuralbuffersagainstcontagion.
+Deterministic cascade results show that shocks propagate rapidly within the Brazilian subnetwork but
+stabilize after a few iterations, without triggering global systemic collapse. This behavior is further con-
+firmed by stochastic simulations (n = 1000), which yield a zero probability of large-scale failure (defined
+as more than five assets defaulting), while maintaining a consistent average of failed assets (1.0 for sin-
+gle shocks and 2.0 for simultaneous shocks). These findings indicate a system operating below a critical
+percolationthreshold.
+Importantly,tailriskanalysisprovidesanadditionaldimensiontosystemicvulnerability. Theempirical
+CCDF and Hill estimator confirm the presence of heavy-tailed loss distributions, particularly in emerging-
+market assets (e.g., α ≈ 1.5–2.0), implying a higher likelihood of extreme events compared to developed
+markets. Thisheavy-tailedbehavior,whencombinedwithhighclustering,createsastructuralamplification
+mechanismforlocalizedcontagion.
+Theresultshighlightthatsystemicriskdoesnotarisesolelyfromextremelossesornetworkconnectivity
+in isolation, but from their interaction. Highly connected assets with elevated tail risk emerge as critical
+nodescapableofamplifyingshockswithinthesystem.
+Despite these insights, the analysis abstracts from liquidity effects, which are known to play a central
+role during financial crises. The absence of liquidity-driven feedback mechanisms (e.g., fire sales, funding
+constraints)mayleadtoanunderestimationofsystemicriskunderextremescenarios. Additionally,theuse
+ofstaticthresholds(θ = 0.3,0.5)simplifiesthedynamicnatureoffinancialcorrelations.
+Future research could address these limitations by incorporating adaptive thresholds, liquidity con-
+straints, and multi-shock scenarios, as well as extending the framework to larger and more heterogeneous
+networks. Nevertheless, the present framework provides a robust and scalable approach for understanding
+thestructuraldriversofsystemicriskinequitymarkets.
+5 Conclusion
+Thisstudydevelopsacomprehensiveframeworkforanalyzingsystemicriskanddefaultcascadesinglobal
+equitymarketsusinganextendedGaiKapadiamodel. Bycombiningnetworktopology, stochasticsimula-
+tions,andtailriskanalysis,theresultsprovideaunifiedviewofhowsystemicriskemergesandpropagates.
+The findings demonstrate that the financial system exhibits strong resilience at the global level, with
+negligible probability of large-scale collapse. However, localized vulnerability persists within highly clus-
+17
+
+--- Page 18 ---
+teredsubnetworks,particularlyamongemerging-marketassets. Thisdualityhighlightsthatsystemicriskis
+notuniformlydistributed,butinsteadconcentratedinstructurallydenseregionsofthenetwork.
+Moreover,theintegrationoftailriskmeasuresrevealsthatextremeeventsplayacrucialroleinshaping
+systemic outcomes. Assets with heavy-tailed loss distributions and high connectivity act as key drivers of
+contagion,reinforcingtheimportanceofjointlyconsideringstatisticalandtopologicalproperties.
+TheseresultsextendtheapplicabilityoftheGaiKapadiaframeworkbeyondinterbanknetworks,demon-
+strating its effectiveness in capturing price-driven contagion in equity markets. From a policy perspective,
+the identification of highly clustered and high-risk nodes provides a basis for targeted regulatory interven-
+tions. Forportfoliomanagement,thefindingsemphasizetheimportanceofdiversificationacrossstructurally
+distinctregions.
+Futureworkmayenhancethisframeworkbyincorporatingdynamicnetworkstructures,liquidityeffects,
+andmorecomplexshockdistributions,furtherbridgingthegapbetweentheoreticalmodelingandreal-world
+financialsystems.
+Overall, this study contributes to the growing literature on financial networks by providing a scalable
+and empirically grounded approach to systemic risk analysis, offering insights relevant for both academic
+researchandpracticalriskmanagement.
+Author Contributions
+AnaIsabelCastilloPeredacontributedtotheconceptualization,methodology,dataanalysis,andwritingof
+themanuscript,includingboththeoriginaldraftandsubsequentrevisions.
+References
+Acemoglu D, Ozdaglar A, Tahbaz-Salehi A (2015) Systemic risk and stability in financial networks.
+AmericanEconomicReview105: 564–608.
+AllenF,GaleD(2000) Financialcontagion. JournalofPoliticalEconomy108: 1–33.
+Artzner P, Delbaen F, Eber JM, Heath D (1999) Coherent measures of risk. Mathematical Finance 9:
+203–228.
+BarabásiA-L,AlbertR(1999) Emergenceofscalinginrandomnetworks. Science286: 509–512.
+BattistonS,DelliGattiD,GallegatiM,GreenwaldBC,StiglitzJE(2012) Liaisonsdangereuses: Increasing
+connectivity,risksharing,andsystemicrisk. JournalofEconomicDynamicsandControl36: 1121–1141
+BattistonS,Martinez-JaramilloS(2023)Financialnetworksandsystemicstability: Insightsfrommultilayer
+models. QuantitativeFinance23: 789–805.
+BillioM,GetmanskyM,LoAW,PelizzonL(2012) Econometricmeasuresofconnectednessandsystemic
+riskinthefinanceandinsurancesectors. JournalofFinancialEconomics104: 535–559.
+CastilloPeredaAI(2025) Systemicriskanddefaultcascadesinglobalequitymarkets: ExtendingtheGai
+Kapadiaframeworkwithstochasticsimulationsandnetworkanalysis. arXivpreprintarXiv:2504.01969.
+ContR(2001)Empiricalpropertiesofassetreturns: stylizedfactsandstatisticalissues.QuantitativeFinance
+1: 223–236.
+18
+
+--- Page 19 ---
+Das B, Fasen-Hartmann V (2023) Measuring risk contagion in financial networks with CoVaR. arXiv
+preprintarXiv:2309.15511.
+Das S, Fasen-Hartmann V (2023) Systemic risk in financial networks: A dynamic perspective. Journal of
+FinancialStability68: 101123.
+DuffieD,SingletonKJ(2003) Creditrisk: Pricing, measurement, andmanagement. PrincetonUniversity
+Press,Princeton.
+EisenbergL,NoeTH(2001) Systemicriskinfinancialsystems. ManagementScience47: 236–249.
+Ellis S, Sharma S, Brzeszczyn´ski J (2022) Systemic risk measures and regulatory challenges. Journal of
+FinancialStability61: 100960. doi: https://doi.org/10.1016/j.jfs.2021.100960.
+InternationalMonetaryFund(2025)RegionalEconomicOutlook: WesternHemisphere,April2025.Inter-
+nationalMonetaryFundPublications,Washington,DC.
+ForbesKJ,RigobonR(2002) Nocontagion,onlyinterdependence: Measuringstockmarketco-movements.
+TheJournalofFinance57: 2223–2261.
+FreixasX,ParigiBM,RochetJ-C(2000) Systemicrisk,interbankrelations,andliquidityprovisionbythe
+centralbank. JournalofMoney,CreditandBanking32: 611–638.
+GaiP,KapadiaS(2010) Contagioninfinancialnetworks. ProceedingsoftheRoyalSocietyA466: 2401–
+2423.
+Glasserman P, Young HP (2016) Contagion in financial networks. Journal of Economic Literature 54:
+779–831.
+HaldaneAG,MayRM(2011) Systemicriskinbankingecosystems. Nature469: 351–355.
+KaufmanGG(1994) Bankcontagion: Areviewofthetheoryandevidence. JournalofFinancialServices
+Research8: 123–150.
+Lee SH, Goh KI, Kahng B, Kim D (2005) Incomplete information and screening in financial markets.
+PhysicalReviewE72: 067102.
+LuxT(2016) Financialcontagionasanendogenousfeedbackprocess. JournalofEconomicDynamicsand
+Control66: 36–50.
+MandelbrotBB(1963)Thevariationofcertainspeculativeprices.JournalofBusiness36: 394–419.
+Mantegna RN (1999) Hierarchical structure in financial markets. The European Physical Journal B 11:
+193–197.
+Mantegna RN, Stanley HE (1999) Introduction to econophysics: Correlations and complexity in finance.
+CambridgeUniversityPress,Cambridge.
+NewmanMEJ(2010) Networks: Anintroduction. OxfordUniversityPress,Oxford.
+StrogatzSH(2001) Exploringcomplexnetworks. Nature410: 268–276.
+TukeyJW(1977) Exploratorydataanalysis. Addison-Wesley,Reading,MA.
+19
+
+--- Page 20 ---
+Poledna S, Thurner S (2024) Systemic risk amplification in equity markets: A network-based approach.
+PhysicaA:StatisticalMechanicsanditsApplications645: 129876.
+Poledna S, Martínez-Jaramillo S, Caccioli F, Thurner S (2021) Quantification of systemic risk from
+overlapping portfolios in the financial system. Journal of Financial Stability 52: 100808. doi:
+https://doi.org/10.1016/j.jfs.2020.100808.
+WorldBank(2025)GlobalEconomicProspects, January2025.WorldBankGroupPublications, Washing-
+ton,DC.
+YahooFinance(2023) Historicalfinancialdata. OnlineDatabase,Availableat: https://finance.yahoo.com,
+Accessed: April25,2025.
+20
+
+--- Page 21 ---
+.1 TailRiskEstimates
+Table4: ParetoTailIndexEstimatesandLossStatisticsforAllAssets.
+Asset Paretoα N TailType
+losses
+AMER3.SA 1.501 2643 Heavytail
+BBAS3.SA 1.862 2555 Heavytail
+BOVA11.SA 2.067 2576 Heavytail
+RAIL3.SA 2.195 2547 Heavytail
+BBDC4.SA 2.230 2698 Heavytail
+JPM 2.246 2527 Heavytail
+ITUB4.SA 2.258 2601 Heavytail
+SAP 2.388 2569 Heavytail
+WEGE3.SA 2.479 2556 Heavytail
+PETR4.SA 2.508 2475 Heavytail
+SAN 2.605 2573 Heavytail
+LREN3.SA 2.629 2697 Heavytail
+HMC 2.687 2736 Heavytail
+HSBC 2.768 2458 Heavytail
+CSNA3.SA 2.875 2785 Heavytail
+MSFT 2.971 2480 Heavytail
+AAPL 3.013 2438 Moderatetail
+VIVT3.SA 3.044 2610 Moderatetail
+NSRGY 3.096 2651 Moderatetail
+V 3.096 2453 Moderatetail
+ABEV3.SA 3.166 2632 Moderatetail
+TM 3.195 2640 Moderatetail
+MGLU3.SA 3.210 2876 Moderatetail
+SUZB3.SA 3.278 2072 Moderatetail
+BABA 3.326 2709 Moderatetail
+VALE3.SA 3.358 2653 Moderatetail
+AMZN 3.463 2512 Moderatetail
+SONY 3.796 2652 Moderatetail
+GOOGL 3.816 2490 Moderatetail
+TSLA 4.844 2512 Moderatetail
+Table 4 reports the estimated Pareto tail indices for all assets. Assets with α < 3 exhibit heavy-tailed
+behavior,indicatinghigherexposuretoextremelosses,particularlyamongBrazilianequities.
+21

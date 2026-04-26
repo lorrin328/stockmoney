@@ -1,0 +1,616 @@
+--- Page 1 ---
+Cross-Stock Predictability via LLM-Augmented Semantic Networks
+YikuanHuang1,2, ZheqiFan1,2, KaiqiHu3, YifanYe4
+1DivisionofEMIA,HongKongUniversityofScienceandTechnology,HongKongSAR
+2ThrustofFinTech,HongKongUniversityofScienceandTechnology,Guangzhou,China
+3RutgersBusinessSchool,RutgersUniversity–NewBrunswick,NewJersey,U.S.A.
+4FacultyofBusinessandManagement,BeijingNormal–HongKongBaptistUniversity,Zhuhai,China
+{yk.huang,zheqi.fan}@connect.ust.hk, kh962@scarletmail.rutgers.edu, yifanye@bnbu.edu.cn
+Abstract correlations. Embedding models capture topical similarity
+ratherthaneconomiccausality—twofirmsmaydiscussiden-
+Text-basedfinancialnetworksareincreasinglyused
+tical macroeconomic headwinds (e.g., “supply chain disrup-
+to study cross-stock return predictability. A com-
+tions,” “regulatory uncertainty”) without sharing any direct
+monapproachconstructslinksfromsimilaritiesin
+business interaction. Aggregating cross-stock signals over
+firms’ disclosure embeddings, but such networks
+such noisy edges dilutes the genuine predictive content and
+oftencontainspuriousedgesbecausetextualprox-
+degradesportfolioperformance. Considertwofirmsinunre-
+imity does not necessarily imply economic con-
+lated industries that both devoted large sections of their fil-
+nection. We propose a two-stage framework that
+ings to pandemic-related risks: their embeddings would be
+first builds a sparse candidate graph from 10-K
+close,yetapricedivergencebetweenthemcarriesnomean-
+embeddings and then uses a large language model
+reversioninformation.
+to classify and filter candidate edges according to
+In this paper, we propose a Retrieve-then-Reason frame-
+theireconomicrelations. Therefinedgraphisused
+work that addresses the spurious correlation problem by in-
+toaggregatepair-levelmean-reversionsignalsinto
+troducing a large language model (LLM) as an economic
+stock-leveltradingsignalswithrelation-awareand
+reasoner. The first stage performs a lightweight embedding
+distance-basedweights. InabacktestonS&P500
+similaritysearchtogenerateacandidategraphwithO(NK)
+constituents from 2011 to 2019, LLM-based edge
+edges,makingthesubsequentreasoningstepcomputationally
+filteringimprovesthelong-shortSharperatiofrom
+tractable. ThesecondstagequeriesanLLMtoclassifyeach
+0.742 to 0.820 and reduces maximum drawdown
+candidateedgeintooneofsixmutuallyexclusiverelationship
+from −10.47% to −7.85%. These results suggest
+categories(e.g.,competitor,supplychain,peer). Competitor
+that LLM-based reasoning can improve the eco-
+edges—wherepricedivergencemorelikelyreflectsstructural
+nomic fidelity of text-derived financial networks
+market-shareshifts—areremoved,whilesubstituteedgesare
+andstrengthencross-stockpredictability.
+down-weighted. The refined graph is then used to construct
+stock-levelsignalsviaanovelper-stocksoftmaxaggregation
+1 Introduction weighted by Gatev distance, so that pairs exhibiting tighter
+historicalco-movementreceivegreaterinfluence.
+Cross-stock predictability—the phenomenon that a stock’s
+WeevaluatetheframeworkonU.S.equities(S&P500uni-
+future return can be partially predicted by the contempora-
+verse, 2011–2019) and demonstrate three main findings: (i)
+neousbehaviourofeconomicallylinkedfirms—isoneofthe
+addingLLMfilteringraisesthelong-shortSharperatiofrom
+mostrobustempiricalregularitiesinassetpricingCohenand
+0.742 to 0.820 while reducing maximum drawdown by 262
+Frazzini[2008];MenzlyandOzbas[2010]. Thispredictabil-
+basis points; (ii) the semantic network substantially outper-
+ity arises because information diffuses gradually across in-
+formsbothrandomgraphsandSIC-basedindustrynetworks;
+terconnected firms: a demand shock to a downstream man-
+and (iii) Fama–French factor regressions confirm a statisti-
+ufacturer,forinstance,eventuallypropagatestoitsupstream
+cally significant daily alpha not subsumed by conventional
+suppliers,butoftenwithadelaythatcreatesexploitableprice
+riskpremia.
+dislocations.Capitalisingonthisphenomenonrequiresareli-
+ablemapofeconomiclinkages—anetworkthatcaptureswho Contributions. Ourmaincontributionsarethreefold:
+isgenuinelyconnectedtowhom.
+1. We propose a novel Retrieve-then-Reason framework
+Recentadvancesinnaturallanguageprocessinghavemade
+that leverages LLMs to filter spurious correlations
+itpossibletoconstructsuchnetworksatscalefromcorporate
+in embedding-based financial networks, producing a
+textualdisclosures. Byencoding10-Kfilingsintodenseem-
+high-fidelityeconomicgraphwithsemanticallylabelled
+beddingvectorsandlinkingeachfirmtoitstop-K mostsim-
+edges.
+ilar peers, one obtains a semantic graph that updates annu-
+allyandcoversthefullpublicequityuniverse. However,this 2. We design a relation-aware, distance-weighted signal
+approach introduces a subtle but critical problem: spurious aggregation mechanism that maps pair-level z-scores
+6202
+rpA
+12
+]MP.nif-q[
+1v67491.4062:viXra
+
+--- Page 2 ---
+to stock-level cross-sectional signals, with weights in- learning to infer dynamic momentum spillover networks
+formedbybotheconomicrelationshiptypesandhistori- directly frompricing dataacross diverse asset classes [Puet
+calpriceco-movement. al.,2023].
+These approaches demonstrate the value of unstructured
+3. Weconductanextensiveempiricalevaluationincluding
+data, but they primarily rely on similarity metrics—such as
+componentablation,parametersensitivityanalysis,and
+cosine similarity in embedding space or overlap in patent
+risk-factorregression,demonstratingstatisticallysignifi-
+classifications—to infer economic connections. Such repre-
+cantportfolioimprovementsattributabletotheLLMrea-
+sentationsreduceinter-firmrelationshipstocontinuousprox-
+soningmodule.
+imityscoresandimplicitlyassumethatgreatersimilaritycor-
+responds to stronger economic linkage. However, textual or
+2 Relatedwork
+technologicalsimilaritydoesnotuniquelyidentifythenature
+Ourworksitsattheintersectionofempiricalassetpricingand of the underlying relationship. Firms with similar disclo-
+naturallanguageprocessing,specificallybridgingcross-stock sures may be direct competitors (substitutes), vertically re-
+predictabilitywithLLM-basedreasoning. lated partners, or strategic complements. Pooling these het-
+erogeneouslinksintoasinglesimilarity-basednetworkmay
+2.1 Cross-StockPredictabilityandEconomic
+thereforeintroducestructuralnoiseandattenuatereturnpre-
+Linkages
+dictability.
+Arichliteratureinfinancedocumentsthatthereturnsofeco- We depart from distance-based inference and introduce
+nomicallylinkedfirmscanpredictthefuturereturnsofafo- an LLM-driven relational framework. Rather than measur-
+calfirm,aphenomenonoftenattributedtoinvestorinattention ing proximity in embedding space, we leverage a large lan-
+and slow information diffusion. Researchers have identified guage model to perform contextual semantic reasoning over
+various predefined linkages, including supply chains Cohen 10-Kdisclosuresandexplicitlyclassifyinter-firmreferences
+and Frazzini [2008], industry classifications Moskowitz and into structured economic categories (e.g., Competitor, Sup-
+Grinblatt[1999],geographicproximityParsonsetal.[2020], ply Chain, Complementary). This design shifts the network
+andsharedanalystcoverageAliandHirshleifer[2020]. Re- construction problem from unsupervised similarity estima-
+cent evidence further documents cross-stock predictability tion to supervised semantic categorization. By transforming
+basedonreturnsimilarity[ChenandFan,2026]. unstructured financial text into a typed relational graph, our
+Recent advancements in this field emphasize the critical frameworkdisentangleseconomicallydistinctlinktypesand
+need to dissect the nature of these linkages. Yan and Yu enablesselectivefilteringwhenconstructingtradingsignals,
+[2023] theoretically characterize cross-stock linkages into therebyimprovinginterpretabilityandreducingspuriouscor-
+symmetric components (driven by common factor momen- relationsinherentinsimilarity-basednetworks.
+tum)andasymmetriccomponents(unidirectionallead-lagre-
+lationships). Building on this, Li and Yan [2025] demon- 2.3 LLMsforFinancialReasoning
+strate that the symmetric component often leads to long- Large Language Models (LLMs) have shown remarkable
+term return reversals (reflecting overreaction), whereas the capabilities in financial text analysis, moving beyond sim-
+asymmetric component—such as liquid stocks leading illiq- ple sentiment analysis to complex reasoning tasks and in-
+uidones—genuinelyreflectsinvestorunderreaction. Further- terpretable internal representations Wu et al. [2023]; Kong
+more, Avramovetal.[2026]introducetheconceptof“Dual et al. [2024a,b]; Chen et al. [2025a]; Xie et al. [2024]. Re-
+Peer Effects,” showing that both the collective strength of a centapplicationsincludeusingLLMsfordirectstockreturn
+peer group and a firm’s relative position within it contribute prediction Chen et al. [2023]; Lopez-Lira and Tang [2023],
+topredictability.Whilethesestudieshighlighttheimportance macroeconomic forecasting Chen et al. [2025b], corporate
+ofhigh-fidelity,directionaleconomicnetworks,theyprimar- eventanalysisXieetal.[2023],extractingstructuredinvestor
+ilyrelyonstaticormanuallycuratedclassifications(e.g.,SIC beliefsGaoetal.[2024],andtrackingevolvingsemanticsig-
+codes or Compustat customer-supplier segments), which of- nalsincorporatedisclosuresChoietal.[2025]. Furthermore,
+tenlagbehinddynamicmarketrealities. thefrontierofLLMapplicationisshiftingfrompassiveanal-
+ysis to agentic AI frameworks that autonomously discover
+2.2 Data-DrivenPeerNetworksandTheir
+andvalidatesystematictradingfactorsHuangandFan[2026].
+Limitations
+However, recent studies raise critical concerns regarding di-
+Recent studies construct firm networks from high- recteconomicforecasting,warningthattheapparentpredic-
+dimensional textual and patent data rather than relying tivesuccessofLLMsmaylargelystemfromdatacontamina-
+onpredefinedeconomicclassifications. HobergandPhillips tion and memorization rather than genuine foresight Lopez-
+[2018] develop text-based industry momentum using 10-K Liraetal.[2025].
+product descriptions, and Eisdorfer et al. [2022] extract Ourworkextendsthisparadigmandcircumventsthemem-
+competitor networks from regulatory filings. Patent-based orization problem by deploying LLMs not as direct return
+approaches measure innovation similarity or technological predictors, but as semantic reasoning agents for network
+proximity to predict returns [Bekkerman et al., 2023; Lee refinement. Unlike traditional NLP approaches that rely
+et al., 2019], while Lee et al. [2024] document momentum on unweighted embedding similarities, our Retrieve-then-
+spilloversdrivenbyproductioncomplementarity. Alongside Reason framework aligns with the financial literature’s call
+textandpatentdata,recentmethodologiesalsoemploygraph fordistinguishingthenatureofcross-stockrelationshipsYan
+
+--- Page 3 ---
+andYu[2023]. BypromptingtheLLMtoexplicitlyclassify 3.4 Objective
+edgesintocategories(e.g.,Competitor,SupplyChain,Com-
+The central objective of this work is to refine the candidate
+plementary)andfilteringoutnoisycompetitorlinks,wecon- graph G into a high-fidelity economic network G =
+emb ref
+structahigh-fidelityeconomicgraph. Thisapproachdirectly (V,E ), where E ⊆ E , such that the retained edges
+ref ref emb
+addresses the limitations of embedding-based networks and
+correspondtosubstantiveeconomicrelationships. Wefurther
+mitigatesthelookaheadbiasassociatedwithdirectLLMfore-
+seektoassigneachretainededgeasemanticlabelthatcharac-
+casting, providing a structurally sound foundation for cross-
+terisesthenatureoftherelationship,enablingrelation-aware
+stocksignalaggregation.
+signalconstruction. Thecoreresearchquestionis:
+3 ProblemFormulation Can a large language model, by reasoning over
+corporate textual information, effectively distin-
+3.1 Notation
+guish genuine economic linkages from spurious
+Let V = {v 1 ,...,v N } denote a universe of N stocks. For ones,therebyimprovingcross-stockpredictability?
+eachstockv ,weobservedailyreturnsr overatimehori-
+i i,t
+zon[1,T].Wedefinethenormalizedpriceofstockv i starting 4 ProposedFramework
+fromareferencedatet asthecumulativeproductofgrossre-
+0
+Weproposeatwo-stageframework—RetrievethenReason—
+turns:
+t thatfirstefficientlyidentifiescandidatestockpairsviaembed-
+(cid:89)
+P = (1+r ). (1) dingsimilarity,thendeploysalargelanguagemodeltoverify
+i,t i,τ
+and classify their economic relationships. The refined net-
+τ=t0
+Eachstock isfurtherassociatedwith atextualembedding workissubsequentlyusedtoconstructcross-stockpredictive
+h ∈ RD, derived from its corporate disclosure documents signals. Figure1illustratestheoverallarchitecture.
+i
+(e.g.,10-Kfilings). Theseembeddingsserveasacompressed
+4.1 Stage1: CandidateGraphGeneration
+representationofthefirm’sbusinessprofile.
+GiventheembeddingmatrixH = [h ,...,h ]T ∈ RN×D,
+1 N
+3.2 Network-BasedCross-StockPredictability
+wecomputethefullpairwisecosinesimilaritymatrixand,for
+Cross-stock predictability exploits the fact that information each stock v , retain edges to its top-K most similar peers.
+i
+diffuses gradually across economically linked firms [Cohen The resulting candidate graph G = (V,E ) is made
+emb emb
+and Frazzini, 2008; Menzly and Ozbas, 2010]. The key undirected by symmetrisation: an edge (v ,v ) is included
+i j
+premise is that the future return of a target stock v i can be ifeitherv j ranksinv i ’stop-K orviceversa.
+partiallypredictedbyobservingthecurrentstatesofitseco- This stage is lightweight and scalable, reducing the num-
+nomicpeers.Formally,werepresenttheselinkagesasagraph berofedgesfromO(N2)toO(NK),whichmakesthesub-
+G =(V,E),andthecross-stockpredictivesignalforstockv i sequentLLMreasoningcomputationallytractable.
+isconstructedbyaggregatinginformationfromitsneighbour-
+hood: 4.2 Stage2: LLM-AugmentedEdgeClassification
+(cid:0) (cid:1)
+S i,t =Agg {(v j ,r j ,P j )|e i,j ∈E} . (2) Given the candidate edge set E emb , we employ a large lan-
+Thequalityofthissignalcriticallydependsonthefidelity guagemodel(LLM)toclassifytheeconomicrelationshipbe-
+of E: an ideal edge set captures only genuine economic in- tween each pair of firms. Unlike prior approaches that rely
+teractions,sothatpricedislocationsamongconnectedstocks solelyonembeddingsimilarity,thisstageperformsstructured
+reflect temporary inefficiencies rather than permanent diver- semanticreasoningovercorporatedisclosurestoassigneco-
+gences. nomicallymeaningfullabels.
+3.3 TheSpuriousCorrelationProblem Input Construction. For each candidate edge (v i ,v j ), we
+construct a structured prompt using textual information ex-
+AnaturalapproachtoconstructingE istoexploittextualsim-
+tracted from firms’ annual 10-K filings (fiscal year y − 1).
+ilarity.Foreachstockpair,thecosinesimilaritybetweentheir
+Specifically, we include three components for each firm: (i)
+embeddingsiscomputed:
+atruncatedbusinessdescriptionfromItem1,(ii)productand
+sim(v ,v )= hT i h j , (3) segment-relateddisclosures,and(iii)competitor-relatedsen-
+i j ∥h ∥·∥h ∥ tences identified via regular expressions (e.g., phrases sur-
+i j
+rounding“competewith”).
+and a top-K neighbour graph G = (V,E ) is formed
+emb emb
+To reduce input length and ensure comparability across
+by retaining the K most similar peers for each node. While
+firms, each section is truncated to a fixed token budget. Im-
+efficientandscalable,thisapproachsuffersfromafundamen-
+portantly,firmidentitiesareanonymizedintheprompt(e.g.,
+tal limitation: textual embeddings capture topical similarity
+“FirmA”and“FirmB”),preventingthemodelfromrelying
+ratherthaneconomiccausality. Twofirmsmaydiscusssim-
+onmemorizedknowledgeofspecifictickersandencouraging
+ilar macroeconomic risks (e.g., “supply chain disruptions,”
+reasoningbasedsolelyondisclosurecontent.
+“regulatory uncertainty”) in their filings without having any
+direct business interaction. We refer to these noisy edges as Prompt Design. The LLM is instructed to act as
+spuriouscorrelations. Aggregatingsignalsoversuchedges an industry analyst and classify the relationship be-
+dilutesthegenuinepredictivecontentanddegradesportfolio tween two firms based only on the provided disclo-
+performance. sures. The model must select exactly one label from a
+
+--- Page 4 ---
+Figure1:Overviewoftheproposedframework.
+predefined taxonomy: {competitor, supply chain, Training phase. For each edge (v ,v ) ∈ E , we com-
+i j ref
+complementary, substitute, peer, unrelated}. putethenormalisedpricespreadduringthetrainingwindow
+TheoutputisrequiredinstructuredJSONformat, including [t ,t ]:
+0 1
+boththepredictedlabelandsupportingevidencespansfrom s =P −P , t∈[t ,t ] (4)
+ij,t i,t j,t 0 1
+each firm’s disclosure. This design enforces deterministic, andestimatethespread’shistoricalmeanµ =s andstan-
+ij ij
+interpretableoutputsandfacilitatesdownstreamauditing. darddeviationσ . WealsorecordGatevetal.[2006]’sdis-
+ij
+tance d = (cid:80)t1 s2 , which quantifies the overall close-
+RelationTaxonomy. Theclassificationschemaisdesigned ij t=t0 ij,t
+nessofthetwonormalisedpricepathsduringtraining.
+toreflecteconomicallydistinctchannelsofcross-stockinter-
+action. In particular, it distinguishes between relationships Testphase. Duringthetestwindow[t 1 +1,t 2 ],wecompute
+that are likely to generate mean-reversion signals (e.g., sup- thez-scoreforeachpair:
+ply chain, complementary) and those that reflect structural s −µ
+z = ij,t ij. (5)
+competition(e.g.,competitors). Thisdistinctioniscriticalfor ij,t σ
+ij
+filteringedgesinsubsequentstages.
+Alargepositivez indicatesthatv hasbecomerelatively
+ij,t i
+expensivecomparedtov ,predictingafuturemeanreversion
+Implementation Details. We use DeepSeek-Chat via API j
+wherev underperformsandv outperforms.
+with temperature set to zero to ensure deterministic outputs. i j
+Queries are batched to improve efficiency, and results are Per-stock signal aggregation. Each stock participates in
+cachedacrossrollingwindowstoavoidredundantinference. multipleedges.Weaggregatepair-levelz-scoresintoastock-
+The total number of queries scales as O(NK), making the levelsignalS usingthesignconvention:
+i,t
+approach computationally tractable given the sparsity of the
+S =
+(cid:88) (cid:0)
+−z
+·w(i)(cid:1)
+, S =
+(cid:88) (cid:0)
++z
+·w(j)(cid:1)
+.
+candidategraph. i,t ij,t ij j,t ij,t ij
+(i,j)∈Eref (i,j)∈Eref
+Discussion. Thisstagetransformsthenetworkconstruction (6)
+problemfromunsupervisedsimilarityestimationintoastruc- Whenthespreadisabnormallyhigh(z > 0), stockv re-
+i
+turedsemanticclassificationtask. ByleveragingLLM-based ceivesanegative(sell)signalandstockv receivesapositive
+j
+reasoning over firm disclosures—rather than relying on em- (buy)signal,reflectingthemean-reversionhypothesis.
+bedding proximity alone—we aim to reduce spurious edges Theweightw(i) iscomputedviaaper-stocksoftmaxover
+ij
+andimprovetheeconomicfidelityoftheresultingnetwork. negativedistancesusedbyGatevetal.[2006],scaledbythe
+relationweight:
+4.3 Cross-StockSignalConstruction
+exp(−d )
+w(i) =ω ·n · ij (7)
+ij r i (cid:88)
+GiventherefinedgraphG ,weconstructapredictivesignal exp(−d )
+ref ik
+foreachstockusingarolling-windowprocedure.
+(i,k)∈Eref
+
+--- Page 5 ---
+where n = |{(i,k) ∈ E }| is the degree of stock v 5.2 MainResults
+i ref i
+in the refined graph. The softmax assigns higher weight to
+Table 1 reports the long-short portfolio performance under
+pairswithsmallerhistoricaldistances(tighterco-movement),
+five configurations, designed to isolate the contribution of
+while the n scaling factor preserves the aggregate signal
+i eachcomponent.
+magnitudeacrossstockswithvaryingnodedegrees.
+SeveralfindingsemergefromTable1. First,theproposed
+LLM-augmentedframeworkachievesthehighestSharpera-
+4.4 PortfolioConstruction
+tio(0.820),a10.5%improvementovertheBaseline(0.742).
+Ateachrebalancingdatet,wesortallstockscross-sectionally TheLLMalsoreducesmaximumdrawdownfrom−10.47%
+by their signal S and partition them into G equal-sized to−7.85%,asubstantialimprovementintail-riskbehaviour.
+i,t
+groups. Group1containsstockswiththelowestscores(pre- Second, replacing the semantic network with a random
+dictedtodecline)andGroupGcontainsthosewiththehigh- graph degrades the Sharpe ratio to 0.541, confirming that
+est scores (predicted to appreciate). The long-short portfo- theembedding-basednetworkcapturesmeaningfuleconomic
+lio goes long Group G and short Group 1, and its return structure.Third,theSICindustrynetworkachievesacompet-
+rLS = r¯G − r¯1 serves as the primary measure of cross- itive Sharpe ratio (0.792) but with higher volatility than the
+t t t
+stockpredictability. Wereportannualisedreturn,annualised LLM-filtered network, suggesting that textual embeddings
+volatility,Sharperatio,andportfolioturnover. capturerichercross-firmlinkagesthancoarseindustrycodes.
+Fourth, removing distance weighting slightly increases raw
+5 Experiments returnsbutatthecostofsubstantiallyhighervolatility,yield-
+ingalowerSharperatiothanourfullmodel.
+5.1 DataandSetup
+5.3 QuintilePortfolioAnalysis
+Stock universe. We use daily returns of U.S. common
+Table2reportstheperformanceofeachquintilegroupunder
+stocks from the Center for Research in Security Prices
+theproposedLLM-augmentedframework.
+(CRSP) database. The full return panel spans July 2007 to
+Thequintilesortexhibitsamonotonicpattern: averagere-
+December 2020, covering 14,218 securities and 3,412 trad-
+turnsincreasefromQ1toQ5,consistentwiththecross-stock
+ingdays. Werestricttheinvestableuniversetofirmsappear-
+predictivepowerofourLLM-augmentedsignal. Thespread
+ing in the S&P 500 constituent list, yielding approximately
+is primarily driven by the long leg (Q5), which outperforms
+605uniquePERMNOs.
+themarket,whiletheshortleg(Q1)underperforms.
+Textualembeddings. Foreachcalendaryeary, weobtain
+768-dimensionalembeddingvectorsderivedfromfirms’an- 5.4 AblationStudy
+nual risk-factor disclosures (10-K filings), encoded using a
+EffectofLLMEdgeFiltering
+pre-trained language model. After matching embeddings to
+ThecomparisonbetweenBaselineand“+LLMFiltering”in
+the CRSP universe, approximately 497 stocks per year have
+Table 1 directly quantifies the value added by the LLM rea-
+validembeddings.
+soning module. The LLM filtering achieves three simulta-
+Rolling-windowbacktest. Weevaluateout-of-sampleper- neousimprovements: (i)higherannualisedreturn(+56bps),
+formance over the period January 2011 to December 2019 (ii) higher Sharpe ratio (+0.078), and (iii) lower maximum
+using a rolling-window design. Each window consists of a drawdown(+262bps).Theseimprovementsarisebecausethe
+180-trading-daytrainingperiodforestimatingspreadparam- LLM successfully identifies and removes competitor edges,
+eters,followedbya2-monthtestperiodforgeneratingsignals wherepricedivergencereflectsstructuralmarket-shareshifts
+andmeasuringportfolioreturns. Embeddingsfromyeary−1 ratherthantemporarydislocations. Importantly,theNewey–
+areusedforthewindowswhosetrainingperiodstartsinyear West t-statistic increases from 2.14 to 2.32, exceeding the
+y,ensuringnolook-aheadbiasingraphconstruction. conventional 5% significance threshold and confirming that
+theimprovementisstatisticallyreliable.
+Portfolio construction. At each rebalancing date, stocks
+are sorted cross-sectionally by their aggregated signal S SemanticNetworkvs. AlternativeGraphs
+i,t
+into G = 5 equal-sized quintile groups. We form a long- Tovalidatethattheembedding-basedsemanticnetworkcap-
+shortportfoliothatgoeslongGroup5(highestpredictedre- turesgenuineeconomicstructure,wecompareitagainsttwo
+turn)andshortsGroup1(lowestpredictedreturn). Portfolios alternativegraphconstructions:
+are equal-weighted within each group and rebalanced daily
+• Random Network (A3): Edges are formed by ran-
+unlessotherwisenoted.
+domlyselectingK neighboursperstock,preservingthe
+LLMconfiguration. FortheLLM-augmentededgeclassi- same graph density. The Sharpe ratio drops to 0.541
+fication(Stage2),weuseDeepSeek-ChatviaAPIwithtem- (t = 1.61, statistically insignificant), confirming
+NW
+peraturesetto0fordeterministicoutputs. Resultsarecached thatthepredictivecontentofoursignalisnotanartefact
+toensurereproducibilityacrossrollingwindows. of the aggregation mechanism but rather derives from
+Evaluation metrics. We report annualised return (rann), thesemanticnetworktopology.
+annualised volatility (σann), Sharpe ratio (SR), maximum • SICIndustryNetwork(A4):Edgesconnectfirmsshar-
+drawdown (MDD), annualised turnover (TOann), and the ingthesame2-digitHistoricalSICcode.Thisachievesa
+Newey–Westt-statistic(t )forthelong-shortportfolio. Sharperatioof0.792,demonstratingthatindustry-based
+NW
+
+--- Page 6 ---
+Figure2:Cumulativereturnsoflong-shortportfolioandquintilesortingportfolios.
+Table1:CoreComponentAblation:Long-ShortPortfolioPerformance
+Method rann σann SR MDD TOann t
+NW
+SemanticNetwork(Baseline) 4.11% 5.54% 0.742 −10.47% 23.7× 2.14
++LLMFiltering(Ours) 4.67% 5.69% 0.820 −7.85% 22.0× 2.32
+NoDistanceWeighting 5.21% 6.58% 0.792 −10.61% 16.4× 2.19
+RandomNetwork 4.52% 8.36% 0.541 −13.15% 25.3× 1.61
+SICIndustryNetwork 4.60% 5.80% 0.792 −9.56% 23.0× 2.32
+Notes:ThesampleperiodisJanuary2011–December2019(2,210tradingdays).TheBaselineusesatop-5cosine-similaritysemantic
+networkwithGatevdistance-weightedsignalaggregationanddailyrebalancing.“+LLMFiltering”addsDeepSeek-basededge
+classificationthatremovescompetitoredgesanddown-weightssubstitutes.“NoDistanceWeighting”replacessoftmaxdistanceweightswith
+equalweights.“RandomNetwork”replacesthesemanticgraphwitharandomtop-5graph.“SICIndustryNetwork”replacesthesemantic
+graphwithagraphconnectingfirmssharingthesame2-digitSICcode.t :Newey–Westt-statisticwithautomaticbandwidthselection.
+NW
+Table2: QuintilePortfolioPerformance(LLM-AugmentedFrame- Three patterns emerge from Table 3. First, increasing the
+work) numberofneighboursKconsistentlyimprovestheSharpera-
+tio,risingfrom0.681(K=3)to0.929(K=15).Thissuggests
+Group rann σann SR that a denser semantic network provides more informative
+Q1(Short) 11.77% 15.50% 0.759 cross-stocksignals,thoughatthecostofhighervolatilityand
+Q2 13.58% 15.09% 0.900 turnover. In practice, K=5 offers a good balance between
+Q3 13.59% 15.22% 0.892 signalstrengthandcomputationalcostofLLMedgeclassifi-
+Q4 15.88% 15.67% 1.013 cation. Second,atrainingwindowof120–180daysperforms
+Q5(Long) 16.43% 16.77% 0.980 best; extending it to 250 days degrades the Sharpe ratio to
+L-S 4.67% 5.69% 0.820 0.609,likelybecauseexcessivelylongwindowsaverageover
+structuralbreaksinspreaddynamics. Third, theholdingpe-
+Notes:Q1containsstockswiththelowestaggregatedsignals(short riodexhibitsaclearsweetspotat2months. Shorterholding
+leg);Q5containsstockswiththehighestsignals(longleg).L−S periods (1 month) underperform due to higher noise, while
+denotesthelong-shortportfolio(Q5−Q1). longerperiods(3–6months)sufferfromseveresignaldecay,
+withtheSharperatiodroppingbelow0.30andNewey–West
+t-statisticsbecominginsignificant.
+networks carry predictive information, but it underper-
+formsourLLM-filteredsemanticnetwork(0.820),sug-
+6 Conclusion
+gesting that the textual embedding captures more nu-
+ancedeconomiclinkagesbeyondcoarseindustrybound- WehavepresentedanLLM-augmentedframeworkforcross-
+aries. stock predictability that addresses the spurious correlation
+problem inherent in embedding-based financial networks.
+5.5 ParameterSensitivity
+Our approach follows a Retrieve-then-Reason paradigm: a
+WeexaminetherobustnessoftheBaselineframeworktokey lightweight embedding similarity step generates a candidate
+hyperparameters. Table3reportstheresults. graph, after which a large language model classifies each
+
+--- Page 7 ---
+Table3:ParameterSensitivityAnalysis(Long-ShortPortfolio)
+Parameter Value rann σann SR MDD TOann t
+NW
+K =3 4.56% 5.68% 0.802 −10.77% 20.4× 2.25
+K =5 4.67% 5.69% 0.820 −7.85% 22.0× 2.32
+Top-K
+K =10 4.77% 6.26% 0.762 −10.38% 24.4× 2.18
+K =15 5.02% 6.57% 0.763 −7.59% 25.3× 2.20
+120days 5.04% 5.96% 0.845 −14.56% 23.1× 2.39
+Training
+180days 4.67% 5.69% 0.820 −7.85% 22.0× 2.32
+Window
+250days 4.11% 5.63% 0.730 −10.86% 21.1× 2.01
+1month 4.22% 5.97% 0.707 −11.07% 25.5× 2.01
+Holding 2months 4.67% 5.69% 0.820 −7.85% 22.0× 2.32
+Period 3months 2.65% 5.62% 0.471 −11.26% 19.2× 1.35
+6months 1.63% 6.01% 0.271 −13.84% 15.3× 0.78
+Quantile G=5 4.67% 5.69% 0.820 −7.85% 22.0× 2.32
+Groups G=10 5.05% 7.62% 0.662 −15.45% 26.8× 1.85
+Rebal. daily 4.67% 5.69% 0.820 −7.85% 22.0× 2.32
+Freq. monthly 2.70% 5.38% 0.502 −11.73% 2.9× 1.38
+Notes:Eachrowvariesoneparameterwhileholdingallothersatthedefaultconfiguration(K=5,trainingwindow=180days,holding
+period=2months,G=5groups,dailyrebalancing).AllspecificationsapplytheLLM-basededgefilteringstep,whichremovescompetitor
+edgesanddown-weightssubstituteedgesviatheLLM-classifiedrelationshiptaxonomy.
+edgeintooneofsixeconomicrelationshiptypesandremoves Third, our framework treats the refined graph as static
+edges that are unlikely to support mean-reversion trading within each annual window. In reality, economic relation-
+(e.g.,competitorpairs).Therefinedgraphisthenusedtocon- ships evolve over time, and a dynamic graph construction
+struct stock-level signals via per-stock softmax-weighted z- mechanism at higher frequency may better capture time-
+scoreaggregation,wherecloserpairs—asmeasuredbyGatev varyinglinkages.
+distance—receivehigherinfluence. Finally, thecurrentapproachemploystheLLMasastan-
+Empirical evaluation on U.S. equities (S&P 500 universe, dalonesemanticclassifier.IntegratingtheLLM-refinedgraph
+2011–2019) demonstrates three main findings. First, the intoalearnablemodel,suchasagraphneuralnetwork,may
+LLM filtering module improves the long-short Sharpe ra- enable end-to-end optimization and capture higher-order in-
+tio from 0.742 to 0.820 and reduces maximum drawdown teractionsbeyondpairwiserelationships.
+from −10.47% to −7.85%, confirming that removing eco-
+nomicallyspuriousedgesmeaningfullyenhancessignalqual- EthicalStatement
+ity. Second, thesemanticnetworksubstantiallyoutperforms
+a random graph baseline (Sharpe 0.742 vs. 0.541), validat- Therearenoethicalissues.
+ingthattextualembeddingscapturegenuineeconomicstruc-
+ture beyond what a na¨ıve aggregation mechanism can pro- Acknowledgments
+duce. Third,Fama–Frenchfactorregressionsyieldapositive
+The authors thank Yi Zhang (HKUST GZ) for helpful sup-
+andstatisticallysignificantdailyalpha,withnear-zerofactor
+port. Anyremainingerrorsoroversightsaretheresponsibil-
+loadings, indicating that the predictive content of our signal
+ityoftheauthors.
+isorthogonaltoconventionalriskpremia.
+Limitations and Future Work. Several limitations of our Funding
+framework warrant further investigation. First, the current
+LLM-basedclassificationreliessolelyontextualdisclosures YifanYeissupportedbyBeijingNormal-HongKongBaptist
+from firms’ 10-K filings, which may omit relevant informa- Universitystart-upresearchfund(No. UICR0700136-26).
+tion such as real-time news, supply-chain databases, or al-
+ternativestructureddatasources. Incorporatingmulti-source
+informationcouldfurtherimproveclassificationaccuracyand References
+robustness.
+Usman Ali and David Hirshleifer. Shared analyst coverage:
+Second, although anonymization mitigates reliance on
+Unifying momentum spillover effects. Journal of Finan-
+memorized firm-specific knowledge, the approach still de-
+cialEconomics,136(3):649–675,2020.
+pends on the quality and completeness of the provided text
+snippets. Truncationandextractionheuristicsmayintroduce DoronAvramov,ShuyiGe,ShaoranLi,andOliverBLinton.
+information loss, potentially affecting classification reliabil- Dualpeereffectsandcross-stockpredictability. Journalof
+ity. FinancialEconomics,180:104274,2026.
+
+--- Page 8 ---
+Ron Bekkerman, Eliezer M Fich, and Natalya V Khimich. CharlesMCLee,TerrenceTianshuoShi,StephenTengSun,
+The effect of innovation similarity on asset prices: Evi- andRanZhang. Productioncomplementarityandinforma-
+dencefrompatents’bigdata. TheReviewofAssetPricing tion transmission across industries. Journal of Financial
+Studies,13(1):99–145,2023. Economics,155:103812,2024.
+Yilin Chen and Zheqi Fan. On cross-stock predictability JiacuiLiandJingdaYan. Howmuchofcross-stockmomen-
+of peer return gaps in China. Finance Research Open, tum reflects underreaction? Available at SSRN 5070808,
+2:100088,2026. 2025.
+Yifei Chen, Bryan T Kelly, and Dacheng Xiu. Expected AlejandroLopez-LiraandYuehuaTang.Canchatgptforecast
+returns and large language models. Available at SSRN stockpricemovements?returnpredictabilityandlargelan-
+4416687,2023. guagemodels. AvailableatSSRN4412580,2023.
+Hui Chen, Antoine Didisheim, Luciano Somoza, and Han- AlejandroLopez-Lira,YuehuaTang,andMingyinZhu. The
+qing Tian. A financial brain scan of the LLM. arXiv memorization problem: Can we trust LLMs’ economic
+preprintarXiv:2508.21285,2025. forecasts? arXivpreprintarXiv:2504.14765,2025.
+LiorMenzlyandOguzhanOzbas. Marketsegmentationand
+Jian Chen, Guohao Tang, Guofu Zhou, and Wu Zhu. Chat-
+cross-predictability of returns. The Journal of Finance,
+GPTandDeepSeek:Cantheypredictthestockmarketand
+65(4):1555–1580,2010.
+macroeconomy? arXivpreprintarXiv:2502.10008,2025.
+Tobias J Moskowitz and Mark Grinblatt. Do industries ex-
+Chanyeol Choi, Yoon Kim, Yu Yu, Young Cha, V Zach
+plain momentum? The Journal of Finance, 54(4):1249–
+Golkhou, Igor Halperin, Georgios Papaioannou, Minkyu
+1290,1999.
+Kim,ZhangyangWang,JihoonKwon,etal. Fromtextto
+alpha: Can LLMs track evolving signals in corporate dis- Christopher A Parsons, Riccardo Sabbatucci, and Sheridan
+closures? arXivpreprintarXiv:2510.03195,2025. Titman.Geographiclead-lageffects.TheReviewofFinan-
+cialStudies,33(10):4721–4770,2020.
+Lauren Cohen and Andrea Frazzini. Economic links and
+predictable returns. The Journal of Finance, 63(4):1977– Xingyue Pu, Stephen Roberts, Xiaowen Dong, and Stefan
+2011,2008. Zohren. Network momentum across asset classes. arXiv
+preprintarXiv:2308.11294,2023.
+Assaf Eisdorfer, Kenneth Froot, Gideon Ozik, and Ronnie
+Sadka. Competitionlinksandstockreturns. TheReviewof ShijieWu,OzanIrsoy,StevenLu,VadimDabravolski,Mark
+FinancialStudies,35(9):4300–4340,2022. Dredze, Sebastian Gehrmann, Prabhanjan Kambadur,
+David Rosenberg, and Gideon Mann. Bloomberggpt:
+Zhenyu Gao, Wei Xiong, and Jian Yuan. Structured beliefs
+A large language model for finance. arXiv preprint
+and fund performance: An LLM-based approach. Avail-
+arXiv:2303.17564,2023.
+ableatSSRN,2024.
+Qianqian Xie, Weiguang Han, Xiao Zhang, Yanzhao Lai,
+Evan Gatev, William N Goetzmann, and K Geert Rouwen- MinPeng,AlejandroLopez-Lira,andJiminHuang. Pixiu:
+horst. Pairs trading: Performance of a relative-value ar- A large language model, instruction data and evaluation
+bitragerule. TheReviewofFinancialStudies,19(3):797– benchmarkforfinance. arXivpreprintarXiv:2306.05443,
+827,2006. 2023.
+GerardHobergandGordonMPhillips. Text-basedindustry QianqianXie,WeiguangHan,ZhengyuChen,RuoyuXiang,
+momentum. JournalofFinancialandQuantitativeAnaly- Xiao Zhang, Yueru He, Mengxi Xiao, Dong Li, Yongfu
+sis,53(6):2355–2388,2018. Dai, Duanyu Feng, et al. Finben: A holistic financial
+AllenYikuanHuangandZheqiFan. Beyondprompting: An benchmarkforlargelanguagemodels. AdvancesinNeural
+autonomousframeworkforsystematicfactorinvestingvia InformationProcessingSystems,37:95716–95743,2024.
+agenticAI. arXivpreprintarXiv:2603.14288,2026. JingdaYanandJialinYu. Cross-stockmomentumandfactor
+momentum. JournalofFinancialEconomics,150:103716,
+Yaxuan Kong, Yuqi Nie, Xiaowen Dong, John M Mulvey,
+2023.
+HVincentPoor,QingsongWen,andStefanZohren. Large
+language models for financial and investment manage-
+ment: Applicationsandbenchmarks. JournalofPortfolio Appendix: PromptTemplateforLLM-Based
+Management,51(2),2024.
+EdgeClassification
+Yaxuan Kong, Yuqi Nie, Xiaowen Dong, John M Mulvey,
+In this section, we provide the prompt template used for
+HVincentPoor,QingsongWen,andStefanZohren. Large
+LLM-based relationship classification between firm pairs.
+language models for financial and investment manage-
+Firm identities are anonymized (“Firm A” and “Firm B”) to
+ment: Models, opportunities, and challenges. Journal of
+preventrelianceonmemorizedknowledgeandensurethatthe
+PortfolioManagement,51(2),2024.
+modelbasesitsdecisionsolelyontheprovideddisclosures.
+CharlesMCLee,StephenTengSun,RongfeiWang,andRan
+Zhang. Technologicallinksandpredictablereturns. Jour-
+nalofFinancialEconomics,132(3):76–96,2019.
+
+--- Page 9 ---
+PromptTemplate(LLMEdgeClassification)
+You are an industry analyst. Based ONLY on the two company disclosures below,
+(both filed before <end_of_year_{y-1}>), classify their economic relationship.
+=== Firm A (Fiscal Year {y-1}) ===
+Business description:
+<First ˜500 tokens from 10-K Item 1>
+Key products/segments:
+<Extracted segment-related sentences from Item 1>
+Competitors mentioned:
+<Text snippets around "compete with" patterns>
+=== Firm B (Fiscal Year {y-1}) ===
+Business description:
+<First ˜500 tokens from 10-K Item 1>
+Key products/segments:
+<Extracted segment-related sentences from Item 1>
+Competitors mentioned:
+<Text snippets around "compete with" patterns>
+Choose exactly one label from:
+[competitor, supply_chain, complementary, substitute, peer, unrelated]
+Return JSON:
+{"label": "...", "evidence_span_A": "...", "evidence_span_B": "..."}
+Figure3:PrompttemplateusedforLLM-basededgeclassification.

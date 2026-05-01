@@ -56,6 +56,8 @@ secrets.json
 # Claude
 .claude/.cache/
 .claude/settings.local.json
+.claude/settings.json
+.claude/scheduled_tasks.json
 .claude/scheduled_tasks.lock
 
 # Server runtime data (generated on server, not tracked)

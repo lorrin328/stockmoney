@@ -72,10 +72,11 @@ class MarketSummary:
 # ---------------------------------------------------------------------------
 
 VALUATION_INDICATORS = [
-    {"name": "沪深300 PE", "current": 13.5, "hist_low": 8.0, "hist_high": 30.0, "trend": "up", "description": "沪深300市盈率"},
+    {"name": "沪深300 PE", "current": 14.6, "hist_low": 8.0, "hist_high": 30.0, "trend": "up", "description": "沪深300市盈率（2026年4月底约14.6倍，历史分位80-92%）"},
+    {"name": "沪深300 PB", "current": 1.46, "hist_low": 1.0, "hist_high": 3.0, "trend": "flat", "description": "沪深300市净率（历史分位约57%，中等水平）"},
     {"name": "中证500 PE", "current": 22.0, "hist_low": 15.0, "hist_high": 90.0, "trend": "up", "description": "中证500市盈率"},
     {"name": "股债利差", "current": 0.055, "hist_low": 0.02, "hist_high": 0.08, "trend": "flat", "description": "股票盈利收益率 - 10Y国债收益率"},
-    {"name": "E/P（盈利收益率）", "current": 0.074, "hist_low": 0.03, "hist_high": 0.15, "trend": "flat", "description": "E/P比率，格雷厄姆估值指标"},
+    {"name": "E/P（盈利收益率）", "current": 0.068, "hist_low": 0.03, "hist_high": 0.15, "trend": "flat", "description": "E/P比率，格雷厄姆估值指标（PE14.6对应E/P约6.8%）"},
 ]
 
 SENTIMENT_INDICATORS = [

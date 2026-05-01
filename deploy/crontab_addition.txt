@@ -1,0 +1,19 @@
+
+# ===== StockMoney Investment System =====
+# Deployment date: 2026-05-01
+# Directory: /opt/stockmoney
+
+# Pre-market monitor (weekdays 9:25)
+25 9 * * 1-5 cd /opt/stockmoney && bash scripts/run_monitor.sh >> /opt/stockmoney/logs/monitor.log 2>&1
+
+# Post-market monitor (weekdays 15:05)
+5 15 * * 1-5 cd /opt/stockmoney && bash scripts/run_monitor.sh >> /opt/stockmoney/logs/monitor.log 2>&1
+
+# Daily strategy summary (20:00)
+0 20 * * * cd /opt/stockmoney && bash scripts/run_strategy.sh >> /opt/stockmoney/logs/strategy.log 2>&1
+
+# Weekly full report (Monday 9:30)
+30 9 * * 1 cd /opt/stockmoney && bash scripts/run_full_report.sh >> /opt/stockmoney/logs/report.log 2>&1
+
+# Monthly policy analysis (1st of month 9:00)
+0 9 1 * * cd /opt/stockmoney && bash scripts/run_policy.sh >> /opt/stockmoney/logs/policy.log 2>&1

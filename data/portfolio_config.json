@@ -2,9 +2,32 @@
   "total_capital": 900000,
   "holdings": [
     {
+      "code": "518880",
+      "name": "黄金ETF",
+      "target_pct": 12.6,
+      "type": "a_etf",
+      "investment_rationale": "地缘韧性极强；估值合理；景气上行；康波核心赛道",
+      "scores": {
+        "cycle": 8.5,
+        "policy": 7.5,
+        "geo": 9.5,
+        "valuation": 7.5,
+        "earnings": 7.0,
+        "total": 8.03
+      },
+      "rules": [
+        {
+          "kind": "price_percentile",
+          "window": 500,
+          "low": 0.2,
+          "high": 0.8
+        }
+      ]
+    },
+    {
       "code": "159995",
       "name": "芯片ETF",
-      "target_pct": 10.3,
+      "target_pct": 10.4,
       "type": "a_etf",
       "investment_rationale": "十五五核心产业；地缘韧性极强；景气上行；康波核心赛道",
       "scores": {
@@ -12,8 +35,8 @@
         "policy": 9.5,
         "geo": 8.5,
         "valuation": 3.8333333333333335,
-        "earnings": 7.0,
-        "total": 7.79
+        "earnings": 7.5,
+        "total": 7.87
       },
       "rules": [
         {
@@ -27,7 +50,7 @@
     {
       "code": "159992",
       "name": "创新药ETF",
-      "target_pct": 10.3,
+      "target_pct": 10.4,
       "type": "a_etf",
       "investment_rationale": "十五五核心产业；景气上行",
       "scores": {
@@ -35,8 +58,8 @@
         "policy": 9.0,
         "geo": 7.5,
         "valuation": 6.5,
-        "earnings": 7.0,
-        "total": 7.7
+        "earnings": 7.5,
+        "total": 7.77
       },
       "rules": [
         {
@@ -50,7 +73,7 @@
     {
       "code": "562500",
       "name": "机器人ETF",
-      "target_pct": 10.3,
+      "target_pct": 8.3,
       "type": "a_etf",
       "investment_rationale": "十五五核心产业；景气上行；康波核心赛道",
       "scores": {
@@ -58,8 +81,8 @@
         "policy": 9.0,
         "geo": 7.5,
         "valuation": 4.5,
-        "earnings": 7.5,
-        "total": 7.58
+        "earnings": 7.0,
+        "total": 7.5
       },
       "rules": [
         {
@@ -73,7 +96,7 @@
     {
       "code": "588000",
       "name": "科创50ETF",
-      "target_pct": 8.2,
+      "target_pct": 8.3,
       "type": "a_etf",
       "investment_rationale": "十五五核心产业；地缘韧性极强；康波核心赛道",
       "scores": {
@@ -96,7 +119,7 @@
     {
       "code": "159898",
       "name": "医疗器械ETF",
-      "target_pct": 8.2,
+      "target_pct": 8.3,
       "type": "a_etf",
       "investment_rationale": "十五五核心产业；地缘韧性极强",
       "scores": {
@@ -117,18 +140,18 @@
       ]
     },
     {
-      "code": "518880",
-      "name": "黄金ETF",
-      "target_pct": 10.3,
+      "code": "512400",
+      "name": "有色金属ETF",
+      "target_pct": 7.3,
       "type": "a_etf",
-      "investment_rationale": "地缘韧性极强；估值合理",
+      "investment_rationale": "景气上行",
       "scores": {
-        "cycle": 8.0,
-        "policy": 6.0,
-        "geo": 9.0,
-        "valuation": 7.5,
-        "earnings": 6.0,
-        "total": 7.3
+        "cycle": 7.5,
+        "policy": 8.0,
+        "geo": 7.5,
+        "valuation": 6.5,
+        "earnings": 7.0,
+        "total": 7.35
       },
       "rules": [
         {
@@ -150,8 +173,8 @@
         "policy": 8.5,
         "geo": 7.0,
         "valuation": 3.8333333333333335,
-        "earnings": 7.0,
-        "total": 7.14
+        "earnings": 7.5,
+        "total": 7.22
       },
       "rules": [
         {
@@ -173,8 +196,8 @@
         "policy": 8.0,
         "geo": 7.0,
         "valuation": 3.8333333333333335,
-        "earnings": 7.0,
-        "total": 7.02
+        "earnings": 7.5,
+        "total": 7.09
       },
       "rules": [
         {
@@ -188,7 +211,7 @@
     {
       "code": "159857",
       "name": "光伏ETF",
-      "target_pct": 6.2,
+      "target_pct": 5.2,
       "type": "a_etf",
       "investment_rationale": "综合评分中等",
       "scores": {
@@ -209,32 +232,9 @@
       ]
     },
     {
-      "code": "512400",
-      "name": "有色金属ETF",
-      "target_pct": 5.2,
-      "type": "a_etf",
-      "investment_rationale": "综合评分中等",
-      "scores": {
-        "cycle": 7.0,
-        "policy": 7.5,
-        "geo": 6.5,
-        "valuation": 6.5,
-        "earnings": 6.5,
-        "total": 6.85
-      },
-      "rules": [
-        {
-          "kind": "price_percentile",
-          "window": 500,
-          "low": 0.2,
-          "high": 0.8
-        }
-      ]
-    },
-    {
       "code": "515030",
       "name": "新能源车ETF",
-      "target_pct": 5.2,
+      "target_pct": 4.2,
       "type": "a_etf",
       "investment_rationale": "综合评分中等",
       "scores": {
@@ -257,7 +257,7 @@
     {
       "code": "159755",
       "name": "电池ETF",
-      "target_pct": 5.2,
+      "target_pct": 4.2,
       "type": "a_etf",
       "investment_rationale": "综合评分中等",
       "scores": {
@@ -278,18 +278,18 @@
       ]
     },
     {
-      "code": "560610",
-      "name": "中证A500ETF",
-      "target_pct": 4.1,
+      "code": "512890",
+      "name": "红利低波ETF",
+      "target_pct": 4.2,
       "type": "a_etf",
       "investment_rationale": "综合评分中等",
       "scores": {
-        "cycle": 6.0,
-        "policy": 6.5,
-        "geo": 6.5,
-        "valuation": 4.833333333333333,
+        "cycle": 4.5,
+        "policy": 6.0,
+        "geo": 7.5,
+        "valuation": 6.833333333333333,
         "earnings": 6.0,
-        "total": 5.99
+        "total": 6.17
       },
       "rules": [
         {
@@ -301,18 +301,18 @@
       ]
     },
     {
-      "code": "512890",
-      "name": "红利低波ETF",
-      "target_pct": 4.1,
+      "code": "560610",
+      "name": "中证A500ETF",
+      "target_pct": 4.2,
       "type": "a_etf",
       "investment_rationale": "综合评分中等",
       "scores": {
-        "cycle": 4.5,
-        "policy": 5.5,
-        "geo": 7.0,
-        "valuation": 6.833333333333333,
-        "earnings": 5.5,
-        "total": 5.87
+        "cycle": 6.0,
+        "policy": 7.0,
+        "geo": 6.5,
+        "valuation": 4.833333333333333,
+        "earnings": 6.0,
+        "total": 6.12
       },
       "rules": [
         {

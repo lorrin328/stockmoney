@@ -51,37 +51,40 @@ SIGNALS_DIR.mkdir(parents=True, exist_ok=True)
 # ---------------------------------------------------------------------------
 
 DEFAULT_HOLDINGS = [
-    # 宽基底仓
-    {"code": "510300", "name": "沪深300ETF", "target_pct": 11.1, "type": "a_etf",
+    # 2026-05-01 ETF甄选模型组合（地缘升级+实物资产主线+十五五硬科技），权重与 portfolio_config.json 同步
+    # 实物资产主线（地缘避险升级）
+    {"code": "518880", "name": "黄金ETF", "target_pct": 12.6, "type": "a_etf",
      "rules": [{"kind": "price_percentile", "window": 500, "low": 0.20, "high": 0.80}]},
-    {"code": "560610", "name": "中证A500ETF", "target_pct": 11.1, "type": "a_etf",
+    {"code": "512400", "name": "有色金属ETF", "target_pct": 7.3, "type": "a_etf",
      "rules": [{"kind": "price_percentile", "window": 500, "low": 0.20, "high": 0.80}]},
-    {"code": "513130", "name": "恒生科技ETF", "target_pct": 11.1, "type": "a_etf",
+    # 十五五硬科技核心
+    {"code": "159995", "name": "芯片ETF", "target_pct": 10.4, "type": "a_etf",
      "rules": [{"kind": "price_percentile", "window": 500, "low": 0.20, "high": 0.80}]},
-    # 核心进攻
-    {"code": "159857", "name": "光伏ETF", "target_pct": 8.9, "type": "a_etf",
-     "rules": [{"kind": "price_percentile", "window": 500, "low": 0.15, "high": 0.85}]},
-    {"code": "159755", "name": "电池ETF", "target_pct": 6.7, "type": "a_etf",
-     "rules": [{"kind": "price_percentile", "window": 500, "low": 0.15, "high": 0.85}]},
-    {"code": "159992", "name": "创新药ETF", "target_pct": 8.9, "type": "a_etf",
+    {"code": "159992", "name": "创新药ETF", "target_pct": 10.4, "type": "a_etf",
      "rules": [{"kind": "price_threshold", "low": 0.80, "high": 1.50}]},
-    {"code": "159898", "name": "医疗器械ETF", "target_pct": 5.6, "type": "a_etf",
+    {"code": "562500", "name": "机器人ETF", "target_pct": 8.3, "type": "a_etf",
      "rules": [{"kind": "price_percentile", "window": 500, "low": 0.20, "high": 0.80}]},
-    {"code": "562500", "name": "机器人ETF", "target_pct": 5.6, "type": "a_etf",
+    {"code": "588000", "name": "科创50ETF", "target_pct": 8.3, "type": "a_etf",
      "rules": [{"kind": "price_percentile", "window": 500, "low": 0.20, "high": 0.80}]},
-    {"code": "159611", "name": "电力ETF", "target_pct": 4.4, "type": "a_etf",
+    {"code": "159898", "name": "医疗器械ETF", "target_pct": 8.3, "type": "a_etf",
      "rules": [{"kind": "price_percentile", "window": 500, "low": 0.20, "high": 0.80}]},
-    {"code": "159995", "name": "芯片ETF", "target_pct": 4.4, "type": "a_etf",
+    # AI与科技
+    {"code": "159819", "name": "人工智能ETF", "target_pct": 6.2, "type": "a_etf",
      "rules": [{"kind": "price_percentile", "window": 500, "low": 0.20, "high": 0.80}]},
-    # 卫星配置
-    {"code": "512890", "name": "红利低波ETF", "target_pct": 8.9, "type": "a_etf",
+    {"code": "515880", "name": "科技ETF", "target_pct": 6.2, "type": "a_etf",
      "rules": [{"kind": "price_percentile", "window": 500, "low": 0.20, "high": 0.80}]},
-    {"code": "512800", "name": "银行ETF", "target_pct": 5.6, "type": "a_etf",
-     "rules": [{"kind": "price_percentile", "window": 500, "low": 0.15, "high": 0.80}]},
-    {"code": "518880", "name": "黄金ETF", "target_pct": 4.4, "type": "a_etf",
+    # 新能源
+    {"code": "159857", "name": "光伏ETF", "target_pct": 5.2, "type": "a_etf",
+     "rules": [{"kind": "price_percentile", "window": 500, "low": 0.15, "high": 0.85}]},
+    {"code": "515030", "name": "新能源车ETF", "target_pct": 4.2, "type": "a_etf",
+     "rules": [{"kind": "price_percentile", "window": 500, "low": 0.15, "high": 0.85}]},
+    {"code": "159755", "name": "电池ETF", "target_pct": 4.2, "type": "a_etf",
+     "rules": [{"kind": "price_percentile", "window": 500, "low": 0.15, "high": 0.85}]},
+    # 防御卫星
+    {"code": "512890", "name": "红利低波ETF", "target_pct": 4.2, "type": "a_etf",
      "rules": [{"kind": "price_percentile", "window": 500, "low": 0.20, "high": 0.80}]},
-    {"code": "512880", "name": "证券ETF", "target_pct": 3.3, "type": "a_etf",
-     "rules": [{"kind": "price_percentile", "window": 500, "low": 0.15, "high": 0.80}]},
+    {"code": "560610", "name": "中证A500ETF", "target_pct": 4.2, "type": "a_etf",
+     "rules": [{"kind": "price_percentile", "window": 500, "low": 0.20, "high": 0.80}]},
 ]
 
 PORTFOLIO_RULES = {
@@ -97,6 +100,12 @@ EM_SECID_MAP = {
     "159898": "0.159898", "562500": "1.562500", "159611": "0.159611",
     "159995": "0.159995", "512890": "1.512890", "512800": "1.512800",
     "518880": "1.518880", "512880": "1.512880",
+    # 2026-05-01 ETF甄选模型新增标的
+    "512400": "1.512400",  # 有色金属ETF
+    "515880": "1.515880",  # 科技ETF
+    "588000": "1.588000",  # 科创50ETF
+    "159819": "0.159819",  # 人工智能ETF
+    "515030": "1.515030",  # 新能源车ETF
 }
 
 # ---------------------------------------------------------------------------
@@ -811,10 +820,23 @@ def generate_report(holdings, realtime_map, history_map, signals, config) -> str
     lines.append("|------|------|----------|----------|----------|")
 
     base_amounts = {
-        "510300": 5500, "560610": 5500, "513130": 5500,
-        "159857": 4500, "159992": 4500, "159755": 3000,
-        "159898": 2500, "562500": 2500, "159611": 2500, "159995": 3000,
-        "512890": 4500, "512800": 2500, "518880": 2000, "512880": 2000,
+        # 2026-05-01 ETF甄选模型权重重排，月度定投50,000元按权重分配
+        "518880": 6300,   # 黄金ETF 12.6% (升级核心)
+        "159995": 5200,   # 芯片ETF 10.4%
+        "159992": 5200,   # 创新药ETF 10.4%
+        "562500": 4150,   # 机器人ETF 8.3%
+        "588000": 4150,   # 科创50ETF 8.3% (新增)
+        "159898": 4150,   # 医疗器械ETF 8.3%
+        "512400": 3650,   # 有色金属ETF 7.3% (新增-实物资产)
+        "159819": 3100,   # 人工智能ETF 6.2% (新增)
+        "515880": 3100,   # 科技ETF 6.2% (新增)
+        "159857": 2600,   # 光伏ETF 5.2%
+        "515030": 2100,   # 新能源车ETF 4.2% (新增)
+        "159755": 2100,   # 电池ETF 4.2% (降级)
+        "512890": 2100,   # 红利低波ETF 4.2%
+        "560610": 2100,   # 中证A500ETF 4.2%
+        # 兼容旧组合（已退出但保留以防回查）
+        "510300": 0, "513130": 0, "159611": 0, "512800": 0, "512880": 0,
     }
 
     total_suggest = 0

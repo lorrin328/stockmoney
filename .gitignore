@@ -55,3 +55,19 @@ secrets.json
 
 # Claude
 .claude/.cache/
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
+
+# Server runtime data (generated on server, not tracked)
+data/history/
+data/signals/
+data/cycle_data/
+data/quotes_*.csv
+data/quotes_*.json
+logs/
+reports/backtest_*.md
+reports/research_update_*.md
+reports/strategy_decision_*.md
+reports/macro_cycle_report_*.md
+papers/*.png
+papers/*.xlsx

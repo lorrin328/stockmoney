@@ -253,6 +253,52 @@ python scripts/investment_monitor.py --init-history --force
 | playwright-mcp | 网页抓取 | `npx -y @playwright/mcp` |
 | github-mcp-server | GitHub 操作 | 内置 |
 
+## 服务器部署（OpenClaw + CC CLI）
+
+本系统支持部署到Ubuntu服务器，由OpenClaw驱动，Claude Code CLI管理：
+
+### 快速部署（code-server终端）
+
+```bash
+# 1. 登录code-server（http://192.168.50.6:8080），打开终端
+# 2. 下载并执行部署脚本
+curl -fsSL https://raw.githubusercontent.com/lorrin328/stockmoney/main/deploy/deploy.sh -o /tmp/deploy.sh
+bash /tmp/deploy.sh
+
+# 3. 配置消息平台（Telegram/Slack）
+nano /opt/openclaw/.env
+# 添加 TELEGRAM_BOT_TOKEN 和 TELEGRAM_CHAT_ID
+
+# 4. 启动OpenClaw
+cd /opt/openclaw && pnpm gateway:start
+
+# 5. 在Telegram中发送"帮助"测试
+```
+
+### 部署后可用命令（消息平台）
+
+| 命令 | 功能 |
+|------|------|
+| `帮助` | 显示可用命令 |
+| `今日信号` | ETF监控+4%定投触发 |
+| `策略` / `决策` | 策略决策摘要 |
+| `推荐` / `买什么` | 标的推荐与仓位建议 |
+| `政策` / `宏观` | 政策与宏观环境分析 |
+| `完整报告` | 生成详细策略报告 |
+| `研究` / `更新` | CC CLI自动更新研究模块 |
+
+### 定时推送（自动）
+
+- **工作日9:25** — 盘前监控
+- **工作日15:05** — 盘后监控
+- **每日20:00** — 策略摘要
+- **每周一9:30** — 周度策略报告
+- **每月1日** — 政策分析+全量报告
+
+详细部署指南：[deploy/README_DEPLOY.md](deploy/README_DEPLOY.md)
+
+---
+
 ## 使用方式
 
 ### 完整决策流程

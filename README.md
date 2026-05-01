@@ -352,5 +352,3 @@ python scripts/strategy_engine.py --decision
 ## License
 
 MIT
-
-<!-- Server sync verified: 2026-05-01T16:14:26+08:00 -->

@@ -64,6 +64,13 @@ class StrategyDecision:
     monthly_dca_amount: float
     key_risks: List[str]
     key_opportunities: List[str]
+    # 政策分析
+    policy_score: float
+    policy_trend: str
+    policy_sectors: Dict[str, Dict]
+    policy_commodities: Dict[str, Dict]
+    fed_policy: Dict
+    pbo_policy: Dict
 
 
 # ---------------------------------------------------------------------------
@@ -106,6 +113,13 @@ class StrategyEngine:
         except Exception as e:
             print(f"[WARN] Asset allocator not available: {e}")
             self.allocator = None
+
+        try:
+            from policy_analyzer import PolicyAnalyzer
+            self.policy = PolicyAnalyzer()
+        except Exception as e:
+            print(f"[WARN] Policy analyzer not available: {e}")
+            self.policy = None
 
     def evaluate_all(self) -> StrategyDecision:
         """执行完整评估，输出策略决策"""
@@ -175,6 +189,32 @@ class StrategyEngine:
         # 9. 月度定投金额（90万18个月方案）
         monthly_dca = 50000 if four_pct_enabled else 0
 
+        # 6. 政策分析
+        policy_score = 0.0
+        policy_trend = "neutral"
+        policy_sectors = {}
+        policy_commodities = {}
+        fed_policy = {}
+        pbo_policy = {}
+        if self.policy:
+            try:
+                policy_analysis = self.policy.run_full_analysis()
+                policy_score = policy_analysis.overall_policy_score
+                policy_trend = policy_analysis.overall_trend
+                policy_sectors = policy_analysis.sector_recommendations
+                policy_commodities = policy_analysis.commodity_recommendations
+                fed_policy = self.policy.fed
+                pbo_policy = self.policy.pbc
+                # 政策修正仓位
+                if policy_score >= 30:
+                    overall_position = min(0.75, overall_position + 0.05)
+                    position_range = (position_range[0] + 0.05, min(0.80, position_range[1] + 0.05))
+                elif policy_score <= -30:
+                    overall_position = max(0.30, overall_position - 0.10)
+                    position_range = (max(0.20, position_range[0] - 0.10), position_range[1] - 0.10)
+            except Exception as e:
+                print(f"[WARN] Policy analysis failed: {e}")
+
         # 整合风险与机会
         all_risks = market_risks.copy() if market_risks else []
         all_opps = market_opps.copy() if market_opps else []
@@ -208,6 +248,12 @@ class StrategyEngine:
             monthly_dca_amount=monthly_dca,
             key_risks=all_risks,
             key_opportunities=all_opps,
+            policy_score=policy_score,
+            policy_trend=policy_trend,
+            policy_sectors=policy_sectors,
+            policy_commodities=policy_commodities,
+            fed_policy=fed_policy,
+            pbo_policy=pbo_policy,
         )
 
     def _derive_sectors(self, phase: str, tech_drivers: List[str]) -> List[str]:
@@ -351,13 +397,83 @@ def generate_strategy_report(decision: StrategyDecision) -> str:
         f"",
         "---",
         "",
-        "## 二、资产配置决策",
+        "## 二、政策与宏观环境分析",
         "",
-        "### 2.1 资产类别权重",
+        "### 2.1 政策综合评分",
+        "",
+        f"| 维度 | 内容 |",
+        f"|------|------|",
+        f"| 政策综合评分 | **{decision.policy_score:+.1f}/100** |",
+        f"| 政策趋势 | {decision.policy_trend} |",
+        "",
+        "### 2.2 美联储政策",
+        "",
+    ]
+
+    if decision.fed_policy:
+        lines.extend([
+            f"| 指标 | 内容 |",
+            f"|------|------|",
+            f"| 联邦基金利率 | {decision.fed_policy.get('current_rate', 'N/A')} |",
+            f"| 缩表状态 | {decision.fed_policy.get('qt_status', 'N/A')} |",
+            f"| 2026年预期降息 | {decision.fed_policy.get('2026_cuts_expected', 'N/A')}次 |",
+            f"| 下次会议 | {decision.fed_policy.get('next_meeting', 'N/A')} |",
+            "",
+        ])
+
+    lines.extend([
+        "### 2.3 中国货币政策",
+        "",
+    ])
+
+    if decision.pbo_policy:
+        lines.extend([
+            f"| 指标 | 内容 |",
+            f"|------|------|",
+            f"| 1年期LPR | {decision.pbo_policy.get('lpr_1y', 'N/A')} |",
+            f"| 5年期LPR | {decision.pbo_policy.get('lpr_5y', 'N/A')} |",
+            f"| 政策立场 | {decision.pbo_policy.get('policy_stance', 'N/A')} |",
+            "",
+        ])
+
+    lines.extend([
+        "### 2.4 十五五规划产业映射",
+        "",
+        "| 产业方向 | ETF标的 | 政策评分 |",
+        "|----------|---------|----------|",
+    ])
+
+    if decision.policy_sectors:
+        for category, sectors in decision.policy_sectors.items():
+            for name, info in sectors.items():
+                etfs = ", ".join(info.get('etfs', []))
+                lines.append(f"| {name} | {etfs} | {info.get('policy_score', '-')} |")
+
+    lines.extend([
+        "",
+        "### 2.5 商品配置建议",
+        "",
+        "| 商品 | 趋势 | 建议 | 目标价 |",
+        "|------|------|------|--------|",
+    ])
+
+    if decision.policy_commodities:
+        for name, info in decision.policy_commodities.items():
+            lines.append(
+                f"| {name} | {info.get('trend', '-')} | {info.get('action', '-')} | {info.get('price_target', '-')} |"
+            )
+
+    lines.extend([
+        "",
+        "---",
+        "",
+        "## 三、资产配置决策",
+        "",
+        "### 3.1 资产类别权重",
         "",
         "| 资产类别 | 目标权重 | 配置逻辑 |",
         "|----------|----------|----------|",
-    ]
+    ])
 
     asset_names = {
         "stock": "股票", "bond": "债券", "commodity": "大宗商品",
@@ -369,7 +485,7 @@ def generate_strategy_report(decision: StrategyDecision) -> str:
 
     lines.extend([
         "",
-        "### 2.2 关键赛道",
+        "### 3.2 关键赛道",
         "",
     ])
     for i, sector in enumerate(decision.key_sectors, 1):
@@ -379,17 +495,17 @@ def generate_strategy_report(decision: StrategyDecision) -> str:
         "",
         "---",
         "",
-        "## 三、执行策略",
+        "## 四、执行策略",
         "",
-        "### 3.1 进入策略",
+        "### 4.1 进入策略",
         "",
         f"{decision.entry_strategy}",
         "",
-        "### 3.2 退出策略",
+        "### 4.2 退出策略",
         "",
         f"{decision.exit_strategy}",
         "",
-        "### 3.3 4%定投法",
+        "### 4.3 4%定投法",
         "",
     ])
 
@@ -424,9 +540,9 @@ def generate_strategy_report(decision: StrategyDecision) -> str:
         "",
         "---",
         "",
-        "## 五、关键风险与机会",
+        "## 六、关键风险与机会",
         "",
-        "### 5.1 关键风险 ⚠️",
+        "### 6.1 关键风险 ⚠️",
         "",
     ])
     for risk in decision.key_risks:
@@ -434,7 +550,7 @@ def generate_strategy_report(decision: StrategyDecision) -> str:
 
     lines.extend([
         "",
-        "### 5.2 关键机会 ✅",
+        "### 6.2 关键机会 ✅",
         "",
     ])
     for opp in decision.key_opportunities:
@@ -444,12 +560,13 @@ def generate_strategy_report(decision: StrategyDecision) -> str:
         "",
         "---",
         "",
-        "## 六、操作清单",
+        "## 七、操作清单",
         "",
         "### 本周待办",
         "",
         "- [ ] 运行 `python scripts/investment_monitor.py` 检查每日信号",
         "- [ ] 运行 `python scripts/strategy_engine.py --report` 更新策略报告",
+        "- [ ] 运行 `python scripts/policy_analyzer.py --report` 更新政策分析",
         "- [ ] 检查4%定投法触发条件（如有持仓）",
         "- [ ] 检查资产配置偏离度（季度）",
         "",
@@ -457,6 +574,7 @@ def generate_strategy_report(decision: StrategyDecision) -> str:
         "",
         "- [ ] 执行定投计划（{decision.monthly_dca_amount:,.0f}元）".format(decision=decision),
         "- [ ] 更新市场指标评估",
+        "- [ ] 更新政策与宏观环境分析",
         "- [ ] 复盘上月操作，检查止损/止盈执行",
         "- [ ] 阅读康波周期研究报告更新",
         "",

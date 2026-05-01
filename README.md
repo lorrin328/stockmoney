@@ -18,6 +18,7 @@ stockmoney/
 │   ├── asset_allocator.py          # Layer 3: 资产配置决策
 │   ├── strategy_engine.py          # Layer 4: 策略决策引擎
 │   ├── four_percent_model.py       # Layer 5: 4%定投法执行
+│   ├── policy_analyzer.py          # 政策与宏观环境分析
 │   ├── investment_monitor.py       # 每日监控与信号生成
 │   └── sina_fetcher.py             # 数据获取工具
 ├── papers/                 # 深度研究报告
@@ -96,6 +97,23 @@ python scripts/market_indicators.py --report    # 完整报告
 ```bash
 python scripts/asset_allocator.py --report        # 生成配置报告
 python scripts/asset_allocator.py --allocation    # 显示配置方案
+```
+
+### 政策与宏观环境分析
+
+**`scripts/policy_analyzer.py`** — 政策分析系统
+
+结合中国政策大势与国际环境，提供政策面投资指引：
+
+- **十五五规划**：六大未来产业 + 六大新兴支柱产业投资映射
+- **大宗商品**：铜/黄金/原油/锂/铝供需分析与价格预测
+- **美联储政策**：利率、缩表、降息预期跟踪
+- **中国货币政策**：LPR、降准、结构性工具
+- **地缘政治**：中美博弈、中东局势影响评估
+
+```bash
+python scripts/policy_analyzer.py --report    # 生成政策分析报告
+python scripts/policy_analyzer.py --summary   # 显示分析摘要
 ```
 
 ### Layer 4: 策略决策引擎
@@ -187,13 +205,27 @@ python scripts/investment_monitor.py --init-history --force
 | 防御配置 | 黄金ETF | 518880 | 4.4% |
 | 防御配置 | 证券ETF | 512880 | 3.3% |
 
-## 2026年核心判断
+## 2026年核心判断（2026-05-01更新）
 
+### 周期面
 1. **康波定位**：第六轮康波复苏期起点（2026-2035），AI+新能源为核心引擎
 2. **周期共振**：康波复苏 + 朱格拉复苏 + 基钦上行 = 三周期同向
 3. **市场状态**：估值偏低（沪深300 PE 13.5，股债利差5.5%），情绪中性
-4. **策略方向**：左侧布局成长，工业金属+AI成长为主线
-5. **仓位建议**：中高仓位（50-70%）
+
+### 政策面
+4. **十五五规划**：六大未来产业（量子/生物制造/氢能/脑机接口/具身智能/6G）+ 六大新兴支柱产业（集成电路/航空航天/生物医药/新型储能/低空经济/智能机器人），总投资超10万亿
+5. **美联储**：维持3.50%-3.75%，缩表已暂停，全年预计降息0-1次，5月美联储主席换届
+6. **中国央行**：适度宽松，择机降准降息，1年期LPR 3.10%
+
+### 大宗商品
+7. **黄金**：看涨至4900-5000美元，央行购金+地缘避险+去美元化
+8. **铜**：供应紧缺+新能源需求，均价11,400美元/吨
+9. **原油**：高位震荡，基准86美元/桶，5月后取决于霍尔木兹海峡局势
+
+### 策略方向
+10. **核心赛道**：AI算力/半导体/创新药/新能源/工业金属
+11. **仓位建议**：中高仓位（60-75%，政策面修正后）
+12. **4%定投法**：启用，震荡市特征明显，宽基为主
 
 ## 文档体系
 
@@ -206,6 +238,7 @@ python scripts/investment_monitor.py --init-history --force
 | `reports/market_indicators_YYYYMMDD.md` | 市场指标综合报告 |
 | `reports/asset_allocation_YYYYMMDD.md` | 资产配置决策报告 |
 | `reports/strategy_decision_YYYYMMDD.md` | 策略决策报告 |
+| `reports/policy_analysis_YYYYMMDD.md` | 政策与宏观环境分析报告 |
 | `data/signals/signal_report_YYYYMMDD.md` | 每日监控报告 |
 
 ## MCP 服务器配置
@@ -234,13 +267,16 @@ python scripts/cycle_phase_evaluator.py --report
 # 3. 生成市场指标报告
 python scripts/market_indicators.py --report
 
-# 4. 生成资产配置报告
+# 4. 生成政策分析报告（十五五+大宗商品+美联储）
+python scripts/policy_analyzer.py --report
+
+# 5. 生成资产配置报告
 python scripts/asset_allocator.py --report
 
-# 5. 生成统一策略报告（整合以上所有）
+# 6. 生成统一策略报告（整合以上所有）
 python scripts/strategy_engine.py --report
 
-# 6. 每日监控（含4%定投信号）
+# 7. 每日监控（含4%定投信号）
 python scripts/investment_monitor.py
 ```
 

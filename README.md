@@ -38,6 +38,24 @@ stockmoney/
 | **Layer 4** | 策略决策引擎 | - | 整合所有模块输出统一策略 | 完整报告 |
 | **Layer 5** | 4%定投法执行 | 日/周 | 触发买入/卖出/止盈 | 操作信号 |
 
+## 三大用户触发功能(对话工作流)
+
+在五层架构底座之上,系统提供三个由用户主动触发的闭环功能。完整工作流见 [`reports/操作说明.md`](reports/操作说明.md)。
+
+| 功能 | 触发方式 | 输入 | 核心输出 |
+|------|---------|------|---------|
+| **F1 模型自学习与校验** | 用户用自然语言下达命令(如"更新模型"、"研究一下黄金"、"回测沪深300") | 自然语言指令 | `papers/{主题}_*.md`、`reports/research_*.md`、迭代后的 `scripts/*.py` |
+| **F2 持仓记录与建议** | 用户上传持仓截图后询问(如"我现在该买什么?"、"看看我的持仓") | 持仓截图 + 用户问题 | `data/positions/positions_*.json`、`reports/advice_*.md` |
+| **F3 周期性持仓分析报告** | 用户在周末/月末要求总结(如"周报"、"月报"、"总结一下") | 时间范围(周/月/自定义) | `reports/portfolio_review/{周报\|月报}_*.md` |
+
+### 三大功能与五层架构的关系
+
+- **F1** 调用并迭代 Layer 1-5 的模型 + 写入新研究
+- **F2** 读取 Layer 4-5 的当前决策,叠加用户实际持仓数据
+- **F3** 综合 Layer 1-5 输出 + 持仓收益归因
+
+> 隐私说明:`data/positions/` 中的实际持仓 JSON 和 `reports/portfolio_review/`、`reports/advice_*.md` 已配置 `.gitignore` 排除,不会同步到 GitHub。
+
 ## 核心模块
 
 ### Layer 1: 宏观周期定位
@@ -231,6 +249,8 @@ python scripts/investment_monitor.py --init-history --force
 
 | 文档 | 内容 |
 |------|------|
+| `reports/操作说明.md` | **三大用户触发功能完整工作流(本系统对话入口)** |
+| `reports/OPERATION_MANUAL.md` | 命令行/脚本技术操作手册 |
 | `reports/four_percent_strategy_guide.md` | 4%定投法完整策略手册（修正版） |
 | `papers/康波周期深度研究报告.md` | 康波周期理论研究 |
 | `reports/macro_cycle_report_YYYYMMDD.md` | 宏观周期定位报告 |
@@ -239,7 +259,11 @@ python scripts/investment_monitor.py --init-history --force
 | `reports/asset_allocation_YYYYMMDD.md` | 资产配置决策报告 |
 | `reports/strategy_decision_YYYYMMDD.md` | 策略决策报告 |
 | `reports/policy_analysis_YYYYMMDD.md` | 政策与宏观环境分析报告 |
+| `reports/research_YYYYMMDD.md` | F1 模型迭代日志 |
+| `reports/advice_YYYYMMDD.md` | F2 持仓建议报告(已 gitignore) |
+| `reports/portfolio_review/` | F3 周报/月报目录(已 gitignore) |
 | `data/signals/signal_report_YYYYMMDD.md` | 每日监控报告 |
+| `data/positions/positions_YYYYMMDD.json` | F2 持仓快照(已 gitignore) |
 
 ## MCP 服务器配置
 

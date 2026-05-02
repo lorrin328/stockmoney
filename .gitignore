@@ -73,3 +73,11 @@ reports/strategy_decision_*.md
 reports/macro_cycle_report_*.md
 papers/*.png
 papers/*.xlsx
+
+# Privacy: actual position data and personalized advice (functions 2 & 3)
+data/positions/positions_*.json
+data/positions/positions_history.csv
+reports/advice_*.md
+reports/portfolio_review/周报_*.md
+reports/portfolio_review/月报_*.md
+reports/portfolio_review/复盘_*.md

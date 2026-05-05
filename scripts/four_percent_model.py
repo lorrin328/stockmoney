@@ -25,7 +25,9 @@
 """
 
 import argparse
+import hashlib
 import json
+import pickle
 from dataclasses import dataclass, asdict
 from datetime import datetime
 from pathlib import Path
@@ -42,7 +44,9 @@ BASE_DIR = Path(__file__).parent.parent
 DATA_DIR = BASE_DIR / "data"
 HISTORY_DIR = DATA_DIR / "history"
 REPORTS_DIR = BASE_DIR / "reports"
+CACHE_DIR = DATA_DIR / "backtest_cache"
 REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
 
 # ---------------------------------------------------------------------------
@@ -782,12 +786,48 @@ class MonthlyDcaModel:
 
 
 # ---------------------------------------------------------------------------
+# 回测缓存
+# ---------------------------------------------------------------------------
+
+def _backtest_cache_path(code: str, start_date: str, end_date: str, capital: float) -> Path:
+    """Generate a deterministic cache file path for backtest results."""
+    key = f"{code}_{start_date or 'all'}_{end_date or 'all'}_{capital:.0f}"
+    slug = hashlib.sha256(key.encode()).hexdigest()[:16]
+    return CACHE_DIR / f"bt_{code}_{slug}.pkl"
+
+
+def _load_cached_backtest(code: str, start_date: str, end_date: str, capital: float,
+                          history_mtime: float) -> Optional[dict]:
+    """Load cached backtest result if still valid (history file unchanged)."""
+    path = _backtest_cache_path(code, start_date, end_date, capital)
+    if not path.exists():
+        return None
+    try:
+        with open(path, "rb") as f:
+            cached = pickle.load(f)
+        if cached.get("_history_mtime") == history_mtime:
+            return cached
+    except Exception:
+        pass
+    return None
+
+
+def _save_cached_backtest(code: str, start_date: str, end_date: str, capital: float,
+                          history_mtime: float, result: dict):
+    """Save backtest result to cache."""
+    result["_history_mtime"] = history_mtime
+    path = _backtest_cache_path(code, start_date, end_date, capital)
+    with open(path, "wb") as f:
+        pickle.dump(result, f)
+
+
+# ---------------------------------------------------------------------------
 # 回测引擎
 # ---------------------------------------------------------------------------
 
 def backtest_single(code: str, name: str, start_date: str = None, end_date: str = None,
                     capital: float = 100000) -> dict:
-    """对单个标的进行回测对比"""
+    """对单个标的进行回测对比（带缓存）"""
     df = load_history(code)
     if df.empty:
         return {"error": f"无历史数据: {code}"}
@@ -800,6 +840,15 @@ def backtest_single(code: str, name: str, start_date: str = None, end_date: str 
     if len(df) < 60:
         return {"error": f"数据不足: {code} ({len(df)} 条)"}
 
+    # Check cache keyed on history file modification time
+    history_path = HISTORY_DIR / f"{code}_history.csv"
+    history_mtime = history_path.stat().st_mtime if history_path.exists() else 0.0
+
+    cached = _load_cached_backtest(code, start_date or "", end_date or "", capital, history_mtime)
+    if cached is not None:
+        cached.pop("_history_mtime", None)
+        return cached
+
     original = FourPercentModel(total_capital=capital, name="原版4%定投法")
     enhanced = EnhancedFourPercentModel(total_capital=capital, name="改进版4%定投法")
     monthly = MonthlyDcaModel(total_capital=capital, name="普通月定投")
@@ -808,7 +857,7 @@ def backtest_single(code: str, name: str, start_date: str = None, end_date: str 
     enhanced_stats = enhanced.run(df)
     monthly_stats = monthly.run(df)
 
-    return {
+    result = {
         "code": code,
         "name": name,
         "period": f"{df['date'].iloc[0].date()} ~ {df['date'].iloc[-1].date()}",
@@ -819,6 +868,8 @@ def backtest_single(code: str, name: str, start_date: str = None, end_date: str 
         "original_trades": [asdict(t) for t in original.trades],
         "enhanced_trades": [asdict(t) for t in enhanced.trades],
     }
+    _save_cached_backtest(code, start_date or "", end_date or "", capital, history_mtime, result)
+    return result
 
 
 def generate_comparison_report(results: list[dict]) -> str:

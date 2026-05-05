@@ -337,6 +337,49 @@ INVESTMENT_THEMES_2026 = {
 
 
 # ---------------------------------------------------------------------------
+# 从配置文件加载（优先），失败则回退到硬编码常量
+# ---------------------------------------------------------------------------
+
+def _load_from_config():
+    """尝试从 model_params.json 加载，失败返回 None"""
+    try:
+        from config_loader import load_config
+        return load_config()
+    except Exception:
+        return None
+
+
+def _dict_to_wave(d: dict) -> KondratievWave:
+    """Convert dict from config to KondratievWave dataclass."""
+    phases = {k: tuple(v) for k, v in d.get("phases", {}).items()}
+    return KondratievWave(
+        round_num=d["round_num"],
+        name=d["name"],
+        start_year=d["start_year"],
+        end_year=d["end_year"],
+        core_tech=d["core_tech"],
+        dominant_countries=d["dominant_countries"],
+        phases=phases,
+        key_events=d.get("key_events", []),
+    )
+
+
+def _dict_to_phase_desc(name: str, d: dict) -> PhaseDescription:
+    """Convert dict from config to PhaseDescription dataclass."""
+    return PhaseDescription(
+        phase_name=name,
+        duration_years=d.get("duration_years", ""),
+        growth_rate=d.get("growth_rate", ""),
+        inflation_trend=d.get("inflation_trend", ""),
+        interest_rate_trend=d.get("interest_rate_trend", ""),
+        credit_condition=d.get("credit_condition", ""),
+        asset_performance=d.get("asset_performance", {}),
+        investment_theme=d.get("investment_theme", ""),
+        risk_level=d.get("risk_level", ""),
+    )
+
+
+# ---------------------------------------------------------------------------
 # 核心类
 # ---------------------------------------------------------------------------
 
@@ -344,9 +387,19 @@ class KondratievModel:
     """康波周期模型"""
 
     def __init__(self):
-        self.cycles = KONDRATIEV_CYCLES
-        self.phase_descs = PHASE_DESCRIPTIONS
-        self.themes = INVESTMENT_THEMES_2026
+        cfg = _load_from_config()
+        if cfg:
+            raw_cycles = cfg.kondratiev_cycles()
+            self.cycles = [_dict_to_wave(c) for c in raw_cycles]
+            raw_descs = cfg.kondratiev_phase_descriptions()
+            self.phase_descs = {k: _dict_to_phase_desc(k, v) for k, v in raw_descs.items()}
+            self.themes = cfg.kondratiev_investment_themes()
+            self._from_config = True
+        else:
+            self.cycles = KONDRATIEV_CYCLES
+            self.phase_descs = PHASE_DESCRIPTIONS
+            self.themes = INVESTMENT_THEMES_2026
+            self._from_config = False
 
     def get_current_cycle(self) -> KondratievWave:
         """获取当前康波周期"""

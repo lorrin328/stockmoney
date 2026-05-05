@@ -93,8 +93,9 @@ LIQUIDITY_INDICATORS = [
 
 COMMODITY_INDICATORS = [
     {"name": "CRB指数", "current": 280.0, "hist_low": 150.0, "hist_high": 470.0, "trend": "up", "description": "路透CRB商品指数"},
-    {"name": "黄金价格", "current": 2350.0, "hist_low": 1050.0, "hist_high": 2450.0, "trend": "up", "description": "伦敦金现货价格"},
-    {"name": "原油价格", "current": 82.0, "hist_low": 20.0, "hist_high": 147.0, "trend": "flat", "description": "布伦特原油现货价格"},
+    {"name": "黄金价格", "current": 4555.0, "hist_low": 1050.0, "hist_high": 5000.0, "trend": "correction", "description": "伦敦金现货价格（2026年5月，从4630高点技术性回调）"},
+    {"name": "原油价格", "current": 113.0, "hist_low": 20.0, "hist_high": 147.0, "trend": "up", "description": "布伦特原油现货价格（2026年5月，伊朗袭击阿联酋石油设施后飙升）"},
+    {"name": "美元指数", "current": 98.3, "hist_low": 70.0, "hist_high": 114.0, "trend": "up", "description": "美元指数DXY（霍尔木兹危机推升避险需求）"},
 ]
 
 
@@ -102,14 +103,29 @@ COMMODITY_INDICATORS = [
 # 核心类
 # ---------------------------------------------------------------------------
 
+def _load_config():
+    try:
+        from config_loader import load_config
+        return load_config()
+    except Exception:
+        return None
+
+
 class MarketIndicatorSystem:
     """市场指标系统"""
 
     def __init__(self):
-        self.valuation_data = VALUATION_INDICATORS
-        self.sentiment_data = SENTIMENT_INDICATORS
-        self.liquidity_data = LIQUIDITY_INDICATORS
-        self.commodity_data = COMMODITY_INDICATORS
+        cfg = _load_config()
+        if cfg:
+            self.valuation_data = cfg.market_valuation()
+            self.sentiment_data = cfg.market_sentiment()
+            self.liquidity_data = cfg.market_liquidity()
+            self.commodity_data = cfg.market_commodity()
+        else:
+            self.valuation_data = VALUATION_INDICATORS
+            self.sentiment_data = SENTIMENT_INDICATORS
+            self.liquidity_data = LIQUIDITY_INDICATORS
+            self.commodity_data = COMMODITY_INDICATORS
 
     def _calc_percentile(self, value: float, low: float, high: float) -> float:
         if high <= low:

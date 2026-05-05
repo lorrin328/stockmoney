@@ -91,6 +91,8 @@ PORTFOLIO_RULES = {
     "rebalance_threshold": 0.10,
     "take_profit_pct": 0.50,
     "class_rebalance": 0.05,
+    "single_stop_loss_pct": -0.20,   # 单标的硬止损：浮亏≥20%
+    "portfolio_max_drawdown_pct": -0.15,  # 组合最大回撤：≥15% 触发全面减仓
 }
 
 # 东方财富市场前缀映射
@@ -501,6 +503,7 @@ def check_rules(holding: dict, realtime: dict, history: pd.DataFrame) -> list[di
 def check_portfolio_signals(holdings: list[dict], realtime_map: dict, config: dict) -> list[dict]:
     signals = []
     total_value = 0.0
+    total_cost = 0.0
     positions = config.get("positions", {})
 
     for h in holdings:
@@ -510,9 +513,22 @@ def check_portfolio_signals(holdings: list[dict], realtime_map: dict, config: di
         shares = pos.get("shares", 0)
         price = rt.get("current", 0)
         total_value += shares * price
+        total_cost += shares * pos.get("cost", 0)
 
     if total_value <= 0:
         return signals
+
+    # --- 组合层面检查 ---
+    # 组合最大回撤（从成本基准计算）
+    if total_cost > 0:
+        portfolio_drawdown = (total_value - total_cost) / total_cost
+        if portfolio_drawdown <= PORTFOLIO_RULES["portfolio_max_drawdown_pct"]:
+            signals.append({
+                "code": "PORTFOLIO", "name": "投资组合", "type": "止损-组合",
+                "reason": f"组合浮亏 {portfolio_drawdown:.1%} >= {PORTFOLIO_RULES['portfolio_max_drawdown_pct']:.0%}（硬止损线），建议全面减仓至30%以下",
+                "price": 0, "metric": f"组合浮亏 {portfolio_drawdown:.1%}",
+                "priority": 1,
+            })
 
     for h in holdings:
         code = h["code"]
@@ -526,13 +542,23 @@ def check_portfolio_signals(holdings: list[dict], realtime_map: dict, config: di
         value = shares * price
         actual_pct = value / total_value if total_value else 0
 
-        # 止盈
-        if cost > 0 and price > 0:
+        if cost > 0 and price > 0 and shares > 0:
             gain_pct = (price - cost) / cost
+
+            # 硬止损：单标的浮亏 ≥ 20%
+            if gain_pct <= PORTFOLIO_RULES["single_stop_loss_pct"]:
+                signals.append({
+                    "code": code, "name": name, "type": "止损-单标",
+                    "reason": f"浮亏 {gain_pct:.1%} >= {PORTFOLIO_RULES['single_stop_loss_pct']:.0%}（硬止损线），建议立即卖出",
+                    "price": price, "metric": f"浮亏 {gain_pct:.1%}",
+                    "priority": 1,
+                })
+
+            # 止盈
             if gain_pct >= PORTFOLIO_RULES["take_profit_pct"]:
                 signals.append({
                     "code": code, "name": name, "type": "止盈",
-                    "reason": f"浮盈 {gain_pct:.1%} >= 50%",
+                    "reason": f"浮盈 {gain_pct:.1%} >= {PORTFOLIO_RULES['take_profit_pct']:.0%}",
                     "price": price, "metric": f"浮盈 {gain_pct:.1%}",
                     "priority": 1,
                 })
@@ -642,10 +668,21 @@ def generate_report(holdings, realtime_map, history_map, signals, config) -> str
     normal = [s for s in signals if s["priority"] == 2]
     info_sig = [s for s in signals if s["priority"] == 3]
 
-    if urgent:
+    # 风险信号独立展示（止损类信号最优先）
+    stop_loss_signals = [s for s in urgent if "止损" in s["type"]]
+    other_urgent = [s for s in urgent if s not in stop_loss_signals]
+
+    if stop_loss_signals:
+        lines.append("### ⚠️ 风险信号（立即处置）")
+        lines.append("")
+        for s in stop_loss_signals:
+            lines.append(f"- **{s['type']}** | `{s['code']}` {s['name']} | {s['reason']}")
+        lines.append("")
+
+    if other_urgent:
         lines.append("### 紧急信号（立即关注）")
         lines.append("")
-        for s in urgent:
+        for s in other_urgent:
             lines.append(f"- **{s['type']}** | `{s['code']}` {s['name']} @ {s['price']:.3f}")
             lines.append(f"  - {s['reason']} ({s['metric']})")
         lines.append("")
@@ -723,16 +760,21 @@ def generate_report(holdings, realtime_map, history_map, signals, config) -> str
                 pctl_str = "-"
                 judgment = "数据不足"
             elif pctl <= 0.15:
+                pctl_str = f"{pctl:.0%}"
                 judgment = "**极度低估**"
             elif pctl <= 0.30:
+                pctl_str = f"{pctl:.0%}"
                 judgment = "低估"
             elif pctl >= 0.85:
+                pctl_str = f"{pctl:.0%}"
                 judgment = "高估"
             elif pctl >= 0.70:
+                pctl_str = f"{pctl:.0%}"
                 judgment = "偏高"
             else:
+                pctl_str = f"{pctl:.0%}"
                 judgment = "合理"
-                lines.append(f"| {name} | {code} | {price:.3f} | {low:.3f} | {high:.3f} | {pctl_str} | {judgment} |")
+            lines.append(f"| {name} | {code} | {price:.3f} | {low:.3f} | {high:.3f} | {pctl_str} | {judgment} |")
         else:
             lines.append(f"| {name} | {code} | {price:.3f} | - | - | - | 暂无数据 |")
 

@@ -121,106 +121,114 @@ class StrategyEngine:
             print(f"[WARN] Policy analyzer not available: {e}")
             self.policy = None
 
-    def evaluate_all(self) -> StrategyDecision:
-        """执行完整评估，输出策略决策"""
+    # -------------------------------------------------------------------
+    # Evaluation steps — each is independent with its own fallback
+    # -------------------------------------------------------------------
 
-        # 1. 康波周期定位
+    def _eval_kondratiev(self) -> Dict:
+        """Step 1: Kondratiev cycle positioning."""
         if self.kondratiev:
-            kondratiev_phase = self.kondratiev.get_current_phase()
-            cycle_pos = self.kondratiev.get_cycle_position(self.year)
-            tech_drivers = cycle_pos.tech_drivers if cycle_pos else ["AI", "新能源"]
-        else:
-            kondratiev_phase = "复苏期"
-            tech_drivers = ["AI", "新能源", "生物技术", "量子计算"]
+            phase = self.kondratiev.get_current_phase()
+            pos = self.kondratiev.get_cycle_position(self.year)
+            return {
+                "phase": phase,
+                "tech_drivers": pos.tech_drivers if pos else ["AI", "新能源"],
+            }
+        return {
+            "phase": "复苏期",
+            "tech_drivers": ["AI", "新能源", "生物技术", "量子计算"],
+        }
 
-        # 2. 多周期共振
+    def _eval_resonance(self) -> Dict:
+        """Step 2: Multi-cycle resonance analysis."""
         if self.cycle_eval:
-            phases, resonance = self.cycle_eval.evaluate_all(self.year)
-            resonance_strength = resonance.resonance_strength
-            resonance_score = resonance.resonance_score
-            position_range = resonance.position_range
-            aligned = resonance.aligned_cycles
-            opposed = resonance.opposed_cycles
-        else:
-            resonance_strength = "中共振偏强"
-            resonance_score = 70.0
-            position_range = (0.50, 0.70)
-            aligned = ["康德拉季耶夫长波", "朱格拉周期", "基钦周期"]
-            opposed = []
+            _, resonance = self.cycle_eval.evaluate_all(self.year)
+            return {
+                "strength": resonance.resonance_strength,
+                "score": resonance.resonance_score,
+                "position_range": resonance.position_range,
+                "aligned": resonance.aligned_cycles,
+                "opposed": resonance.opposed_cycles,
+            }
+        return {
+            "strength": "中共振偏强",
+            "score": 70.0,
+            "position_range": (0.50, 0.70),
+            "aligned": ["康德拉季耶夫长波", "朱格拉周期", "基钦周期"],
+            "opposed": [],
+        }
 
-        # 3. 市场指标
+    def _eval_market(self) -> Dict:
+        """Step 3: Market indicator verification."""
         if self.market:
             summary = self.market.calculate_summary()
-            market_score = summary.overall_score
-            market_signal = summary.overall_signal
-            market_risks = summary.key_risks
-            market_opps = summary.key_opportunities
-        else:
-            market_score = 60.0
-            market_signal = "bullish"
-            market_risks = []
-            market_opps = []
+            return {
+                "score": summary.overall_score,
+                "signal": summary.overall_signal,
+                "risks": summary.key_risks,
+                "opportunities": summary.key_opportunities,
+            }
+        return {
+            "score": 60.0,
+            "signal": "bullish",
+            "risks": [],
+            "opportunities": [],
+        }
 
-        # 4. 资产配置
+    def _eval_asset_allocation(self, kondratiev_phase: str, resonance_score: float) -> Dict:
+        """Step 4: Asset allocation plan."""
         if self.allocator:
-            plan = self.allocator.generate_plan(
-                phase=kondratiev_phase,
-                resonance="强共振" if resonance_score >= 75 else ("弱共振" if resonance_score <= 40 else "medium")
-            )
-            asset_alloc = {w.asset_class: w.weight_mid for w in plan.asset_weights}
-            overall_position = plan.overall_position
-        else:
-            asset_alloc = {"stock": 0.40, "bond": 0.20, "commodity": 0.25, "gold": 0.10, "cash": 0.05}
-            overall_position = 0.70
+            resonance_label = "强共振" if resonance_score >= 75 else ("弱共振" if resonance_score <= 40 else "medium")
+            plan = self.allocator.generate_plan(phase=kondratiev_phase, resonance=resonance_label)
+            return {
+                "allocation": {w.asset_class: w.weight_mid for w in plan.asset_weights},
+                "overall_position": plan.overall_position,
+            }
+        return {
+            "allocation": {"stock": 0.40, "bond": 0.20, "commodity": 0.25, "gold": 0.10, "cash": 0.05},
+            "overall_position": 0.70,
+        }
 
-        # 5. 关键赛道（基于康波主题）
-        key_sectors = self._derive_sectors(kondratiev_phase, tech_drivers)
-
-        # 6. 进入/退出策略
-        entry_strategy = self._derive_entry(kondratiev_phase, market_signal, resonance_strength)
-        exit_strategy = self._derive_exit(kondratiev_phase, market_signal)
-
-        # 7. 风险管理
-        risk_mgmt = self._derive_risk_mgmt(kondratiev_phase, resonance_score, market_score)
-
-        # 8. 4%定投法是否启用
-        four_pct_enabled = market_signal in ("bullish", "neutral") and kondratiev_phase in ("复苏期", "萧条期")
-
-        # 9. 月度定投金额（90万18个月方案）
-        monthly_dca = 50000 if four_pct_enabled else 0
-
-        # 6. 政策分析
-        policy_score = 0.0
-        policy_trend = "neutral"
-        policy_sectors = {}
-        policy_commodities = {}
-        fed_policy = {}
-        pbo_policy = {}
+    def _eval_policy(self) -> Dict:
+        """Step 5: Policy analysis and position adjustment."""
+        result = {
+            "score": 0.0,
+            "trend": "neutral",
+            "sectors": {},
+            "commodities": {},
+            "fed": {},
+            "pbo": {},
+            "position_adjust": 0.0,
+            "range_adjust": 0.0,
+        }
         if self.policy:
             try:
-                policy_analysis = self.policy.run_full_analysis()
-                policy_score = policy_analysis.overall_policy_score
-                policy_trend = policy_analysis.overall_trend
-                policy_sectors = policy_analysis.sector_recommendations
-                policy_commodities = policy_analysis.commodity_recommendations
-                fed_policy = self.policy.fed
-                pbo_policy = self.policy.pbc
-                # 政策修正仓位
-                if policy_score >= 30:
-                    overall_position = min(0.75, overall_position + 0.05)
-                    position_range = (position_range[0] + 0.05, min(0.80, position_range[1] + 0.05))
-                elif policy_score <= -30:
-                    overall_position = max(0.30, overall_position - 0.10)
-                    position_range = (max(0.20, position_range[0] - 0.10), position_range[1] - 0.10)
+                analysis = self.policy.run_full_analysis()
+                result["score"] = analysis.overall_policy_score
+                result["trend"] = analysis.overall_trend
+                result["sectors"] = analysis.sector_recommendations
+                result["commodities"] = analysis.commodity_recommendations
+                result["fed"] = self.policy.fed
+                result["pbo"] = self.policy.pbc
+                if analysis.overall_policy_score >= 30:
+                    result["position_adjust"] = 0.05
+                    result["range_adjust"] = 0.05
+                elif analysis.overall_policy_score <= -30:
+                    result["position_adjust"] = -0.10
+                    result["range_adjust"] = -0.10
             except Exception as e:
                 print(f"[WARN] Policy analysis failed: {e}")
+        return result
 
-        # 整合风险与机会
-        all_risks = market_risks.copy() if market_risks else []
-        all_opps = market_opps.copy() if market_opps else []
+    @staticmethod
+    def _build_opportunities_risks(kondratiev_phase: str, market_risks: List[str],
+                                   market_opps: List[str]) -> Dict:
+        """Step 6: Aggregate risks and opportunities for the current phase."""
+        risks = list(market_risks) if market_risks else []
+        opps = list(market_opps) if market_opps else []
 
         if kondratiev_phase == "复苏期":
-            all_opps.extend([
+            opps.extend([
                 "第六轮康波复苏起点，长期布局窗口",
                 "AI+新能源为核心引擎，成长空间大",
                 "朱格拉周期触底回升，设备投资景气上行",
@@ -232,7 +240,7 @@ class StrategyEngine:
                 "美联储4·29鸽派分歧创1992以来最大（8:4），全球流动性预期改善",
                 "房地产降幅收窄至-0.1%，政策托底+城中村改造加码",
             ])
-            all_risks.extend([
+            risks.extend([
                 "美伊海上封锁升级（4·29美军封锁霍尔木兹），中东全面战争风险",
                 "中美贸易战进入第三轮（钢铝铜关税升级+小额免税取消+转口封堵）",
                 "台海地缘政治风险上升，2026年为高风险窗口",
@@ -242,30 +250,63 @@ class StrategyEngine:
                 "黄金4630美元/盎司高位，技术性调整压力",
                 "周期拐点判断可能滞后2-5年",
             ])
+        return {"risks": risks, "opportunities": opps}
+
+    # -------------------------------------------------------------------
+    # Orchestration
+    # -------------------------------------------------------------------
+
+    def evaluate_all(self) -> StrategyDecision:
+        """Execute full evaluation across all modules and return a strategy decision."""
+
+        k = self._eval_kondratiev()
+        r = self._eval_resonance()
+        m = self._eval_market()
+        a = self._eval_asset_allocation(k["phase"], r["score"])
+        p = self._eval_policy()
+
+        # Apply policy-based position adjustments
+        overall_position = a["overall_position"]
+        position_range = r["position_range"]
+        if p["position_adjust"] != 0:
+            overall_position = max(0.20, min(0.80, overall_position + p["position_adjust"]))
+            lo = max(0.10, position_range[0] + p["range_adjust"])
+            hi = min(0.85, position_range[1] + p["range_adjust"])
+            position_range = (lo, hi)
+
+        # Derived decisions
+        key_sectors = self._derive_sectors(k["phase"], k["tech_drivers"])
+        entry_strategy = self._derive_entry(k["phase"], m["signal"], r["strength"])
+        exit_strategy = self._derive_exit(k["phase"], m["signal"])
+        risk_mgmt = self._derive_risk_mgmt(k["phase"], r["score"], m["score"])
+        four_pct_enabled = m["signal"] in ("bullish", "neutral") and k["phase"] in ("复苏期", "萧条期")
+        monthly_dca = 50000 if four_pct_enabled else 0
+
+        ro = self._build_opportunities_risks(k["phase"], m["risks"], m["opportunities"])
 
         return StrategyDecision(
-            cycle_position=kondratiev_phase,
-            resonance_strength=resonance_strength,
-            resonance_score=resonance_score,
-            market_score=market_score,
-            market_signal=market_signal,
+            cycle_position=k["phase"],
+            resonance_strength=r["strength"],
+            resonance_score=r["score"],
+            market_score=m["score"],
+            market_signal=m["signal"],
             overall_position=overall_position,
             position_range=position_range,
-            asset_allocation=asset_alloc,
+            asset_allocation=a["allocation"],
             key_sectors=key_sectors,
             entry_strategy=entry_strategy,
             exit_strategy=exit_strategy,
             risk_management=risk_mgmt,
             four_percent_enabled=four_pct_enabled,
             monthly_dca_amount=monthly_dca,
-            key_risks=all_risks,
-            key_opportunities=all_opps,
-            policy_score=policy_score,
-            policy_trend=policy_trend,
-            policy_sectors=policy_sectors,
-            policy_commodities=policy_commodities,
-            fed_policy=fed_policy,
-            pbo_policy=pbo_policy,
+            key_risks=ro["risks"],
+            key_opportunities=ro["opportunities"],
+            policy_score=p["score"],
+            policy_trend=p["trend"],
+            policy_sectors=p["sectors"],
+            policy_commodities=p["commodities"],
+            fed_policy=p["fed"],
+            pbo_policy=p["pbo"],
         )
 
     def _derive_sectors(self, phase: str, tech_drivers: List[str]) -> List[str]:
@@ -337,7 +378,8 @@ class StrategyEngine:
 
         # 仓位上限（2026年5月：政治局'信心建设战'+地缘升级，仓位区间放大但偏保守）
         if phase == "复苏期":
-            rules.append(f"股票仓位上限：65%（当前建议{int(market * 0.65)}%，地缘风险下偏保守）")
+            suggested_pct = int(65 * market / 100)
+            rules.append(f"股票仓位上限：65%（当前建议{suggested_pct}%，地缘风险下偏保守）")
         elif phase == "繁荣期":
             rules.append("股票仓位上限：75%，但建议逐步降低至55%")
         elif phase == "衰退期":
@@ -551,7 +593,7 @@ def generate_strategy_report(decision: StrategyDecision) -> str:
         "",
         "---",
         "",
-        "## 四、风险管理",
+        "## 五、风险管理",
         "",
     ])
     for rule in decision.risk_management:

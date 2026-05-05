@@ -164,13 +164,28 @@ DEFAULT_PORTFOLIO = {
 # 核心类
 # ---------------------------------------------------------------------------
 
+def _load_config():
+    try:
+        from config_loader import load_config
+        return load_config()
+    except Exception:
+        return None
+
+
 class AssetAllocator:
     """资产配置决策器"""
 
     def __init__(self, portfolio_weights: Optional[Dict[str, float]] = None):
-        self.portfolio = portfolio_weights or DEFAULT_PORTFOLIO.copy()
-        self.matrix = PHASE_ALLOCATION_MATRIX
-        self.etf_map = ETF_ASSET_MAP
+        cfg = _load_config()
+        if cfg:
+            self.matrix = cfg.asset_phase_matrix()
+            self.etf_map = cfg.asset_etf_map()
+            self._default_portfolio = cfg.asset_default_portfolio()
+        else:
+            self.matrix = PHASE_ALLOCATION_MATRIX
+            self.etf_map = ETF_ASSET_MAP
+            self._default_portfolio = DEFAULT_PORTFOLIO
+        self.portfolio = portfolio_weights or self._default_portfolio.copy()
 
     def get_asset_allocation(self, phase: str, resonance_strength: str = "medium") -> Dict[str, Dict]:
         """根据周期阶段获取资产类别配置"""
@@ -213,15 +228,17 @@ class AssetAllocator:
             asset = info.get("asset", "stock")
             asset_weight = asset_allocation.get(asset, {}).get("weight", 0.15)
 
-            # 组合默认权重 × 资产类别调整因子
-            # 如果资产类别权重提升，相应提升ETF权重
+            # 基础权重 × 资产类别调整因子 / 该类别所有ETF的weight_factor之和
             base_weight = target_pct / 100.0
+            # 用资产类别权重调整基础权重（同步于周期阶段变化）
+            weight_factor = info.get("weight_factor", 1.0)
+            adjusted_weight = base_weight * weight_factor * (asset_weight / 0.15)
 
             etf_allocs.append(ETFAllocation(
                 code=code,
                 name=info.get("name", code),
                 asset_class=asset,
-                target_weight=base_weight,
+                target_weight=adjusted_weight,
                 current_weight=0.0,
                 deviation=0.0,
                 action="持有",

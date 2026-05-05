@@ -35,6 +35,14 @@ DATA_DIR = BASE_DIR / "data"
 REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 
 
+def _load_config():
+    try:
+        from config_loader import load_config
+        return load_config()
+    except Exception:
+        return None
+
+
 # ---------------------------------------------------------------------------
 # 数据模型
 # ---------------------------------------------------------------------------
@@ -250,10 +258,17 @@ class PolicyAnalyzer:
     """政策与宏观环境分析器"""
 
     def __init__(self):
-        self.fyp_industries = FIFTEENTH_FYP_INDUSTRIES
-        self.commodities = COMMODITY_DATA
-        self.fed = FED_POLICY
-        self.pbc = PBOC_POLICY
+        cfg = _load_config()
+        if cfg:
+            self.fyp_industries = cfg.policy_fyp_industries()
+            self.commodities = cfg.policy_commodities()
+            self.fed = cfg.policy_fed()
+            self.pbc = cfg.policy_pboc()
+        else:
+            self.fyp_industries = FIFTEENTH_FYP_INDUSTRIES
+            self.commodities = COMMODITY_DATA
+            self.fed = FED_POLICY
+            self.pbc = PBOC_POLICY
 
     def analyze_fifteenth_fyp(self) -> PolicyFactor:
         """分析十五五规划政策影响"""

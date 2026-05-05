@@ -58,176 +58,276 @@ class ETFScore:
 # ---------------------------------------------------------------------------
 
 CANDIDATE_ETFS = {
-    # === 现有持仓 ===
+    # =========================================================================
+    # 宽基指数 (6只)
+    # =========================================================================
     "510300": {
-        "name": "沪深300ETF",
-        "category": "宽基",
-        "exposure": "大盘蓝筹",
-        "pe_ttm": 14.6, "pb": 1.46,
-        "pe_percentile": 0.86, "pb_percentile": 0.57,
-        "ep_ratio": 0.068,
+        "name": "沪深300ETF", "category": "宽基", "exposure": "大盘蓝筹",
+        "pe_ttm": 14.6, "pb": 1.46, "pe_percentile": 0.86, "pb_percentile": 0.57, "ep_ratio": 0.068,
     },
     "560610": {
-        "name": "中证A500ETF",
-        "category": "宽基",
-        "exposure": "中大盘均衡",
-        "pe_ttm": 15.2, "pb": 1.52,
-        "pe_percentile": 0.75, "pb_percentile": 0.50,
-        "ep_ratio": 0.066,
+        "name": "中证A500ETF", "category": "宽基", "exposure": "中大盘均衡",
+        "pe_ttm": 15.2, "pb": 1.52, "pe_percentile": 0.75, "pb_percentile": 0.50, "ep_ratio": 0.066,
     },
-    "513130": {
-        "name": "恒生科技ETF",
-        "category": "港股",
-        "exposure": "港股科技龙头",
-        "pe_ttm": 22.0, "pb": 2.1,
-        "pe_percentile": 0.35, "pb_percentile": 0.20,
-        "ep_ratio": 0.045,
+    "510050": {
+        "name": "上证50ETF", "category": "宽基", "exposure": "超大盘蓝筹",
+        "pe_ttm": 11.5, "pb": 1.25, "pe_percentile": 0.70, "pb_percentile": 0.55, "ep_ratio": 0.087,
     },
-    "159857": {
-        "name": "光伏ETF",
-        "category": "新能源",
-        "exposure": "光伏产业链",
-        "pe_ttm": 18.0, "pb": 1.8,
-        "pe_percentile": 0.15, "pb_percentile": 0.25,
-        "ep_ratio": 0.056,
+    "510500": {
+        "name": "中证500ETF", "category": "宽基", "exposure": "中盘成长",
+        "pe_ttm": 22.0, "pb": 1.75, "pe_percentile": 0.09, "pb_percentile": 0.10, "ep_ratio": 0.045,
     },
-    "159755": {
-        "name": "电池ETF",
-        "category": "新能源",
-        "exposure": "锂电池产业链",
-        "pe_ttm": 25.0, "pb": 2.2,
-        "pe_percentile": 0.20, "pb_percentile": 0.15,
-        "ep_ratio": 0.040,
+    "159915": {
+        "name": "创业板ETF", "category": "宽基", "exposure": "创业板龙头",
+        "pe_ttm": 32.0, "pb": 4.5, "pe_percentile": 0.15, "pb_percentile": 0.20, "ep_ratio": 0.031,
     },
-    "159992": {
-        "name": "创新药ETF",
-        "category": "医药",
-        "exposure": "创新药研发",
-        "pe_ttm": None, "pb": 3.5,
-        "pe_percentile": None, "pb_percentile": 0.30,
-        "ep_ratio": None,  # 创新药多亏损
-    },
-    "159898": {
-        "name": "医疗器械ETF",
-        "category": "医药",
-        "exposure": "高端医疗器械",
-        "pe_ttm": 28.0, "pb": 3.8,
-        "pe_percentile": 0.25, "pb_percentile": 0.20,
-        "ep_ratio": 0.036,
-    },
-    "562500": {
-        "name": "机器人ETF",
-        "category": "高端制造",
-        "exposure": "工业机器人+人形机器人",
-        "pe_ttm": 45.0, "pb": 3.2,
-        "pe_percentile": 0.60, "pb_percentile": 0.55,
-        "ep_ratio": 0.022,
-    },
-    "159611": {
-        "name": "电力ETF",
-        "category": "公用事业",
-        "exposure": "电力运营商",
-        "pe_ttm": 16.0, "pb": 1.4,
-        "pe_percentile": 0.40, "pb_percentile": 0.35,
-        "ep_ratio": 0.063,
-    },
-    "159995": {
-        "name": "芯片ETF",
-        "category": "科技",
-        "exposure": "半导体全产业链",
-        "pe_ttm": 85.0, "pb": 4.0,
-        "pe_percentile": 0.70, "pb_percentile": 0.50,
-        "ep_ratio": 0.012,
-    },
-    "512890": {
-        "name": "红利低波ETF",
-        "category": "防御",
-        "exposure": "高股息低波动股票",
-        "pe_ttm": 7.0, "pb": 0.75,
-        "pe_percentile": 0.55, "pb_percentile": 0.45,
-        "ep_ratio": 0.143,
-    },
-    "512800": {
-        "name": "银行ETF",
-        "category": "金融",
-        "exposure": "上市银行",
-        "pe_ttm": 5.5, "pb": 0.55,
-        "pe_percentile": 0.30, "pb_percentile": 0.15,
-        "ep_ratio": 0.182,
-    },
-    "518880": {
-        "name": "黄金ETF",
-        "category": "商品",
-        "exposure": "现货黄金",
-        "pe_ttm": None, "pb": None,
-        "pe_percentile": None, "pb_percentile": None,
-        "ep_ratio": None,
-    },
-    "512880": {
-        "name": "证券ETF",
-        "category": "金融",
-        "exposure": "券商股",
-        "pe_ttm": 18.0, "pb": 1.3,
-        "pe_percentile": 0.40, "pb_percentile": 0.20,
-        "ep_ratio": 0.056,
+    "512100": {
+        "name": "中证1000ETF", "category": "宽基", "exposure": "小盘成长",
+        "pe_ttm": 35.0, "pb": 2.2, "pe_percentile": 0.30, "pb_percentile": 0.35, "ep_ratio": 0.029,
     },
 
-    # === 新增候选 ===
-    "512400": {
-        "name": "有色金属ETF",
-        "category": "商品",
-        "exposure": "铜铝锌锂等工业金属",
-        "pe_ttm": 20.0, "pb": 2.0,
-        "pe_percentile": 0.30, "pb_percentile": 0.40,
-        "ep_ratio": 0.050,
-    },
-    "515880": {
-        "name": "科技ETF",
-        "category": "科技",
-        "exposure": "泛科技（电子/计算机/通信）",
-        "pe_ttm": 55.0, "pb": 3.5,
-        "pe_percentile": 0.65, "pb_percentile": 0.50,
-        "ep_ratio": 0.018,
-    },
-    "588000": {
-        "name": "科创50ETF",
-        "category": "科技",
-        "exposure": "科创板龙头（硬科技）",
-        "pe_ttm": 75.0, "pb": 4.2,
-        "pe_percentile": 0.55, "pb_percentile": 0.30,
-        "ep_ratio": 0.013,
-    },
-    "159819": {
-        "name": "人工智能ETF",
-        "category": "科技",
-        "exposure": "AI产业链（算力/算法/应用）",
-        "pe_ttm": 60.0, "pb": 3.8,
-        "pe_percentile": 0.70, "pb_percentile": 0.60,
-        "ep_ratio": 0.017,
-    },
-    "515030": {
-        "name": "新能源车ETF",
-        "category": "新能源",
-        "exposure": "整车+零部件",
-        "pe_ttm": 22.0, "pb": 2.0,
-        "pe_percentile": 0.20, "pb_percentile": 0.15,
-        "ep_ratio": 0.045,
-    },
-    "512690": {
-        "name": "酒ETF",
-        "category": "消费",
-        "exposure": "白酒龙头",
-        "pe_ttm": 20.0, "pb": 5.5,
-        "pe_percentile": 0.25, "pb_percentile": 0.35,
-        "ep_ratio": 0.050,
+    # =========================================================================
+    # 港股/QDII (5只)
+    # =========================================================================
+    "513130": {
+        "name": "恒生科技ETF", "category": "港股", "exposure": "港股科技龙头",
+        "pe_ttm": 22.0, "pb": 2.1, "pe_percentile": 0.35, "pb_percentile": 0.20, "ep_ratio": 0.045,
     },
     "513100": {
-        "name": "纳斯达克100ETF",
-        "category": "QDII",
-        "exposure": "美股科技巨头",
-        "pe_ttm": 28.0, "pb": 8.0,
-        "pe_percentile": 0.80, "pb_percentile": 0.85,
-        "ep_ratio": 0.036,
+        "name": "纳斯达克100ETF", "category": "QDII", "exposure": "美股科技巨头",
+        "pe_ttm": 28.0, "pb": 8.0, "pe_percentile": 0.80, "pb_percentile": 0.85, "ep_ratio": 0.036,
+    },
+    "513500": {
+        "name": "标普500ETF", "category": "QDII", "exposure": "美股大盘",
+        "pe_ttm": 24.0, "pb": 4.8, "pe_percentile": 0.85, "pb_percentile": 0.88, "ep_ratio": 0.042,
+    },
+    "513520": {
+        "name": "日经225ETF", "category": "QDII", "exposure": "日本大盘股",
+        "pe_ttm": 18.0, "pb": 1.8, "pe_percentile": 0.60, "pb_percentile": 0.55, "ep_ratio": 0.056,
+    },
+    "159941": {
+        "name": "纳斯达克ETF", "category": "QDII", "exposure": "纳斯达克100（规模最大）",
+        "pe_ttm": 28.0, "pb": 8.0, "pe_percentile": 0.80, "pb_percentile": 0.85, "ep_ratio": 0.036,
+    },
+
+    # =========================================================================
+    # 科技 (8只)
+    # =========================================================================
+    "159995": {
+        "name": "芯片ETF", "category": "科技", "exposure": "半导体全产业链",
+        "pe_ttm": 85.0, "pb": 4.0, "pe_percentile": 0.70, "pb_percentile": 0.50, "ep_ratio": 0.012,
+    },
+    "515880": {
+        "name": "科技ETF", "category": "科技", "exposure": "泛科技（电子/计算机/通信）",
+        "pe_ttm": 55.0, "pb": 3.5, "pe_percentile": 0.65, "pb_percentile": 0.50, "ep_ratio": 0.018,
+    },
+    "588000": {
+        "name": "科创50ETF", "category": "科技", "exposure": "科创板龙头（硬科技）",
+        "pe_ttm": 75.0, "pb": 4.2, "pe_percentile": 0.55, "pb_percentile": 0.30, "ep_ratio": 0.013,
+    },
+    "159819": {
+        "name": "人工智能ETF", "category": "科技", "exposure": "AI产业链（算力/算法/应用）",
+        "pe_ttm": 60.0, "pb": 3.8, "pe_percentile": 0.70, "pb_percentile": 0.60, "ep_ratio": 0.017,
+    },
+    "515050": {
+        "name": "5GETF", "category": "科技", "exposure": "5G通信产业链",
+        "pe_ttm": 30.0, "pb": 2.5, "pe_percentile": 0.40, "pb_percentile": 0.35, "ep_ratio": 0.033,
+    },
+    "516510": {
+        "name": "云计算ETF", "category": "科技", "exposure": "云计算/大数据",
+        "pe_ttm": 50.0, "pb": 3.5, "pe_percentile": 0.55, "pb_percentile": 0.50, "ep_ratio": 0.020,
+    },
+    "159869": {
+        "name": "游戏ETF", "category": "科技", "exposure": "游戏/元宇宙",
+        "pe_ttm": 22.0, "pb": 2.2, "pe_percentile": 0.45, "pb_percentile": 0.40, "ep_ratio": 0.045,
+    },
+    "515230": {
+        "name": "软件ETF", "category": "科技", "exposure": "软件/信创",
+        "pe_ttm": 55.0, "pb": 3.8, "pe_percentile": 0.50, "pb_percentile": 0.45, "ep_ratio": 0.018,
+    },
+
+    # =========================================================================
+    # 新能源 (5只)
+    # =========================================================================
+    "159857": {
+        "name": "光伏ETF", "category": "新能源", "exposure": "光伏产业链",
+        "pe_ttm": 18.0, "pb": 1.8, "pe_percentile": 0.15, "pb_percentile": 0.25, "ep_ratio": 0.056,
+    },
+    "159755": {
+        "name": "电池ETF", "category": "新能源", "exposure": "锂电池产业链",
+        "pe_ttm": 25.0, "pb": 2.2, "pe_percentile": 0.20, "pb_percentile": 0.15, "ep_ratio": 0.040,
+    },
+    "515030": {
+        "name": "新能源车ETF", "category": "新能源", "exposure": "整车+零部件",
+        "pe_ttm": 22.0, "pb": 2.0, "pe_percentile": 0.20, "pb_percentile": 0.15, "ep_ratio": 0.045,
+    },
+    "159790": {
+        "name": "碳中和ETF", "category": "新能源", "exposure": "碳中和全产业链",
+        "pe_ttm": 20.0, "pb": 2.0, "pe_percentile": 0.20, "pb_percentile": 0.20, "ep_ratio": 0.050,
+    },
+    "516160": {
+        "name": "新能源ETF", "category": "新能源", "exposure": "新能源综合",
+        "pe_ttm": 20.0, "pb": 2.1, "pe_percentile": 0.18, "pb_percentile": 0.22, "ep_ratio": 0.050,
+    },
+
+    # =========================================================================
+    # 医药 (4只)
+    # =========================================================================
+    "159992": {
+        "name": "创新药ETF", "category": "医药", "exposure": "创新药研发",
+        "pe_ttm": None, "pb": 3.5, "pe_percentile": None, "pb_percentile": 0.30, "ep_ratio": None,
+    },
+    "159898": {
+        "name": "医疗器械ETF", "category": "医药", "exposure": "高端医疗器械",
+        "pe_ttm": 28.0, "pb": 3.8, "pe_percentile": 0.25, "pb_percentile": 0.20, "ep_ratio": 0.036,
+    },
+    "159647": {
+        "name": "中药ETF", "category": "医药", "exposure": "中药/品牌中药",
+        "pe_ttm": 18.0, "pb": 2.8, "pe_percentile": 0.20, "pb_percentile": 0.20, "ep_ratio": 0.056,
+    },
+    "512170": {
+        "name": "医疗ETF", "category": "医药", "exposure": "医疗服务+器械+药房",
+        "pe_ttm": 30.0, "pb": 4.2, "pe_percentile": 0.15, "pb_percentile": 0.15, "ep_ratio": 0.033,
+    },
+
+    # =========================================================================
+    # 高端制造/军工 (4只)
+    # =========================================================================
+    "562500": {
+        "name": "机器人ETF", "category": "高端制造", "exposure": "工业机器人+人形机器人",
+        "pe_ttm": 45.0, "pb": 3.2, "pe_percentile": 0.60, "pb_percentile": 0.55, "ep_ratio": 0.022,
+    },
+    "512660": {
+        "name": "军工ETF", "category": "军工", "exposure": "军工全产业链",
+        "pe_ttm": 45.0, "pb": 3.0, "pe_percentile": 0.25, "pb_percentile": 0.30, "ep_ratio": 0.022,
+    },
+    "512710": {
+        "name": "军工龙头ETF", "category": "军工", "exposure": "军工核心标的",
+        "pe_ttm": 40.0, "pb": 2.8, "pe_percentile": 0.20, "pb_percentile": 0.25, "ep_ratio": 0.025,
+    },
+    "159638": {
+        "name": "高端装备ETF", "category": "高端制造", "exposure": "高端装备/工业母机",
+        "pe_ttm": 35.0, "pb": 2.5, "pe_percentile": 0.35, "pb_percentile": 0.40, "ep_ratio": 0.029,
+    },
+
+    # =========================================================================
+    # 金融 (3只)
+    # =========================================================================
+    "512800": {
+        "name": "银行ETF", "category": "金融", "exposure": "上市银行",
+        "pe_ttm": 5.5, "pb": 0.55, "pe_percentile": 0.30, "pb_percentile": 0.15, "ep_ratio": 0.182,
+    },
+    "512880": {
+        "name": "证券ETF", "category": "金融", "exposure": "券商股",
+        "pe_ttm": 18.0, "pb": 1.3, "pe_percentile": 0.40, "pb_percentile": 0.20, "ep_ratio": 0.056,
+    },
+    "512070": {
+        "name": "证券保险ETF", "category": "金融", "exposure": "券商+保险",
+        "pe_ttm": 15.0, "pb": 1.4, "pe_percentile": 0.35, "pb_percentile": 0.25, "ep_ratio": 0.067,
+    },
+
+    # =========================================================================
+    # 消费 (5只)
+    # =========================================================================
+    "512690": {
+        "name": "酒ETF", "category": "消费", "exposure": "白酒龙头",
+        "pe_ttm": 20.0, "pb": 5.5, "pe_percentile": 0.25, "pb_percentile": 0.35, "ep_ratio": 0.050,
+    },
+    "159928": {
+        "name": "消费ETF", "category": "消费", "exposure": "主要消费龙头",
+        "pe_ttm": 25.0, "pb": 5.0, "pe_percentile": 0.35, "pb_percentile": 0.40, "ep_ratio": 0.040,
+    },
+    "515170": {
+        "name": "食品饮料ETF", "category": "消费", "exposure": "食品饮料",
+        "pe_ttm": 28.0, "pb": 6.5, "pe_percentile": 0.40, "pb_percentile": 0.50, "ep_ratio": 0.036,
+    },
+    "159996": {
+        "name": "家电ETF", "category": "消费", "exposure": "家电龙头",
+        "pe_ttm": 14.0, "pb": 2.5, "pe_percentile": 0.30, "pb_percentile": 0.35, "ep_ratio": 0.071,
+    },
+    "159825": {
+        "name": "农业ETF", "category": "消费", "exposure": "农林牧渔",
+        "pe_ttm": 22.0, "pb": 2.8, "pe_percentile": 0.25, "pb_percentile": 0.20, "ep_ratio": 0.045,
+    },
+
+    # =========================================================================
+    # 周期/商品 (6只)
+    # =========================================================================
+    "518880": {
+        "name": "黄金ETF", "category": "商品", "exposure": "现货黄金",
+        "pe_ttm": None, "pb": None, "pe_percentile": None, "pb_percentile": None, "ep_ratio": None,
+    },
+    "512400": {
+        "name": "有色金属ETF", "category": "商品", "exposure": "铜铝锌锂等工业金属",
+        "pe_ttm": 20.0, "pb": 2.0, "pe_percentile": 0.30, "pb_percentile": 0.40, "ep_ratio": 0.050,
+    },
+    "515220": {
+        "name": "煤炭ETF", "category": "周期", "exposure": "煤炭开采",
+        "pe_ttm": 8.0, "pb": 1.1, "pe_percentile": 0.55, "pb_percentile": 0.50, "ep_ratio": 0.125,
+    },
+    "516780": {
+        "name": "稀土ETF", "category": "周期", "exposure": "稀土永磁材料",
+        "pe_ttm": 35.0, "pb": 3.5, "pe_percentile": 0.35, "pb_percentile": 0.30, "ep_ratio": 0.029,
+    },
+    "159870": {
+        "name": "化工ETF", "category": "周期", "exposure": "化工龙头",
+        "pe_ttm": 15.0, "pb": 1.8, "pe_percentile": 0.30, "pb_percentile": 0.25, "ep_ratio": 0.067,
+    },
+    "159930": {
+        "name": "能源ETF", "category": "周期", "exposure": "能源（油气煤）",
+        "pe_ttm": 10.0, "pb": 1.2, "pe_percentile": 0.50, "pb_percentile": 0.45, "ep_ratio": 0.100,
+    },
+
+    # =========================================================================
+    # 防御/红利 (2只)
+    # =========================================================================
+    "512890": {
+        "name": "红利低波ETF", "category": "防御", "exposure": "高股息低波动股票",
+        "pe_ttm": 7.0, "pb": 0.75, "pe_percentile": 0.55, "pb_percentile": 0.45, "ep_ratio": 0.143,
+    },
+    "511010": {
+        "name": "国债ETF", "category": "债券", "exposure": "10年期国债",
+        "pe_ttm": None, "pb": None, "pe_percentile": None, "pb_percentile": None, "ep_ratio": None,
+    },
+
+    # =========================================================================
+    # 基建/公用 (4只)
+    # =========================================================================
+    "159611": {
+        "name": "电力ETF", "category": "公用事业", "exposure": "电力运营商",
+        "pe_ttm": 16.0, "pb": 1.4, "pe_percentile": 0.40, "pb_percentile": 0.35, "ep_ratio": 0.063,
+    },
+    "516950": {
+        "name": "基建ETF", "category": "基建", "exposure": "基建工程",
+        "pe_ttm": 10.0, "pb": 0.85, "pe_percentile": 0.25, "pb_percentile": 0.20, "ep_ratio": 0.100,
+    },
+    "159745": {
+        "name": "建材ETF", "category": "基建", "exposure": "建筑材料",
+        "pe_ttm": 14.0, "pb": 1.3, "pe_percentile": 0.20, "pb_percentile": 0.15, "ep_ratio": 0.071,
+    },
+    "512200": {
+        "name": "房地产ETF", "category": "房地产", "exposure": "房地产开发",
+        "pe_ttm": 12.0, "pb": 0.8, "pe_percentile": 0.45, "pb_percentile": 0.35, "ep_ratio": 0.083,
+    },
+
+    # =========================================================================
+    # 传媒/其他 (4只)
+    # =========================================================================
+    "512980": {
+        "name": "传媒ETF", "category": "传媒", "exposure": "传媒/影视/广告",
+        "pe_ttm": 25.0, "pb": 2.2, "pe_percentile": 0.35, "pb_percentile": 0.40, "ep_ratio": 0.040,
+    },
+    "159766": {
+        "name": "旅游ETF", "category": "消费", "exposure": "旅游/酒店/免税",
+        "pe_ttm": 30.0, "pb": 3.0, "pe_percentile": 0.25, "pb_percentile": 0.20, "ep_ratio": 0.033,
+    },
+    "511380": {
+        "name": "可转债ETF", "category": "债券", "exposure": "可转换债券",
+        "pe_ttm": None, "pb": None, "pe_percentile": None, "pb_percentile": None, "ep_ratio": None,
+    },
+    "513050": {
+        "name": "中概互联ETF", "category": "港股", "exposure": "海外中国互联网",
+        "pe_ttm": 18.0, "pb": 2.0, "pe_percentile": 0.20, "pb_percentile": 0.15, "ep_ratio": 0.056,
     },
 }
 
@@ -236,103 +336,147 @@ CANDIDATE_ETFS = {
 # 评分引擎
 # ---------------------------------------------------------------------------
 
+def _load_config():
+    try:
+        from config_loader import load_config
+        return load_config()
+    except Exception:
+        return None
+
+
 class ETFSelector:
     """ETF多维度甄选器"""
 
-    # 权重配置
-    WEIGHTS = {
-        "cycle": 0.20,      # 周期定位匹配度
-        "policy": 0.25,     # 十五五政策匹配度
-        "geo": 0.20,        # 地缘政治韧性
-        "valuation": 0.20,  # 估值合理性
-        "earnings": 0.15,   # 盈利景气度
+    DEFAULT_WEIGHTS = {
+        "cycle": 0.20, "policy": 0.25, "geo": 0.20,
+        "valuation": 0.20, "earnings": 0.15,
     }
 
     def __init__(self):
-        self.candidates = CANDIDATE_ETFS
+        cfg = _load_config()
+        if cfg:
+            self.WEIGHTS = cfg.etf_weights()
+            # Merge: config provides real PE/PB data, code provides full candidate pool
+            config_candidates = cfg.etf_candidates()
+            # Start with all code-defined candidates, then overlay config data
+            self.candidates = dict(CANDIDATE_ETFS)
+            for code, info in config_candidates.items():
+                if code in self.candidates:
+                    # Overlay live valuation data from config onto code defaults
+                    for key in ("pe_ttm", "pb", "pe_percentile", "pb_percentile", "ep_ratio"):
+                        if key in info and info[key] is not None:
+                            self.candidates[code][key] = info[key]
+            self._scoring = cfg.etf_scoring()
+            self._from_config = True
+        else:
+            self.WEIGHTS = self.DEFAULT_WEIGHTS
+            self.candidates = CANDIDATE_ETFS
+            self._scoring = {}
+            self._from_config = False
+        self._apply_live_valuations()
+
+    def _apply_live_valuations(self):
+        """Fetch live index PE/PB and merge into candidates."""
+        try:
+            from valuation_fetcher import fetch_index_valuations, apply_valuations_to_candidates
+            valuations = fetch_index_valuations()
+            if valuations:
+                self.candidates = apply_valuations_to_candidates(self.candidates, valuations)
+        except Exception:
+            pass  # network unavailable — use config data as-is
 
     def score_cycle(self, code: str, info: dict) -> float:
         """周期定位匹配度：康波复苏期哪些赛道最受益"""
-        cycle_map = {
-            "宽基": 6.0,      # 复苏期宽基跟随大盘
-            "港股": 5.0,      # 受美联储和地缘双重影响
-            "新能源": 7.5,    # 康波核心引擎之一
-            "医药": 7.0,      # 长期需求+康波生物技术驱动
-            "高端制造": 8.5,  # 朱格拉复苏+设备投资景气
-            "公用事业": 5.5,  # 防御属性，非复苏期主线
-            "科技": 9.0,      # 康波核心引擎（AI+半导体）
-            "防御": 4.5,      # 复苏期跑输成长
-            "金融": 5.0,      # 经济复苏滞后受益
-            "商品": 7.5,      # 实物资产主线（5月升级）
-            "消费": 5.5,      # 可选消费滞后复苏
-            "QDII": 4.0,      # 美股估值高+地缘风险
+        # Always use the full code-level map (config provides overrides, code provides base)
+        scoring = self._scoring
+        if scoring:
+            cycle_map = scoring.get("cycle", {})
+            overrides = scoring.get("cycle_overrides", {})
+        else:
+            cycle_map = {}
+            overrides = {}
+
+        # Fallback to hardcoded maps for categories/codes not in config
+        _default_cycle_map = {
+            "宽基": 6.0, "港股": 5.0, "新能源": 7.5, "医药": 7.0,
+            "高端制造": 8.5, "公用事业": 5.5, "科技": 9.0, "防御": 4.5,
+            "金融": 5.0, "商品": 7.5, "消费": 5.5, "QDII": 4.0,
+            "军工": 6.0, "周期": 7.5, "传媒": 5.0, "房地产": 4.0,
+            "债券": 4.0, "基建": 6.0,
         }
-        base = cycle_map.get(info["category"], 5.0)
-        # 细分调整
-        if code == "159995":  # 芯片：国产替代+AI算力，复苏期最受益
-            base = 9.5
-        if code == "562500":  # 机器人：具身智能=未来产业
-            base = 9.0
-        if code == "518880":  # 黄金：5月地缘升级+实物资产主线
-            base = 8.5
-        if code == "512400":  # 有色金属：实物资产接力主线
-            base = 7.5
-        if code == "159992":  # 创新药：康波生物技术驱动
-            base = 8.0
+        _default_overrides = {
+            "159995": 9.5, "562500": 9.0, "518880": 8.5, "512400": 7.5,
+            "159992": 8.0, "159819": 9.0, "588000": 9.0,
+            "515220": 8.0, "159930": 8.0, "516950": 6.5, "159790": 7.5,
+            "512660": 6.5, "512710": 6.5, "515050": 8.0, "516510": 8.0,
+            "515230": 8.5, "159647": 6.5, "159638": 8.0,
+        }
+        for k, v in _default_cycle_map.items():
+            cycle_map.setdefault(k, v)
+        for k, v in _default_overrides.items():
+            overrides.setdefault(k, v)
+
+        base = overrides.get(code, cycle_map.get(info["category"], 5.0))
         return min(10.0, base)
 
     def score_policy(self, code: str, info: dict) -> float:
-        """十五五政策匹配度（5月1日更新：政治局'信心建设战'+实物资产主线）"""
-        policy_map = {
-            "510300": 6.5,   # 宽基受益政治局信心建设战
-            "560610": 7.0,   # A500含更多新兴产业+信心建设战
-            "513130": 4.5,   # 港股不受十五五直接支持+沃什接任不确定
-            "159857": 7.5,   # 光伏：新能源支柱但产能过剩
-            "159755": 6.5,   # 电池：新型储能支柱但产能过剩
-            "159992": 9.0,   # 创新药：生物医药支柱+一季报亮眼
-            "159898": 8.5,   # 医疗器械：高端医疗重点
-            "562500": 9.0,   # 机器人：具身智能=未来产业
-            "159611": 6.5,   # 电力：新型电力系统受益
-            "159995": 9.5,   # 芯片：集成电路=新兴支柱产业，国产替代核心
-            "512890": 6.0,   # 红利低波：政策鼓励分红+5月避险首选
-            "512800": 5.0,   # 银行：金融服务实体
-            "518880": 7.5,   # 黄金：地缘+央行购金+去美元化（升级）
-            "512880": 7.0,   # 证券：政治局'信心建设战'核心受益（升级）
-            "512400": 8.0,   # 有色金属：实物资产接力主线（升级）
-            "515880": 8.0,   # 泛科技：'人工智能+'行动多领域受益
-            "588000": 8.5,   # 科创50：硬科技+国产替代
-            "159819": 8.5,   # AI：'人工智能+'行动
-            "515030": 7.0,   # 新能源车：智能网联汽车方向
-            "512690": 4.5,   # 白酒：非政策支持方向
-            "513100": 3.0,   # 美股：不受中国政策支持
+        """十五五政策匹配度"""
+        scoring = self._scoring
+        if scoring:
+            policy_map = scoring.get("policy", {})
+        else:
+            policy_map = {}
+        _default_policy_map = {
+            "510300": 6.5, "560610": 7.0, "510050": 6.0, "510500": 6.5,
+            "159915": 7.0, "512100": 6.5,
+            "513130": 4.5, "513100": 3.0, "513500": 3.0, "513520": 3.5,
+            "159941": 3.0, "513050": 4.0,
+            "159857": 7.5, "159755": 6.5, "515030": 7.0, "159790": 8.0, "516160": 7.0,
+            "159992": 9.0, "159898": 8.5, "159647": 7.5, "512170": 8.0,
+            "159995": 9.5, "515880": 8.0, "588000": 8.5, "159819": 8.5,
+            "515050": 7.0, "516510": 7.5, "159869": 5.5, "515230": 8.0,
+            "562500": 9.0, "159638": 8.0, "512660": 6.5, "512710": 6.5,
+            "512800": 5.0, "512880": 7.0, "512070": 6.0,
+            "512690": 4.5, "159928": 5.0, "515170": 5.0, "159996": 5.5, "159825": 5.5,
+            "159766": 5.0,
+            "518880": 7.5, "512400": 8.0, "515220": 6.5, "516780": 7.0,
+            "159870": 7.0, "159930": 7.5,
+            "512890": 6.0, "511010": 4.0, "511380": 4.5,
+            "159611": 6.5, "516950": 7.0, "159745": 6.0, "512200": 4.0,
+            "512980": 4.5,
         }
+        for k, v in _default_policy_map.items():
+            policy_map.setdefault(k, v)
         return policy_map.get(code, 5.0)
 
     def score_geo(self, code: str, info: dict) -> float:
-        """地缘政治韧性（5月1日更新：美伊海上封锁升级+OPEC分裂+台海窗口）"""
-        geo_map = {
-            "510300": 6.0,   # 含外资重仓股，但以内需为主
-            "560610": 6.5,   # 更多新兴产业，相对 resilient
-            "513130": 3.0,   # 港股：地缘升级+沃什接任不确定性，风险首当其冲
-            "159857": 7.0,   # 光伏：中国主导全球供应链
-            "159755": 6.5,   # 电池：中国主导但面临关税
-            "159992": 7.5,   # 创新药：进口替代逻辑
-            "159898": 8.0,   # 医疗器械：国产替代核心赛道
-            "562500": 7.5,   # 机器人：自主可控
-            "159611": 7.5,   # 电力：纯内需
-            "159995": 8.5,   # 芯片：国产替代最核心，脱钩=利好
-            "512890": 7.5,   # 红利低波：5月业绩真空避险首选
-            "512800": 6.5,   # 银行：纯内需
-            "518880": 9.5,   # 黄金：5/1 4630美元创新高，地缘升级=最大受益
-            "512880": 6.0,   # 证券：政治局信心建设战的潜在受益者
-            "512400": 7.5,   # 有色金属：油气煤化工接力主线，实物资产逻辑
-            "515880": 7.0,   # 泛科技：部分海外敞口
-            "588000": 8.0,   # 硬科技：国产替代
-            "159819": 7.0,   # AI：部分技术依赖进口
-            "515030": 6.0,   # 新能源车：出口依赖度高
-            "512690": 5.5,   # 白酒：纯内需但消费疲软
-            "513100": 2.0,   # 美股：中美脱钩最直接受损
+        """地缘政治韧性"""
+        scoring = self._scoring
+        if scoring:
+            geo_map = scoring.get("geo", {})
+        else:
+            geo_map = {}
+        _default_geo_map = {
+            "510300": 6.0, "560610": 6.5, "510050": 5.5, "510500": 6.0,
+            "159915": 6.5, "512100": 6.0,
+            "513130": 3.0, "513100": 2.0, "513500": 2.5, "513520": 3.5,
+            "159941": 2.0, "513050": 2.5,
+            "159857": 7.0, "159755": 6.5, "515030": 6.0, "159790": 7.5, "516160": 7.0,
+            "159992": 7.5, "159898": 8.0, "159647": 7.0, "512170": 7.5,
+            "159995": 8.5, "515880": 7.0, "588000": 8.0, "159819": 7.0,
+            "515050": 6.5, "516510": 6.5, "159869": 5.5, "515230": 8.0,
+            "562500": 7.5, "159638": 7.5, "512660": 8.5, "512710": 8.5,
+            "512800": 6.5, "512880": 6.0, "512070": 6.0,
+            "512690": 5.5, "159928": 5.5, "515170": 5.0, "159996": 5.5, "159825": 6.5,
+            "159766": 5.5,
+            "518880": 9.5, "512400": 7.5, "515220": 7.0, "516780": 7.5,
+            "159870": 6.5, "159930": 7.5,
+            "512890": 7.5, "511010": 5.0, "511380": 5.0,
+            "159611": 7.5, "516950": 7.0, "159745": 6.0, "512200": 5.0,
+            "512980": 5.0,
         }
+        for k, v in _default_geo_map.items():
+            geo_map.setdefault(k, v)
         return geo_map.get(code, 5.0)
 
     def score_valuation(self, code: str, info: dict) -> float:
@@ -387,33 +531,40 @@ class ETFSelector:
         if code == "159992":
             scores = [6.5]
 
+        # 债券类ETF无PE/PB，用利率周期逻辑
+        if code in ("511010", "511380"):
+            scores = [5.0]  # 复苏期债券中性偏低
+
         return sum(scores) / len(scores) if scores else 5.0
 
     def score_earnings(self, code: str, info: dict) -> float:
-        """盈利景气度（5月1日更新：基于Q1业绩+行业增长预期）"""
-        earnings_map = {
-            "510300": 5.5,   # 大盘盈利增速中等
-            "560610": 6.0,   # 更多成长企业
-            "513130": 6.5,   # 科技龙头盈利修复
-            "159857": 4.5,   # 光伏：产能过剩，盈利承压
-            "159755": 4.0,   # 电池：锂价低迷，盈利触底
-            "159992": 7.5,   # 创新药：海思科一季报+1000%，出海兑现期
-            "159898": 6.5,   # 医疗器械：国产替代加速
-            "562500": 7.0,   # 机器人：一季报短期承压（翔楼-8.69%）但小批量试产
-            "159611": 6.0,   # 电力：稳定但增速有限
-            "159995": 7.5,   # 芯片：强一一季报+650%，存储芯片高景气
-            "512890": 6.0,   # 红利低波：5月业绩真空避险
-            "512800": 5.0,   # 银行：净息差压力
-            "518880": 7.0,   # 黄金：5/1 4630美元创新高
-            "512880": 6.0,   # 证券：信心建设战受益
-            "512400": 7.0,   # 有色金属：油气煤化工接力，化工链景气
-            "515880": 7.5,   # 泛科技：协创数据+402%，AI驱动
-            "588000": 6.5,   # 科创：高成长但波动大
-            "159819": 7.5,   # AI：算力需求爆发，存储芯片涨价
-            "515030": 5.5,   # 新能源车：增速放缓
-            "512690": 4.5,   # 白酒：消费疲软
-            "513100": 6.5,   # 美股科技：盈利强但估值高
+        """盈利景气度"""
+        scoring = self._scoring
+        if scoring:
+            earnings_map = scoring.get("earnings", {})
+        else:
+            earnings_map = {}
+        _default_earnings_map = {
+            "510300": 5.5, "560610": 6.0, "510050": 5.0, "510500": 5.5,
+            "159915": 6.0, "512100": 5.5,
+            "513130": 6.5, "513100": 6.5, "513500": 6.0, "513520": 5.5,
+            "159941": 6.5, "513050": 5.5,
+            "159857": 4.5, "159755": 4.0, "515030": 5.5, "159790": 5.5, "516160": 5.0,
+            "159992": 7.5, "159898": 6.5, "159647": 6.0, "512170": 6.0,
+            "159995": 7.5, "515880": 7.5, "588000": 6.5, "159819": 7.5,
+            "515050": 5.5, "516510": 6.0, "159869": 5.5, "515230": 7.0,
+            "562500": 7.0, "159638": 6.0, "512660": 5.5, "512710": 5.5,
+            "512800": 5.0, "512880": 6.0, "512070": 5.5,
+            "512690": 4.5, "159928": 4.5, "515170": 4.5, "159996": 5.5, "159825": 5.0,
+            "159766": 4.0,
+            "518880": 7.0, "512400": 7.0, "515220": 7.5, "516780": 5.5,
+            "159870": 6.5, "159930": 7.5,
+            "512890": 6.0, "511010": 3.0, "511380": 4.0,
+            "159611": 6.0, "516950": 5.5, "159745": 5.0, "512200": 3.5,
+            "512980": 4.5,
         }
+        for k, v in _default_earnings_map.items():
+            earnings_map.setdefault(k, v)
         return earnings_map.get(code, 5.0)
 
     def evaluate_all(self) -> List[ETFScore]:
@@ -498,17 +649,33 @@ class ETFSelector:
             selected_codes.add(s.code)
             remaining -= s.target_pct
 
-        # 阶段2：检查约束，如有缺失强制加入同类最高分minor
-        current_cats = {self.candidates[s.code]["category"] for s in selected}
+        # 阶段2：检查约束，如有缺失强制替换最低分非强制类别标的
+        mandatory_cats = set(self.MANDATORY_CATEGORIES.keys())
         for cat, min_count in self.MANDATORY_CATEGORIES.items():
-            current_count = sum(1 for c in current_cats if c == cat)
+            current_count = sum(1 for s in selected if self.candidates[s.code]["category"] == cat)
             if current_count < min_count:
-                # 从全部候选中找该类最高分且未入选的
-                missing = [s for s in scores if self.candidates[s.code]["category"] == cat and s.code not in selected_codes]
+                need = min_count - current_count
+                # Find best ETF in this category not yet selected
+                missing = [s for s in scores
+                          if self.candidates[s.code]["category"] == cat
+                          and s.code not in selected_codes]
                 missing.sort(key=lambda x: x.total_score, reverse=True)
-                for s in missing[:min_count - current_count]:
+                for s in missing[:need]:
                     if len(selected) >= max_holdings:
-                        break
+                        # Remove lowest-scoring non-mandatory ETF to make room
+                        removable = [(i, x) for i, x in enumerate(selected)
+                                     if self.candidates[x.code]["category"] not in mandatory_cats]
+                        if removable:
+                            worst_idx, _ = min(removable, key=lambda t: t[1].total_score)
+                            removed = selected.pop(worst_idx)
+                            selected_codes.discard(removed.code)
+                            remaining += removed.target_pct
+                        else:
+                            # All are mandatory — replace the lowest scorer
+                            worst = min(selected, key=lambda x: x.total_score)
+                            selected.remove(worst)
+                            selected_codes.discard(worst.code)
+                            remaining += worst.target_pct
                     selected.append(s)
                     selected_codes.add(s.code)
                     remaining -= s.target_pct
@@ -664,7 +831,7 @@ def generate_portfolio_report(selector: ETFSelector) -> str:
     lines.extend(["", "### 移除标的", ""])
     if removed:
         for code in removed:
-            info = CANDIDATE_ETFS[code]
+            info = selector.candidates[code]
             s = next((x for x in selector.evaluate_all() if x.code == code), None)
             if s:
                 lines.append(f"- **{code} {info['name']}**: 总分{s.total_score:.2f}，{s.tier}级，评分过低")

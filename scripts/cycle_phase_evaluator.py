@@ -111,37 +111,56 @@ KITCHIN_CYCLES = [
 # 核心类
 # ---------------------------------------------------------------------------
 
+def _load_config():
+    try:
+        from config_loader import load_config
+        return load_config()
+    except Exception:
+        return None
+
+
 class CyclePhaseEvaluator:
     """周期阶段评估器"""
 
     def __init__(self):
-        pass
+        cfg = _load_config()
+        if cfg:
+            self.kondratiev_data = cfg.cycle_kondratiev_2026()
+            self.juglar_data = cfg.cycle_juglar_cycles()
+            self.kitchin_data = cfg.cycle_kitchin_cycles()
+            self._from_config = True
+        else:
+            self.kondratiev_data = KONDRATIEV_2026
+            self.juglar_data = JUGLAR_CYCLES
+            self.kitchin_data = KITCHIN_CYCLES
+            self._from_config = False
 
     def evaluate_kondratiev(self) -> CyclePhase:
         """评估康波周期"""
+        k = self.kondratiev_data
         return CyclePhase(
             cycle_name="康德拉季耶夫长波",
             cycle_type="kondratiev",
             period_years=55,
-            current_phase=KONDRATIEV_2026["current_phase"],
-            phase_progress=KONDRATIEV_2026["phase_progress"],
-            direction=KONDRATIEV_2026["direction"],
-            confidence=KONDRATIEV_2026["confidence"],
-            description=KONDRATIEV_2026["description"],
+            current_phase=k["current_phase"],
+            phase_progress=k["phase_progress"],
+            direction=k["direction"],
+            confidence=k["confidence"],
+            description=k["description"],
         )
 
     def evaluate_juglar(self, year: int = 2026) -> CyclePhase:
         """评估朱格拉周期（设备投资周期）"""
         # 找到当前所处周期
         current_cycle = None
-        for cycle in JUGLAR_CYCLES:
+        for cycle in self.juglar_data:
             if cycle["start"] <= year <= cycle["trough"]:
                 current_cycle = cycle
                 break
 
         if current_cycle is None:
             # 默认最新周期
-            current_cycle = JUGLAR_CYCLES[-1]
+            current_cycle = self.juglar_data[-1]
 
         # 判断阶段
         total = current_cycle["trough"] - current_cycle["start"]
@@ -186,24 +205,35 @@ class CyclePhaseEvaluator:
     def evaluate_kitchin(self, year: int = 2026) -> CyclePhase:
         """评估基钦周期（库存周期）"""
         current_cycle = None
-        for cycle in KITCHIN_CYCLES:
+        for cycle in self.kitchin_data:
             if cycle["start"] <= year <= cycle["trough"]:
                 current_cycle = cycle
                 break
 
         if current_cycle is None:
-            current_cycle = KITCHIN_CYCLES[-1]
+            current_cycle = self.kitchin_data[-1]
 
         total = current_cycle["trough"] - current_cycle["start"]
         elapsed = year - current_cycle["start"]
         progress = elapsed / total if total > 0 else 0
 
-        # 2025-2027年库存周期
-        if 2025 <= year <= 2027:
+        # 判断阶段
+        if progress < 0.3:
+            phase = "去库存尾"
+            direction = "flat"
+            desc = "库存低位，等待补库信号"
+        elif progress < 0.6:
             phase = "补库存"
             direction = "up"
             desc = "企业开始补库存，库存周期上行"
-            progress = (year - 2025) / 3
+        elif progress < 0.8:
+            phase = "去库存"
+            direction = "down"
+            desc = "库存过高，去库存阶段"
+        else:
+            phase = "去库存尾"
+            direction = "flat"
+            desc = "库存触底，等待拐点"
 
         return CyclePhase(
             cycle_name="基钦周期（库存）",

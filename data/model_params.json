@@ -1,0 +1,370 @@
+{
+  "_meta": {
+    "version": "1.0.0",
+    "created": "2026-05-05",
+    "description": "Central model parameters — edit this file to update the investment model without changing code.",
+    "schema_doc": "Each top-level key corresponds to a script module. See scripts/config_loader.py for the loader API."
+  },
+
+  "kondratiev": {
+    "cycles": [
+      {
+        "round_num": 1, "name": "纺织与蒸汽机", "start_year": 1782, "end_year": 1845,
+        "core_tech": "蒸汽机、棉纺织技术", "dominant_countries": "英国",
+        "phases": {"繁荣期": [1782, 1802], "衰退期": [1815, 1825], "萧条期": [1825, 1836], "复苏期": [1836, 1845]},
+        "key_events": ["瓦特改良蒸汽机", "工厂制度确立", "铁路技术萌芽"]
+      },
+      {
+        "round_num": 2, "name": "钢铁与铁路", "start_year": 1845, "end_year": 1892,
+        "core_tech": "钢铁、铁路、蒸汽轮船、电报", "dominant_countries": "英国→美国、德国",
+        "phases": {"繁荣期": [1845, 1866], "衰退期": [1866, 1873], "萧条期": [1873, 1883], "复苏期": [1883, 1892]},
+        "key_events": ["铁路建设高峰", "贝塞麦炼钢法", "第二次工业革命萌芽"]
+      },
+      {
+        "round_num": 3, "name": "电气与化工", "start_year": 1892, "end_year": 1948,
+        "core_tech": "电力、化工、汽车、内燃机", "dominant_countries": "美国取代英国",
+        "phases": {"繁荣期": [1892, 1913], "衰退期": [1920, 1929], "萧条期": [1929, 1937], "复苏期": [1937, 1948]},
+        "key_events": ["电气化普及", "汽车诞生", "大萧条", "二战后重建"]
+      },
+      {
+        "round_num": 4, "name": "汽车与石油化工", "start_year": 1948, "end_year": 1991,
+        "core_tech": "石油化工、汽车大规模生产、航空、电子技术", "dominant_countries": "美国主导",
+        "phases": {"繁荣期": [1948, 1966], "衰退期": [1966, 1973], "萧条期": [1973, 1982], "复苏期": [1982, 1991]},
+        "key_events": ["战后黄金时代", "石油危机", "滞胀", "信息技术萌芽"]
+      },
+      {
+        "round_num": 5, "name": "信息技术", "start_year": 1991, "end_year": 2025,
+        "core_tech": "信息技术、互联网、移动通信", "dominant_countries": "美国→中美竞争",
+        "phases": {"繁荣期": [1991, 2004], "衰退期": [2004, 2015], "萧条期": [2015, 2025], "复苏期": [0, 0]},
+        "key_events": ["互联网革命", "次贷危机", "欧债危机", "低增长高债务"]
+      },
+      {
+        "round_num": 6, "name": "人工智能与新能源", "start_year": 2026, "end_year": 2080,
+        "core_tech": "人工智能、新能源、生物技术、量子计算", "dominant_countries": "中美竞争",
+        "phases": {"繁荣期": [0, 0], "衰退期": [0, 0], "萧条期": [0, 0], "复苏期": [2026, 2035]},
+        "key_events": ["AGI突破", "可控核聚变", "基因编辑", "脑机接口"]
+      }
+    ],
+    "phase_descriptions": {
+      "繁荣期": {
+        "duration_years": "10-20年", "growth_rate": "高增长（GDP > 潜在增速）",
+        "inflation_trend": "温和上升", "interest_rate_trend": "逐步上行",
+        "credit_condition": "信用扩张",
+        "asset_performance": {"股票": "**超配**，长牛行情", "债券": "低配", "大宗商品": "**超配**，通胀驱动", "黄金": "最低配", "现金": "低配"},
+        "investment_theme": "享受泡沫，逐步止盈", "risk_level": "中等"
+      },
+      "衰退期": {
+        "duration_years": "8-12年", "growth_rate": "增速放缓",
+        "inflation_trend": "高位震荡", "interest_rate_trend": "见顶回落",
+        "credit_condition": "信用收紧",
+        "asset_performance": {"股票": "逐步减仓", "债券": "增配", "大宗商品": "阶段性超配", "黄金": "开始建仓", "现金": "保持流动性"},
+        "investment_theme": "转向防御，保留流动性", "risk_level": "中高"
+      },
+      "萧条期": {
+        "duration_years": "8-12年", "growth_rate": "低增长",
+        "inflation_trend": "低位/通缩", "interest_rate_trend": "低位",
+        "credit_condition": "信用紧缩",
+        "asset_performance": {"股票": "**低配**", "债券": "**标配/超配**", "大宗商品": "低配/波段", "黄金": "**超配**", "现金": "**超配**"},
+        "investment_theme": "现金为王，黄金避险", "risk_level": "高"
+      },
+      "复苏期": {
+        "duration_years": "8-15年", "growth_rate": "逐步回暖",
+        "inflation_trend": "温和回升", "interest_rate_trend": "低位企稳",
+        "credit_condition": "信用回暖",
+        "asset_performance": {"股票": "**逐步加仓→超配**", "债券": "逐步减仓", "大宗商品": "**超配**", "黄金": "逐步减仓", "现金": "低配"},
+        "investment_theme": "积极进攻，重仓成长", "risk_level": "中等"
+      }
+    },
+    "investment_themes_2026": {
+      "AI算力基础设施": {"细分领域": ["AI芯片", "服务器", "数据中心"], "代表方向": ["国产GPU", "液冷技术", "边缘计算"], "配置建议": "核心仓位 15-20%", "逻辑": "AI渗透率突破20%，算力需求爆发"},
+      "AI应用落地": {"细分领域": ["行业大模型", "智能体(Agent)"], "代表方向": ["AI+医疗", "AI+金融", "AI+制造"], "配置建议": "重点配置 10-15%", "逻辑": "大模型进入盈利兑现期"},
+      "新能源产业链": {"细分领域": ["储能", "智能电网", "氢能"], "代表方向": ["固态电池", "钙钛矿光伏", "虚拟电厂"], "配置建议": "重点配置 10-15%", "逻辑": "光伏度电成本下降82%，储能突破临界点"},
+      "高端制造替代": {"细分领域": ["半导体设备", "工业软件"], "代表方向": ["光刻机零部件", "EDA工具", "工业机器人"], "配置建议": "精选配置 5-10%", "逻辑": "国产替代加速，政策支持"},
+      "生物技术": {"细分领域": ["创新药", "基因治疗"], "代表方向": ["ADC药物", "CGT细胞与基因治疗"], "配置建议": "观察配置 3-5%", "逻辑": "AI驱动研发效率提升200倍"},
+      "工业金属": {"细分领域": ["铜", "铝", "锂"], "代表方向": ["新能源用铜", "轻量化铝材", "电池级锂"], "配置建议": "高配 15-20%", "逻辑": "康波回升+朱格拉启动+供给刚性"}
+    }
+  },
+
+  "cycle_phase": {
+    "kondratiev_2026": {
+      "cycle_name": "第六轮康波（AI与新能源）", "current_phase": "复苏期",
+      "phase_progress": 0.0, "direction": "up", "confidence": "medium",
+      "description": "2026年为第六轮康波复苏元年，AI、新能源、生物技术为核心引擎"
+    },
+    "juglar_cycles": [
+      {"start": 2009, "peak": 2013, "trough": 2016},
+      {"start": 2016, "peak": 2018, "trough": 2020},
+      {"start": 2020, "peak": 2022, "trough": 2025},
+      {"start": 2025, "peak": 2028, "trough": 2031}
+    ],
+    "kitchin_cycles": [
+      {"start": 2016, "peak": 2017, "trough": 2019},
+      {"start": 2019, "peak": 2021, "trough": 2023},
+      {"start": 2023, "peak": 2024, "trough": 2025},
+      {"start": 2025, "peak": 2026, "trough": 2027}
+    ]
+  },
+
+  "asset_allocation": {
+    "phase_matrix": {
+      "繁荣期": {
+        "stock": [0.40, 0.50, 0.60, "超配权益，享受泡沫"],
+        "bond": [0.10, 0.15, 0.20, "低配债券，利率上行"],
+        "commodity": [0.15, 0.20, 0.25, "超配商品，通胀驱动"],
+        "gold": [0.05, 0.08, 0.10, "低配黄金"],
+        "cash": [0.05, 0.07, 0.10, "保持流动性"],
+        "defensive": [0.05, 0.08, 0.10, "适度防御"]
+      },
+      "衰退期": {
+        "stock": [0.20, 0.25, 0.35, "逐步减仓，保留核心"],
+        "bond": [0.30, 0.35, 0.40, "增配债券，避险"],
+        "commodity": [0.10, 0.15, 0.20, "阶段性超配"],
+        "gold": [0.10, 0.12, 0.15, "开始建仓"],
+        "cash": [0.10, 0.13, 0.20, "保持流动性"],
+        "defensive": [0.10, 0.15, 0.20, "防御为主"]
+      },
+      "萧条期": {
+        "stock": [0.10, 0.15, 0.20, "低配权益"],
+        "bond": [0.30, 0.35, 0.40, "标配/超配债券"],
+        "commodity": [0.05, 0.10, 0.15, "低配商品"],
+        "gold": [0.15, 0.20, 0.25, "超配黄金避险"],
+        "cash": [0.20, 0.25, 0.30, "现金为王"],
+        "defensive": [0.10, 0.15, 0.20, "防御优先"]
+      },
+      "复苏期": {
+        "stock": [0.30, 0.40, 0.50, "逐步加仓→超配"],
+        "bond": [0.15, 0.20, 0.25, "逐步减仓"],
+        "commodity": [0.20, 0.25, 0.35, "超配商品"],
+        "gold": [0.10, 0.12, 0.15, "逐步减仓"],
+        "cash": [0.05, 0.08, 0.10, "低配现金"],
+        "defensive": [0.05, 0.08, 0.10, "适度防御"]
+      }
+    },
+    "etf_asset_map": {
+      "510300": {"asset": "stock", "sub": "a_large", "weight_factor": 1.0, "name": "沪深300ETF"},
+      "560610": {"asset": "stock", "sub": "a_mid", "weight_factor": 1.0, "name": "中证A500ETF"},
+      "513130": {"asset": "stock", "sub": "hk_tech", "weight_factor": 1.0, "name": "恒生科技ETF"},
+      "159857": {"asset": "commodity", "sub": "energy", "weight_factor": 1.0, "name": "光伏ETF"},
+      "159755": {"asset": "commodity", "sub": "energy", "weight_factor": 0.7, "name": "电池ETF"},
+      "159992": {"asset": "stock", "sub": "growth", "weight_factor": 1.0, "name": "创新药ETF"},
+      "159898": {"asset": "stock", "sub": "growth", "weight_factor": 0.7, "name": "医疗器械ETF"},
+      "562500": {"asset": "stock", "sub": "growth", "weight_factor": 0.7, "name": "机器人ETF"},
+      "159611": {"asset": "stock", "sub": "defensive", "weight_factor": 0.7, "name": "电力ETF"},
+      "159995": {"asset": "stock", "sub": "growth", "weight_factor": 0.7, "name": "芯片ETF"},
+      "512890": {"asset": "defensive", "sub": "dividend", "weight_factor": 1.0, "name": "红利低波ETF"},
+      "512800": {"asset": "defensive", "sub": "bank", "weight_factor": 0.7, "name": "银行ETF"},
+      "518880": {"asset": "gold", "sub": "gold", "weight_factor": 1.0, "name": "黄金ETF"},
+      "512880": {"asset": "stock", "sub": "a_large", "weight_factor": 0.5, "name": "证券ETF"}
+    },
+    "default_portfolio": {
+      "510300": 11.1, "560610": 11.1, "513130": 11.1,
+      "159857": 8.9, "159755": 6.7, "159992": 8.9,
+      "159898": 5.6, "562500": 5.6, "159611": 4.4,
+      "159995": 4.4, "512890": 8.9, "512800": 5.6,
+      "518880": 4.4, "512880": 3.3
+    }
+  },
+
+  "market_indicators": {
+    "valuation": [
+      {"name": "沪深300 PE", "current": 14.6, "hist_low": 8.0, "hist_high": 30.0, "trend": "up", "description": "沪深300市盈率"},
+      {"name": "沪深300 PB", "current": 1.46, "hist_low": 1.0, "hist_high": 3.0, "trend": "flat", "description": "沪深300市净率"},
+      {"name": "中证500 PE", "current": 22.0, "hist_low": 15.0, "hist_high": 90.0, "trend": "up", "description": "中证500市盈率"},
+      {"name": "股债利差", "current": 0.055, "hist_low": 0.02, "hist_high": 0.08, "trend": "flat", "description": "股票盈利收益率 - 10Y国债收益率"},
+      {"name": "E/P（盈利收益率）", "current": 0.068, "hist_low": 0.03, "hist_high": 0.15, "trend": "flat", "description": "E/P，格雷厄姆估值指标"}
+    ],
+    "sentiment": [
+      {"name": "A股波动率", "current": 18.0, "hist_low": 10.0, "hist_high": 50.0, "trend": "down", "description": "A股市场波动率"},
+      {"name": "融资余额", "current": 15000, "hist_low": 8000, "hist_high": 22000, "trend": "up", "description": "沪深两市融资余额"},
+      {"name": "新发基金", "current": 300, "hist_low": 100, "hist_high": 3000, "trend": "up", "description": "股票型+混合型基金发行规模"}
+    ],
+    "liquidity": [
+      {"name": "M2增速", "current": 8.5, "hist_low": 6.0, "hist_high": 30.0, "trend": "flat", "description": "广义货币供应量增速"},
+      {"name": "社融增速", "current": 9.0, "hist_low": 7.0, "hist_high": 40.0, "trend": "up", "description": "社会融资规模存量增速"},
+      {"name": "10Y国债收益率", "current": 2.15, "hist_low": 1.50, "hist_high": 5.00, "trend": "up", "description": "10年期国债到期收益率"}
+    ],
+    "commodity": [
+      {"name": "CRB指数", "current": 280.0, "hist_low": 150.0, "hist_high": 470.0, "trend": "up", "description": "路透CRB商品指数"},
+      {"name": "黄金价格", "current": 4555.0, "hist_low": 1050.0, "hist_high": 5000.0, "trend": "correction", "description": "伦敦金现货价格（2026年5月5日更新，从4630高点技术性回调）"},
+      {"name": "原油价格", "current": 113.0, "hist_low": 20.0, "hist_high": 147.0, "trend": "up", "description": "布伦特原油现货价格（2026年5月5日更新，伊朗5/4袭击阿联酋石油设施）"},
+      {"name": "美元指数", "current": 98.3, "hist_low": 70.0, "hist_high": 114.0, "trend": "up", "description": "美元指数DXY（2026年5月5日更新，霍尔木兹危机推升避险需求）"}
+    ]
+  },
+
+  "policy": {
+    "fifteenth_fyp_industries": {
+      "未来产业": {
+        "quantum": {"name": "量子科技", "priority": "前瞻布局", "maturity": "早期", "investment_horizon": "5-10年"},
+        "biomanufacturing": {"name": "生物制造", "priority": "前瞻布局", "maturity": "早期", "investment_horizon": "3-7年"},
+        "hydrogen": {"name": "氢能与核聚变", "priority": "前瞻布局", "maturity": "早期", "investment_horizon": "5-15年"},
+        "bci": {"name": "脑机接口", "priority": "前瞻布局", "maturity": "极早期", "investment_horizon": "10年+"},
+        "embodied_ai": {"name": "具身智能", "priority": "前瞻布局", "maturity": "早期", "investment_horizon": "3-5年"},
+        "6g": {"name": "6G通信", "priority": "前瞻布局", "maturity": "研发中", "investment_horizon": "5-10年"}
+      },
+      "新兴支柱产业": {
+        "ic": {"name": "集成电路", "priority": "重点打造", "maturity": "成长期", "investment_horizon": "2-5年"},
+        "aerospace": {"name": "航空航天", "priority": "重点打造", "maturity": "成长期", "investment_horizon": "3-5年"},
+        "biomedicine": {"name": "生物医药", "priority": "重点打造", "maturity": "成长期", "investment_horizon": "2-5年"},
+        "energy_storage": {"name": "新型储能", "priority": "重点打造", "maturity": "快速成长期", "investment_horizon": "2-4年"},
+        "low_altitude": {"name": "低空经济", "priority": "重点打造", "maturity": "导入期", "investment_horizon": "3-5年"},
+        "robot": {"name": "智能机器人", "priority": "重点打造", "maturity": "成长期", "investment_horizon": "2-4年"}
+      }
+    },
+    "commodities": {
+      "copper": {
+        "name": "铜", "current_price": 11700, "price_unit": "美元/吨", "trend": "up",
+        "year_target": 12000, "long_term_target": 15000,
+        "drivers": ["铜矿/硫酸供应紧缺", "冶炼厂4-5月集中检修", "新能源用铜需求爆发", "美国潜在铜关税（2027年）", "全球石油危机推升海运成本→铜矿运输成本上升"],
+        "risks": ["中东局势恶化冲击供应链", "美联储高利率+美元走强（DXY 98.3）压制金融属性", "关税政策不确定性", "霍尔木兹冲突推升全球通胀→压制工业金属需求预期"],
+        "policy_score": 7
+      },
+      "gold": {
+        "name": "黄金", "current_price": 4555, "price_unit": "美元/盎司", "trend": "up",
+        "year_target": 5000, "long_term_target": 6300,
+        "drivers": ["央行持续购金（去美元化主线）", "地缘政治避险需求（霍尔木兹冲突升级）", "美元体系松动+鲍威尔卸任真空", "通胀压力支撑", "5/4伊朗袭击阿联酋石油设施，避险情绪分化至美元/原油"],
+        "risks": ["美联储维持高利率", "美元短期走强（DXY 98.3）压制金价", "地缘风险阶段性消退", "5月初金价从4630回落至4555（-1.6%），技术性回调压力", "霍尔木兹紧张推升美元避险需求，短期分流黄金资金"],
+        "policy_score": 8
+      },
+      "crude_oil": {
+        "name": "原油", "current_price": 113, "price_unit": "美元/桶（Brent）/ WTI 104", "trend": "up",
+        "year_target": 125, "long_term_target": 90,
+        "drivers": ["伊朗5/4袭击阿联酋石油港口+霍尔木兹海峡船只（重大升级）", "美伊海上封锁持续升级", "阿联酋退出OPEC+（5/1生效）", "OPEC+第三次增产配额上调（5/3）但仍无法填补缺口", "高盛警告全球石油库存接近8年低点", "雪佛龙CEO警告石油供应短缺即将显现"],
+        "risks": ["美伊达成停火协议→油价快速回落", "全球需求衰退", "新能源替代加速", "OPEC+进一步增产", "特朗普-Xi峰会外交斡旋伊朗问题"],
+        "policy_score": 5
+      },
+      "lithium": {
+        "name": "锂", "current_price": null, "price_unit": "元/吨", "trend": "bottoming",
+        "year_target": null, "long_term_target": null,
+        "drivers": ["储能需求爆发", "固态电池技术突破", "新能源车渗透率提升"],
+        "risks": ["产能过剩", "价格低迷", "技术路线变化"],
+        "policy_score": 5
+      },
+      "aluminum": {
+        "name": "铝", "current_price": null, "price_unit": "美元/吨", "trend": "up",
+        "year_target": null, "long_term_target": null,
+        "drivers": ["轻量化需求（新能源车）", "光伏支架用铝", "电力成本支撑"],
+        "risks": ["产能释放", "电力成本波动"],
+        "policy_score": 6
+      }
+    },
+    "fed_policy": {
+      "current_rate": "3.50%-3.75%",
+      "rate_status": "维持不变（连续第三次，4/29 FOMC 8:4分歧维持）",
+      "last_change": "2025年12月",
+      "next_meeting": "2026年6月16-17日（沃什首次主席会议）",
+      "2026_cuts_expected": 0,
+      "market_pricing_cuts": 0,
+      "qt_status": "已暂停",
+      "qt_policy": "维持充足准备金",
+      "balance_sheet": "平稳运行阶段",
+      "inflation_target": "2%",
+      "current_inflation": "3.3%（CPI），核心PCE 2.7%，油价飙升后预计上行",
+      "oil_impact": "伊朗5/4袭击阿联酋石油设施+霍尔木兹船只，Brent 113美元/WTI 104美元，PCE或升至3.8-4.2%",
+      "chairman_change": "鲍威尔5月15日卸任，Kevin Warsh（沃什）已获参议院银行委员会通过提名",
+      "chairman_stance": "沃什倾向'缩表+降息'双线并行，但油价飙升致通胀压力剧增，降息空间几乎关闭",
+      "dissent": "1992年以来分歧最高（4位委员投反对票，含Miran支持降息）",
+      "dxy": 98.32,
+      "dxy_trend": "霍尔木兹危机升级推升美元避险需求，DXY从97升至98.3，短期压制黄金和新兴市场",
+      "may_2026_signal": "油价飙升+通胀上行→沃什6月会议几乎不可能降息；关注5/15交接后首次讲话定调"
+    },
+    "pboc_policy": {
+      "lpr_1y": "3.0%", "lpr_5y": "3.5%", "rrr": "约7.0%",
+      "policy_stance": "适度宽松",
+      "last_change": "2025年5月（下调10bp），连续12个月不变",
+      "rate_outlook": "2026年预计1-2次降息（10-20bp），1-2次降准（约50bp），节奏小步慢跑；油价飙升输入性通胀可能制约降息空间",
+      "structural_tools": ["科技创新再贷款额度提升至1.2万亿", "结构性工具利率下调25bp至1.25%", "支持服务消费、养老、科技创新、小微"],
+      "key_measures": ["择机降准降息", "结构性货币政策工具精准发力", "强化政策利率引导，完善市场化利率传导"],
+      "constraints": ["银行净息差1.42%历史低位", "实体融资成本已降至3.55%历史低位", "汇率稳定考量（油价飙升+美元走强→人民币贬值压力）", "信贷需求偏弱", "输入性通胀风险（油价113美元→PPI上行压力）"]
+    },
+    "geopolitical_may2026": {
+      "iran_uae_attack": {
+        "date": "2026-05-04",
+        "event": "伊朗袭击阿联酋石油港口+霍尔木兹海峡船只",
+        "severity": "极高",
+        "market_impact": "布伦特原油跳涨6%至113美元，WTI至104美元；避险资金涌入美元（DXY 98.3），黄金短期承压回落至4555美元",
+        "affected_assets": ["原油多头", "能化股", "黄金（短期承压/中长期利好）", "美元", "全球航运"],
+        "escalation_risk": "美伊直接军事对抗升级→霍尔木兹全面封锁"
+      },
+      "uae_exit_opec": {
+        "date": "2026-05-01",
+        "event": "阿联酋正式退出OPEC及OPEC+",
+        "severity": "高",
+        "market_impact": "产油国阵营分裂加剧，OPEC+剩余产能调控能力削弱；阿联酋寻求与美国货币互换",
+        "affected_assets": ["原油（供给不确定性上升）", "中东股市"]
+      },
+      "opec_plus_hike": {
+        "date": "2026-05-03",
+        "event": "OPEC+第三次增产配额上调（自霍尔木兹关闭以来）",
+        "severity": "中",
+        "market_impact": "试图弥补伊朗/阿联酋供给缺口，但高盛警告全球石油库存已接近8年低点",
+        "affected_assets": ["原油（短期供给增加预期，但实际效果有限）"]
+      },
+      "trump_xi_summit": {
+        "date": "2026-05-04（宣布）",
+        "event": "特朗普称将与习近平举行重要会晤；Bessent敦促中国在伊朗问题上加强外交斡旋",
+        "severity": "中",
+        "market_impact": "中美关系缓和预期上升；中国或在中东扮演调停角色",
+        "affected_assets": ["A股（情绪利好）", "港股", "出口链", "芯片（国产替代逻辑可能松动）"]
+      },
+      "dollar_uae_swap": {
+        "date": "2026-05-04",
+        "event": "阿联酋与美国讨论货币互换协议",
+        "severity": "中",
+        "market_impact": "强化美元短期避险地位；阿联酋金融体系寻求美国流动性支持",
+        "affected_assets": ["美元", "黄金", "新兴市场货币"]
+      }
+    }
+  },
+
+  "etf_selector": {
+    "weights": {"cycle": 0.20, "policy": 0.25, "geo": 0.20, "valuation": 0.20, "earnings": 0.15},
+    "candidates": {
+      "510300": {"name": "沪深300ETF", "category": "宽基", "exposure": "大盘蓝筹", "pe_ttm": 14.6, "pb": 1.46, "pe_percentile": 0.86, "pb_percentile": 0.57, "ep_ratio": 0.068},
+      "560610": {"name": "中证A500ETF", "category": "宽基", "exposure": "中大盘均衡", "pe_ttm": 15.2, "pb": 1.52, "pe_percentile": 0.75, "pb_percentile": 0.50, "ep_ratio": 0.066},
+      "513130": {"name": "恒生科技ETF", "category": "港股", "exposure": "港股科技龙头", "pe_ttm": 22.0, "pb": 2.1, "pe_percentile": 0.35, "pb_percentile": 0.20, "ep_ratio": 0.045},
+      "159857": {"name": "光伏ETF", "category": "新能源", "exposure": "光伏产业链", "pe_ttm": 18.0, "pb": 1.8, "pe_percentile": 0.15, "pb_percentile": 0.25, "ep_ratio": 0.056},
+      "159755": {"name": "电池ETF", "category": "新能源", "exposure": "锂电池产业链", "pe_ttm": 25.0, "pb": 2.2, "pe_percentile": 0.20, "pb_percentile": 0.15, "ep_ratio": 0.040},
+      "159992": {"name": "创新药ETF", "category": "医药", "exposure": "创新药研发", "pe_ttm": null, "pb": 3.5, "pe_percentile": null, "pb_percentile": 0.30, "ep_ratio": null},
+      "159898": {"name": "医疗器械ETF", "category": "医药", "exposure": "高端医疗器械", "pe_ttm": 28.0, "pb": 3.8, "pe_percentile": 0.25, "pb_percentile": 0.20, "ep_ratio": 0.036},
+      "562500": {"name": "机器人ETF", "category": "高端制造", "exposure": "工业机器人+人形机器人", "pe_ttm": 45.0, "pb": 3.2, "pe_percentile": 0.60, "pb_percentile": 0.55, "ep_ratio": 0.022},
+      "159611": {"name": "电力ETF", "category": "公用事业", "exposure": "电力运营商", "pe_ttm": 16.0, "pb": 1.4, "pe_percentile": 0.40, "pb_percentile": 0.35, "ep_ratio": 0.063},
+      "159995": {"name": "芯片ETF", "category": "科技", "exposure": "半导体全产业链", "pe_ttm": 85.0, "pb": 4.0, "pe_percentile": 0.70, "pb_percentile": 0.50, "ep_ratio": 0.012},
+      "512890": {"name": "红利低波ETF", "category": "防御", "exposure": "高股息低波动股票", "pe_ttm": 7.0, "pb": 0.75, "pe_percentile": 0.55, "pb_percentile": 0.45, "ep_ratio": 0.143},
+      "512800": {"name": "银行ETF", "category": "金融", "exposure": "上市银行", "pe_ttm": 5.5, "pb": 0.55, "pe_percentile": 0.30, "pb_percentile": 0.15, "ep_ratio": 0.182},
+      "518880": {"name": "黄金ETF", "category": "商品", "exposure": "现货黄金", "pe_ttm": null, "pb": null, "pe_percentile": null, "pb_percentile": null, "ep_ratio": null},
+      "512880": {"name": "证券ETF", "category": "金融", "exposure": "券商股", "pe_ttm": 18.0, "pb": 1.3, "pe_percentile": 0.40, "pb_percentile": 0.20, "ep_ratio": 0.056},
+      "512400": {"name": "有色金属ETF", "category": "商品", "exposure": "铜铝锌锂等工业金属", "pe_ttm": 20.0, "pb": 2.0, "pe_percentile": 0.30, "pb_percentile": 0.40, "ep_ratio": 0.050},
+      "515880": {"name": "科技ETF", "category": "科技", "exposure": "泛科技（电子/计算机/通信）", "pe_ttm": 55.0, "pb": 3.5, "pe_percentile": 0.65, "pb_percentile": 0.50, "ep_ratio": 0.018},
+      "588000": {"name": "科创50ETF", "category": "科技", "exposure": "科创板龙头（硬科技）", "pe_ttm": 75.0, "pb": 4.2, "pe_percentile": 0.55, "pb_percentile": 0.30, "ep_ratio": 0.013},
+      "159819": {"name": "人工智能ETF", "category": "科技", "exposure": "AI产业链（算力/算法/应用）", "pe_ttm": 60.0, "pb": 3.8, "pe_percentile": 0.70, "pb_percentile": 0.60, "ep_ratio": 0.017},
+      "515030": {"name": "新能源车ETF", "category": "新能源", "exposure": "整车+零部件", "pe_ttm": 22.0, "pb": 2.0, "pe_percentile": 0.20, "pb_percentile": 0.15, "ep_ratio": 0.045},
+      "512690": {"name": "酒ETF", "category": "消费", "exposure": "白酒龙头", "pe_ttm": 20.0, "pb": 5.5, "pe_percentile": 0.25, "pb_percentile": 0.35, "ep_ratio": 0.050},
+      "513100": {"name": "纳斯达克100ETF", "category": "QDII", "exposure": "美股科技巨头", "pe_ttm": 28.0, "pb": 8.0, "pe_percentile": 0.80, "pb_percentile": 0.85, "ep_ratio": 0.036}
+    },
+    "scoring": {
+      "cycle": {
+        "宽基": 6.0, "港股": 5.0, "新能源": 7.5, "医药": 7.0, "高端制造": 8.5,
+        "公用事业": 5.5, "科技": 9.0, "防御": 4.5, "金融": 5.0, "商品": 7.5, "消费": 5.5, "QDII": 4.0
+      },
+      "cycle_overrides": {"159995": 9.5, "562500": 9.0, "518880": 8.5, "512400": 7.5, "159992": 8.0},
+      "policy": {
+        "510300": 6.5, "560610": 7.0, "513130": 4.5, "159857": 7.5, "159755": 6.5,
+        "159992": 9.0, "159898": 8.5, "562500": 9.0, "159611": 6.5, "159995": 9.5,
+        "512890": 6.0, "512800": 5.0, "518880": 7.5, "512880": 7.0, "512400": 8.0,
+        "515880": 8.0, "588000": 8.5, "159819": 8.5, "515030": 7.0, "512690": 4.5, "513100": 3.0
+      },
+      "geo": {
+        "510300": 6.0, "560610": 6.5, "513130": 3.0, "159857": 7.0, "159755": 6.5,
+        "159992": 7.5, "159898": 8.0, "562500": 7.5, "159611": 7.5, "159995": 8.5,
+        "512890": 7.5, "512800": 6.5, "518880": 9.5, "512880": 6.0, "512400": 7.5,
+        "515880": 7.0, "588000": 8.0, "159819": 7.0, "515030": 6.0, "512690": 5.5, "513100": 2.0
+      },
+      "earnings": {
+        "510300": 5.5, "560610": 6.0, "513130": 6.5, "159857": 4.5, "159755": 4.0,
+        "159992": 7.5, "159898": 6.5, "562500": 7.0, "159611": 6.0, "159995": 7.5,
+        "512890": 6.0, "512800": 5.0, "518880": 7.0, "512880": 6.0, "512400": 7.0,
+        "515880": 7.5, "588000": 6.5, "159819": 7.5, "515030": 5.5, "512690": 4.5, "513100": 6.5
+      }
+    }
+  }
+}

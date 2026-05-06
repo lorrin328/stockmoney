@@ -4,56 +4,56 @@
     "etf_code": "510300",
     "pe_ttm": null,
     "pb": null,
-    "price": 4807.31,
-    "date": "2026-05-05"
+    "price": 4885.55,
+    "date": "2026-05-06"
   },
   "000905": {
     "name": "中证500",
     "etf_code": null,
     "pe_ttm": null,
     "pb": null,
-    "price": 8349.51,
-    "date": "2026-05-05"
+    "price": 8563.86,
+    "date": "2026-05-06"
   },
   "000688": {
     "name": "科创50",
     "etf_code": "588000",
     "pe_ttm": null,
     "pb": null,
-    "price": 1571.07,
-    "date": "2026-05-05"
+    "price": 1700.5,
+    "date": "2026-05-06"
   },
   "000016": {
     "name": "上证50",
     "etf_code": null,
     "pe_ttm": null,
     "pb": null,
-    "price": 2985.5,
-    "date": "2026-05-05"
+    "price": 3033.68,
+    "date": "2026-05-06"
   },
   "000941": {
     "name": "新能源",
     "etf_code": null,
     "pe_ttm": null,
     "pb": null,
-    "price": 2939.05,
-    "date": "2026-05-05"
+    "price": 3003.51,
+    "date": "2026-05-06"
   },
   "000991": {
     "name": "全指医药",
     "etf_code": "159992",
     "pe_ttm": null,
     "pb": null,
-    "price": 8629.6,
-    "date": "2026-05-05"
+    "price": 8633.09,
+    "date": "2026-05-06"
   },
   "000922": {
     "name": "中证红利",
     "etf_code": "512890",
     "pe_ttm": null,
     "pb": null,
-    "price": 5865.07,
-    "date": "2026-05-05"
+    "price": 5837.26,
+    "date": "2026-05-06"
   },
-  "_ts": 1777967469.3849266
+  "_ts": 1778034184.4311476
 }

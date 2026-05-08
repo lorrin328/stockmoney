@@ -6,129 +6,15 @@
       "name": "黄金ETF",
       "target_pct": 12.6,
       "type": "a_etf",
-      "investment_rationale": "地缘韧性极强；估值合理；景气上行；康波核心赛道",
+      "investment_rationale": "地缘韧性极强；霍尔木兹5/8重燃紧张→避险需求激增；央行连续18个月增持；神奇公式E/P维度不适用但地缘维度9.5分独一档",
       "scores": {
         "cycle": 8.5,
         "policy": 7.5,
         "geo": 9.5,
         "valuation": 7.5,
         "earnings": 7.0,
-        "total": 8.03
-      },
-      "rules": [
-        {
-          "kind": "price_percentile",
-          "window": 500,
-          "low": 0.2,
-          "high": 0.8
-        }
-      ]
-    },
-    {
-      "code": "159995",
-      "name": "芯片ETF",
-      "target_pct": 10.4,
-      "type": "a_etf",
-      "investment_rationale": "十五五核心产业；地缘韧性极强；景气上行；康波核心赛道",
-      "scores": {
-        "cycle": 9.5,
-        "policy": 9.5,
-        "geo": 8.5,
-        "valuation": 3.8333333333333335,
-        "earnings": 7.5,
-        "total": 7.87
-      },
-      "rules": [
-        {
-          "kind": "price_percentile",
-          "window": 500,
-          "low": 0.2,
-          "high": 0.8
-        }
-      ]
-    },
-    {
-      "code": "159992",
-      "name": "创新药ETF",
-      "target_pct": 10.4,
-      "type": "a_etf",
-      "investment_rationale": "十五五核心产业；景气上行",
-      "scores": {
-        "cycle": 8.0,
-        "policy": 9.0,
-        "geo": 7.5,
-        "valuation": 6.5,
-        "earnings": 7.5,
-        "total": 7.77
-      },
-      "rules": [
-        {
-          "kind": "price_percentile",
-          "window": 500,
-          "low": 0.2,
-          "high": 0.8
-        }
-      ]
-    },
-    {
-      "code": "562500",
-      "name": "机器人ETF",
-      "target_pct": 8.3,
-      "type": "a_etf",
-      "investment_rationale": "十五五核心产业；景气上行；康波核心赛道",
-      "scores": {
-        "cycle": 9.0,
-        "policy": 9.0,
-        "geo": 7.5,
-        "valuation": 4.5,
-        "earnings": 7.0,
-        "total": 7.5
-      },
-      "rules": [
-        {
-          "kind": "price_percentile",
-          "window": 500,
-          "low": 0.2,
-          "high": 0.8
-        }
-      ]
-    },
-    {
-      "code": "588000",
-      "name": "科创50ETF",
-      "target_pct": 8.3,
-      "type": "a_etf",
-      "investment_rationale": "十五五核心产业；地缘韧性极强；康波核心赛道",
-      "scores": {
-        "cycle": 9.0,
-        "policy": 8.5,
-        "geo": 8.0,
-        "valuation": 5.0,
-        "earnings": 6.5,
-        "total": 7.5
-      },
-      "rules": [
-        {
-          "kind": "price_percentile",
-          "window": 500,
-          "low": 0.2,
-          "high": 0.8
-        }
-      ]
-    },
-    {
-      "code": "159898",
-      "name": "医疗器械ETF",
-      "target_pct": 8.3,
-      "type": "a_etf",
-      "investment_rationale": "十五五核心产业；地缘韧性极强",
-      "scores": {
-        "cycle": 7.0,
-        "policy": 8.5,
-        "geo": 8.0,
-        "valuation": 6.666666666666667,
-        "earnings": 6.5,
-        "total": 7.43
+        "magic_formula": 5.0,
+        "total": 7.72
       },
       "rules": [
         {
@@ -142,16 +28,137 @@
     {
       "code": "512400",
       "name": "有色金属ETF",
-      "target_pct": 7.3,
+      "target_pct": 8.5,
       "type": "a_etf",
-      "investment_rationale": "景气上行",
+      "investment_rationale": "铜矿紧缺+新能源用铜+美国铜关税预期；康波复苏期工业金属超配；神奇公式得分7.5（E/P 5%+周期上行ROE改善）",
       "scores": {
         "cycle": 7.5,
         "policy": 8.0,
         "geo": 7.5,
         "valuation": 6.5,
         "earnings": 7.0,
+        "magic_formula": 7.5,
+        "total": 7.36
+      },
+      "rules": [
+        {
+          "kind": "price_percentile",
+          "window": 500,
+          "low": 0.2,
+          "high": 0.8
+        }
+      ]
+    },
+    {
+      "code": "159898",
+      "name": "医疗器械ETF",
+      "target_pct": 8.2,
+      "type": "a_etf",
+      "investment_rationale": "十五五生物医药支柱；集采优化+创新支付；地缘韧性极强；神奇公式7.0分（PE28合理+ROE 10-14%优质）",
+      "scores": {
+        "cycle": 7.0,
+        "policy": 8.5,
+        "geo": 8.0,
+        "valuation": 6.5,
+        "earnings": 6.5,
+        "magic_formula": 7.0,
         "total": 7.35
+      },
+      "rules": [
+        {
+          "kind": "price_percentile",
+          "window": 500,
+          "low": 0.2,
+          "high": 0.8
+        }
+      ]
+    },
+    {
+      "code": "159995",
+      "name": "芯片ETF",
+      "target_pct": 8.0,
+      "type": "a_etf",
+      "investment_rationale": "十五五核心产业；国产替代核心；但神奇公式仅2.5分（PE85极贵+E/P 1.2%极低）警告估值过热；5/8美股芯片指数-3%验证回调风险；仓位从10.4%降至8.0%",
+      "scores": {
+        "cycle": 9.5,
+        "policy": 9.5,
+        "geo": 8.5,
+        "valuation": 3.0,
+        "earnings": 8.0,
+        "magic_formula": 2.5,
+        "total": 7.24
+      },
+      "rules": [
+        {
+          "kind": "price_percentile",
+          "window": 500,
+          "low": 0.2,
+          "high": 0.8
+        }
+      ]
+    },
+    {
+      "code": "159992",
+      "name": "创新药ETF",
+      "target_pct": 7.8,
+      "type": "a_etf",
+      "investment_rationale": "十五五核心产业；AI驱动研发效率提升200倍；神奇公式2.0分（行业亏损PE为负，资本回报尚未体现）估值质量最差但政策/周期/盈利维度强；仓位从10.4%降至7.8%",
+      "scores": {
+        "cycle": 8.0,
+        "policy": 9.0,
+        "geo": 7.5,
+        "valuation": 6.5,
+        "earnings": 7.5,
+        "magic_formula": 2.0,
+        "total": 7.19
+      },
+      "rules": [
+        {
+          "kind": "price_percentile",
+          "window": 500,
+          "low": 0.2,
+          "high": 0.8
+        }
+      ]
+    },
+    {
+      "code": "562500",
+      "name": "机器人ETF",
+      "target_pct": 7.5,
+      "type": "a_etf",
+      "investment_rationale": "十五五未来产业；具身智能+AI应用落地；神奇公式4.0分（PE45偏贵+ROE 5-8%成长期偏低）；仓位从8.3%降至7.5%",
+      "scores": {
+        "cycle": 9.0,
+        "policy": 9.0,
+        "geo": 7.5,
+        "valuation": 4.5,
+        "earnings": 7.0,
+        "magic_formula": 4.0,
+        "total": 7.14
+      },
+      "rules": [
+        {
+          "kind": "price_percentile",
+          "window": 500,
+          "low": 0.2,
+          "high": 0.8
+        }
+      ]
+    },
+    {
+      "code": "588000",
+      "name": "科创50ETF",
+      "target_pct": 7.2,
+      "type": "a_etf",
+      "investment_rationale": "十五五硬科技综合载体；康波核心赛道；神奇公式3.0分（PE75极贵+成长期ROE未释放）；仓位从8.3%降至7.2%",
+      "scores": {
+        "cycle": 9.0,
+        "policy": 8.5,
+        "geo": 8.0,
+        "valuation": 5.0,
+        "earnings": 7.0,
+        "magic_formula": 3.0,
+        "total": 7.11
       },
       "rules": [
         {
@@ -165,39 +172,17 @@
     {
       "code": "159819",
       "name": "人工智能ETF",
-      "target_pct": 6.2,
+      "target_pct": 6.8,
       "type": "a_etf",
-      "investment_rationale": "十五五核心产业；景气上行；康波核心赛道",
+      "investment_rationale": "十五五核心产业；AI算力基础设施+应用落地；神奇公式3.0分（PE60贵+E/P 1.7%低）；仓位从6.2%微增至6.8%因周期政策双高分支撑",
       "scores": {
         "cycle": 9.0,
         "policy": 8.5,
         "geo": 7.0,
-        "valuation": 3.8333333333333335,
-        "earnings": 7.5,
-        "total": 7.22
-      },
-      "rules": [
-        {
-          "kind": "price_percentile",
-          "window": 500,
-          "low": 0.2,
-          "high": 0.8
-        }
-      ]
-    },
-    {
-      "code": "515880",
-      "name": "科技ETF",
-      "target_pct": 6.2,
-      "type": "a_etf",
-      "investment_rationale": "景气上行；康波核心赛道",
-      "scores": {
-        "cycle": 9.0,
-        "policy": 8.0,
-        "geo": 7.0,
-        "valuation": 3.8333333333333335,
-        "earnings": 7.5,
-        "total": 7.09
+        "valuation": 3.5,
+        "earnings": 8.0,
+        "magic_formula": 3.0,
+        "total": 6.80
       },
       "rules": [
         {
@@ -211,16 +196,17 @@
     {
       "code": "159857",
       "name": "光伏ETF",
-      "target_pct": 5.2,
+      "target_pct": 6.5,
       "type": "a_etf",
-      "investment_rationale": "综合评分中等",
+      "investment_rationale": "新能源产业链；光伏度电成本下降82%；神奇公式6.0分（PE18合理+ROE 5-8%待改善）；仓位从5.2%增至6.5%",
       "scores": {
         "cycle": 7.5,
         "policy": 7.5,
         "geo": 7.0,
         "valuation": 7.0,
         "earnings": 4.5,
-        "total": 6.85
+        "magic_formula": 6.0,
+        "total": 6.75
       },
       "rules": [
         {
@@ -232,64 +218,19 @@
       ]
     },
     {
-      "code": "515030",
-      "name": "新能源车ETF",
-      "target_pct": 4.2,
+      "code": "515880",
+      "name": "科技ETF",
+      "target_pct": 6.5,
       "type": "a_etf",
-      "investment_rationale": "综合评分中等",
+      "investment_rationale": "泛科技（电子/计算机/通信）；景气上行；神奇公式3.5分（PE55偏贵）；仓位维持6.2%→6.5%",
       "scores": {
-        "cycle": 7.5,
-        "policy": 7.0,
-        "geo": 6.0,
-        "valuation": 7.166666666666667,
-        "earnings": 5.5,
-        "total": 6.71
-      },
-      "rules": [
-        {
-          "kind": "price_percentile",
-          "window": 500,
-          "low": 0.2,
-          "high": 0.8
-        }
-      ]
-    },
-    {
-      "code": "159755",
-      "name": "电池ETF",
-      "target_pct": 4.2,
-      "type": "a_etf",
-      "investment_rationale": "综合评分中等",
-      "scores": {
-        "cycle": 7.5,
-        "policy": 6.5,
-        "geo": 6.5,
-        "valuation": 7.166666666666667,
-        "earnings": 4.0,
-        "total": 6.46
-      },
-      "rules": [
-        {
-          "kind": "price_percentile",
-          "window": 500,
-          "low": 0.2,
-          "high": 0.8
-        }
-      ]
-    },
-    {
-      "code": "512890",
-      "name": "红利低波ETF",
-      "target_pct": 4.2,
-      "type": "a_etf",
-      "investment_rationale": "综合评分中等",
-      "scores": {
-        "cycle": 4.5,
-        "policy": 6.0,
-        "geo": 7.5,
-        "valuation": 6.833333333333333,
-        "earnings": 6.0,
-        "total": 6.17
+        "cycle": 9.0,
+        "policy": 8.0,
+        "geo": 7.0,
+        "valuation": 3.5,
+        "earnings": 8.0,
+        "magic_formula": 3.5,
+        "total": 6.74
       },
       "rules": [
         {
@@ -303,16 +244,89 @@
     {
       "code": "560610",
       "name": "中证A500ETF",
-      "target_pct": 4.2,
+      "target_pct": 6.5,
       "type": "a_etf",
-      "investment_rationale": "综合评分中等",
+      "investment_rationale": "中大盘均衡宽基；神奇公式8.0分（PE15.2合理+E/P 6.6%+ROE 9-11%优质）；新纳入组合，取代部分成长仓位作为价值锚",
       "scores": {
         "cycle": 6.0,
         "policy": 7.0,
         "geo": 6.5,
-        "valuation": 4.833333333333333,
+        "valuation": 7.0,
         "earnings": 6.0,
-        "total": 6.12
+        "magic_formula": 8.0,
+        "total": 6.69
+      },
+      "rules": [
+        {
+          "kind": "price_percentile",
+          "window": 500,
+          "low": 0.2,
+          "high": 0.8
+        }
+      ]
+    },
+    {
+      "code": "159611",
+      "name": "电力ETF",
+      "target_pct": 6.2,
+      "type": "a_etf",
+      "investment_rationale": "电力运营商；高股息防御+新型电力系统；神奇公式7.5分（PE16合理+ROE 8-10%稳健）；新纳入组合，价值防御属性",
+      "scores": {
+        "cycle": 5.5,
+        "policy": 6.5,
+        "geo": 7.5,
+        "valuation": 6.5,
+        "earnings": 6.0,
+        "magic_formula": 7.5,
+        "total": 6.53
+      },
+      "rules": [
+        {
+          "kind": "price_percentile",
+          "window": 500,
+          "low": 0.2,
+          "high": 0.8
+        }
+      ]
+    },
+    {
+      "code": "515030",
+      "name": "新能源车ETF",
+      "target_pct": 5.5,
+      "type": "a_etf",
+      "investment_rationale": "整车+零部件；新能源车渗透率提升；神奇公式5.5分（PE22合理+ROE 5-8%行业竞争激烈）；仓位从4.2%增至5.5%",
+      "scores": {
+        "cycle": 7.5,
+        "policy": 7.0,
+        "geo": 6.0,
+        "valuation": 7.0,
+        "earnings": 5.5,
+        "magic_formula": 5.5,
+        "total": 6.55
+      },
+      "rules": [
+        {
+          "kind": "price_percentile",
+          "window": 500,
+          "low": 0.2,
+          "high": 0.8
+        }
+      ]
+    },
+    {
+      "code": "510300",
+      "name": "沪深300ETF",
+      "target_pct": 5.5,
+      "type": "a_etf",
+      "investment_rationale": "大盘蓝筹宽基；A股核心资产；神奇公式8.5分（PE14.6合理+E/P 6.8%+ROE 10-12%优质）；新纳入组合，作为价值底仓",
+      "scores": {
+        "cycle": 6.0,
+        "policy": 6.5,
+        "geo": 6.0,
+        "valuation": 7.0,
+        "earnings": 5.5,
+        "magic_formula": 8.5,
+        "total": 6.47
       },
       "rules": [
         {
@@ -326,16 +340,18 @@
   ],
   "positions": {},
   "created_at": "2026-04-27T00:00:00",
-  "last_updated": "2026-05-01",
-  "update_reason": "ETF多维度甄选模型筛选，基于2026年05月宏观研究",
+  "last_updated": "2026-05-08",
+  "update_reason": "模型v1.1.0升级：融入《股市稳赚》神奇公式维度（Magic Formula），新增E/P+ROE质量校验；更新5月8日市场数据（A股创业板新高/美股芯片回调/黄金涨2%/原油V转/霍尔木兹重燃）；调仓：减持高估值成长（芯片-2.4%/创新药-2.6%/科创-1.1%），增配价值宽基（沪深300+5.5%/中证A500+6.5%/电力+6.2%）",
   "selection_model": {
     "weights": {
-      "cycle": 0.2,
-      "policy": 0.25,
-      "geo": 0.2,
-      "valuation": 0.2,
-      "earnings": 0.15
+      "cycle": 0.18,
+      "policy": 0.22,
+      "geo": 0.18,
+      "valuation": 0.18,
+      "earnings": 0.14,
+      "magic_formula": 0.10
     },
-    "evaluated_date": "2026-05-01"
+    "evaluated_date": "2026-05-08",
+    "magic_formula_reference": "《股市稳赚》(The Little Book That Still Beats the Market) by Joel Greenblatt — 投资回报率(ROIC)排名 + 盈利收益率(E/P)排名，选择'便宜的好公司'"
   }
 }

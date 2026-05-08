@@ -38,11 +38,11 @@
   },
   "permissions": {
     "allow": [
-      "python3 scripts/**",
-      "node scripts/**",
-      "npx **",
-      "git **",
-      "curl **"
+      "Python3 scripts/**",
+      "Node scripts/**",
+      "Npx **",
+      "Git **",
+      "Curl **"
     ]
   }
 }

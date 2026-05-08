@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": "1.0.1",
-    "created": "2026-05-06",
-    "description": "Central model parameters — edit this file to update the investment model without changing code. Updated 2026-05-06: oil price, gold stabilization, new geopolitics, chip/AI earnings boost.",
+    "version": "1.1.0",
+    "created": "2026-05-08",
+    "description": "Central model parameters v1.1.0 — Added Magic Formula dimension (Joel Greenblatt) per 《股市稳赚》theory. Updated 2026-05-08: A股总市值破120万亿/创业板新高, chip correction, gold +2% to 2-week high, oil V-reversal to $100, Hormuz tension re-escalation.",
     "schema_doc": "Each top-level key corresponds to a script module. See scripts/config_loader.py for the loader API."
   },
 
@@ -185,9 +185,9 @@
     ],
     "commodity": [
       {"name": "CRB指数", "current": 280.0, "hist_low": 150.0, "hist_high": 470.0, "trend": "up", "description": "路透CRB商品指数"},
-      {"name": "黄金价格", "current": 4558.0, "hist_low": 1050.0, "hist_high": 5000.0, "trend": "stabilization", "description": "伦敦金现货价格（2026年5月6日更新，企稳反弹+0.8%，走出一个月低谷，避险需求回归）"},
-      {"name": "原油价格", "current": 109.87, "hist_low": 20.0, "hist_high": 147.0, "trend": "volatile", "description": "布伦特原油现货价格（2026年5月6日更新，停火维持油价回落-4%，WTI 102.27）"},
-      {"name": "美元指数", "current": 98.3, "hist_low": 70.0, "hist_high": 114.0, "trend": "up", "description": "美元指数DXY（2026年5月6日更新，停火维持+伊朗外长访华→避险需求边际降温，但仍处高位）"}
+      {"name": "黄金价格", "current": 4650.0, "hist_low": 1050.0, "hist_high": 5000.0, "trend": "up", "description": "伦敦金现货价格（2026年5月8日更新，盘中涨近2%至两周新高约4650，央行连续18个月增持，避险需求回归）"},
+      {"name": "原油价格", "current": 100.06, "hist_low": 20.0, "hist_high": 147.0, "trend": "volatile", "description": "布伦特原油现货价格（2026年5月8日更新，V形反转，盘中先跌超5%后转涨超3%，布油收报100.06美元，WTI回升至95美元上方。美伊协议前景存疑，霍尔木兹紧张升级）"},
+      {"name": "美元指数", "current": 98.3, "hist_low": 70.0, "hist_high": 114.0, "trend": "up", "description": "美元指数DXY（2026年5月8日更新，霍尔木兹紧张重燃支撑美元避险需求）"}
     ]
   },
 
@@ -352,12 +352,29 @@
         "market_impact": "中美制裁与反制裁博弈持续；国产替代逻辑增强",
         "affected_assets": ["石化股（分化）", "国产替代（利好）"],
         "note": "以法制手段反击长臂管辖，呼应政治局信心建设战框架"
+      },
+      "may8_market_moves": {
+        "date": "2026-05-08",
+        "event": "A股总市值突破120万亿/创业板刷新逾10年新高；美股芯片股回调（芯片指数-3%，Arm跌10%）；黄金盘中涨近2%至两周新高；原油V形反转布油收报100美元",
+        "severity": "高",
+        "market_impact": "A股硬科技爆发与美股芯片回调形成分化；黄金避险属性强化；原油剧烈波动反映地缘不确定性",
+        "affected_assets": ["A股芯片/AI（短期过热风险）", "黄金（超配）", "原油（观望）", "美股科技（回调风险）"],
+        "note": "A股创业板新高+美股芯片回调=全球科技板块短期分化，注意节奏差异"
+      },
+      "hormuz_re_escalation_may8": {
+        "date": "2026-05-08",
+        "event": "美伊协议前景存疑，霍尔木兹紧张升级；特朗普政府考虑恢复'自由计划'护航行动；伊朗称不允许美国'不切实际的计划'重开海峡，要求战争赔偿",
+        "severity": "极高",
+        "market_impact": "地缘风险重新升温→油价V形反转、黄金跳涨、美元避险需求增强；若霍尔木兹再次封锁则全球供应链冲击",
+        "affected_assets": ["黄金（超配）", "原油（高配）", "航运保险", "美元", "全球航运"],
+        "note": "5/6停火乐观情绪消退，美伊根本矛盾未解。美军或本周重启海峡疏导，伊朗主权主张与美军自由航行冲突是根本性矛盾"
       }
     }
   },
 
   "etf_selector": {
-    "weights": {"cycle": 0.20, "policy": 0.25, "geo": 0.20, "valuation": 0.20, "earnings": 0.15},
+    "weights": {"cycle": 0.18, "policy": 0.22, "geo": 0.18, "valuation": 0.18, "earnings": 0.14, "magic_formula": 0.10},
+    "magic_formula_note": "《股市稳赚》神奇公式维度：E/P排名（高盈利收益率=便宜）+ ROE排名（高资本回报=好公司），两者相加取综合排名最优者。权重10%作为估值质量校验，防止高估值成长股过度集中。",
     "candidates": {
       "510300": {"name": "沪深300ETF", "category": "宽基", "exposure": "大盘蓝筹", "pe_ttm": 14.6, "pb": 1.46, "pe_percentile": 0.86, "pb_percentile": 0.57, "ep_ratio": 0.068},
       "560610": {"name": "中证A500ETF", "category": "宽基", "exposure": "中大盘均衡", "pe_ttm": 15.2, "pb": 1.52, "pe_percentile": 0.75, "pb_percentile": 0.50, "ep_ratio": 0.066},
@@ -404,6 +421,13 @@
         "159992": 7.5, "159898": 6.5, "562500": 7.0, "159611": 6.0, "159995": 8.0,
         "512890": 6.0, "512800": 5.0, "518880": 7.0, "512880": 6.5, "512400": 7.0,
         "515880": 8.0, "588000": 7.0, "159819": 8.0, "515030": 5.5, "512690": 4.5, "513100": 6.5
+      },
+      "magic_formula": {
+        "_desc": "神奇公式得分=ROE排名+E/P排名（1=最优）。高得分=便宜的好公司。康波复苏期需平衡成长与价值，故权重仅10%。",
+        "510300": 8.5, "560610": 8.0, "513130": 6.5, "159857": 6.0, "159755": 5.0,
+        "159992": 2.0, "159898": 7.0, "562500": 4.0, "159611": 7.5, "159995": 2.5,
+        "512890": 9.5, "512800": 9.0, "518880": 5.0, "512880": 6.0, "512400": 7.5,
+        "515880": 3.5, "588000": 3.0, "159819": 3.0, "515030": 5.5, "512690": 8.0, "513100": 7.0
       }
     }
   }

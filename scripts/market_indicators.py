@@ -72,11 +72,11 @@ class MarketSummary:
 # ---------------------------------------------------------------------------
 
 VALUATION_INDICATORS = [
-    {"name": "沪深300 PE", "current": 14.6, "hist_low": 8.0, "hist_high": 30.0, "trend": "up", "description": "沪深300市盈率（2026年4月底约14.6倍，历史分位80-92%）"},
-    {"name": "沪深300 PB", "current": 1.46, "hist_low": 1.0, "hist_high": 3.0, "trend": "flat", "description": "沪深300市净率（历史分位约57%，中等水平）"},
-    {"name": "中证500 PE", "current": 22.0, "hist_low": 15.0, "hist_high": 90.0, "trend": "up", "description": "中证500市盈率"},
+    {"name": "沪深300 PE", "current": 14.6, "hist_low": 8.0, "hist_high": 30.0, "true_percentile": 0.86, "trend": "up", "description": "沪深300市盈率（14.6倍，历史分位80-92%，偏高）"},
+    {"name": "沪深300 PB", "current": 1.46, "hist_low": 1.0, "hist_high": 3.0, "true_percentile": 0.57, "trend": "flat", "description": "沪深300市净率（1.46倍，历史分位约57%，中等）"},
+    {"name": "中证500 PE", "current": 22.0, "hist_low": 15.0, "hist_high": 90.0, "trend": "up", "description": "中证500市盈率（22倍，相对历史低位）"},
     {"name": "股债利差", "current": 0.055, "hist_low": 0.02, "hist_high": 0.08, "trend": "flat", "description": "股票盈利收益率 - 10Y国债收益率"},
-    {"name": "E/P（盈利收益率）", "current": 0.068, "hist_low": 0.03, "hist_high": 0.15, "trend": "flat", "description": "E/P比率，格雷厄姆估值指标（PE14.6对应E/P约6.8%）"},
+    {"name": "E/P（盈利收益率）", "current": 0.068, "hist_low": 0.03, "hist_high": 0.15, "trend": "flat", "description": "E/P比率（6.8%），格雷厄姆指标"},
 ]
 
 SENTIMENT_INDICATORS = [
@@ -127,7 +127,12 @@ class MarketIndicatorSystem:
             self.liquidity_data = LIQUIDITY_INDICATORS
             self.commodity_data = COMMODITY_INDICATORS
 
-    def _calc_percentile(self, value: float, low: float, high: float) -> float:
+    def _calc_percentile(self, value: float, low: float, high: float,
+                         true_percentile: float = None) -> float:
+        """Calculate percentile. Uses true_percentile override when available
+        (essential for non-uniform distributions like PE where linear calc misleads)."""
+        if true_percentile is not None:
+            return true_percentile
         if high <= low:
             return 0.5
         p = (value - low) / (high - low)
@@ -173,7 +178,10 @@ class MarketIndicatorSystem:
     def _process_indicators(self, data: List[Dict], category: str) -> List[Indicator]:
         indicators = []
         for item in data:
-            pctl = self._calc_percentile(item["current"], item["hist_low"], item["hist_high"])
+            pctl = self._calc_percentile(
+                item["current"], item["hist_low"], item["hist_high"],
+                item.get("true_percentile"),
+            )
             signal = self._calc_signal(pctl, item["name"])
             indicators.append(Indicator(
                 name=item["name"],

@@ -4,7 +4,7 @@
     "etf_code": "510300",
     "pe_ttm": null,
     "pb": null,
-    "price": 4927.92,
+    "price": 4941.63,
     "date": "2026-05-11"
   },
   "000905": {
@@ -12,7 +12,7 @@
     "etf_code": null,
     "pe_ttm": null,
     "pb": null,
-    "price": 8807.11,
+    "price": 8823.27,
     "date": "2026-05-11"
   },
   "000688": {
@@ -20,7 +20,7 @@
     "etf_code": "588000",
     "pe_ttm": null,
     "pb": null,
-    "price": 1705.68,
+    "price": 1709.93,
     "date": "2026-05-11"
   },
   "000016": {
@@ -28,7 +28,7 @@
     "etf_code": null,
     "pe_ttm": null,
     "pb": null,
-    "price": 3023.96,
+    "price": 3028.37,
     "date": "2026-05-11"
   },
   "000941": {
@@ -36,7 +36,7 @@
     "etf_code": null,
     "pe_ttm": null,
     "pb": null,
-    "price": 3037.62,
+    "price": 3025.94,
     "date": "2026-05-11"
   },
   "000991": {
@@ -44,7 +44,7 @@
     "etf_code": "159992",
     "pe_ttm": null,
     "pb": null,
-    "price": 8582.65,
+    "price": 8677.28,
     "date": "2026-05-11"
   },
   "000922": {
@@ -52,8 +52,8 @@
     "etf_code": "512890",
     "pe_ttm": null,
     "pb": null,
-    "price": 5770.21,
+    "price": 5766.53,
     "date": "2026-05-11"
   },
-  "_ts": 1778476243.3770626
+  "_ts": 1778477920.922196
 }

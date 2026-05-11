@@ -14,6 +14,7 @@
         "valuation": 7.5,
         "earnings": 7.0,
         "magic_formula": 5.0,
+        "momentum": 8.0,
         "total": 7.72
       },
       "rules": [
@@ -38,6 +39,7 @@
         "valuation": 6.5,
         "earnings": 7.0,
         "magic_formula": 7.5,
+        "momentum": 7.5,
         "total": 7.36
       },
       "rules": [
@@ -62,6 +64,7 @@
         "valuation": 6.5,
         "earnings": 6.5,
         "magic_formula": 7.0,
+        "momentum": 7.5,
         "total": 7.35
       },
       "rules": [
@@ -86,6 +89,7 @@
         "valuation": 3.0,
         "earnings": 8.0,
         "magic_formula": 2.5,
+        "momentum": 7.0,
         "total": 7.24
       },
       "rules": [
@@ -110,6 +114,7 @@
         "valuation": 6.5,
         "earnings": 7.5,
         "magic_formula": 2.0,
+        "momentum": 8.0,
         "total": 7.19
       },
       "rules": [
@@ -134,6 +139,7 @@
         "valuation": 4.5,
         "earnings": 7.0,
         "magic_formula": 4.0,
+        "momentum": 8.5,
         "total": 7.14
       },
       "rules": [
@@ -158,6 +164,7 @@
         "valuation": 5.0,
         "earnings": 7.0,
         "magic_formula": 3.0,
+        "momentum": 8.0,
         "total": 7.11
       },
       "rules": [
@@ -182,6 +189,7 @@
         "valuation": 3.5,
         "earnings": 8.0,
         "magic_formula": 3.0,
+        "momentum": 8.0,
         "total": 6.80
       },
       "rules": [
@@ -206,6 +214,7 @@
         "valuation": 7.0,
         "earnings": 4.5,
         "magic_formula": 6.0,
+        "momentum": 7.5,
         "total": 6.75
       },
       "rules": [
@@ -230,6 +239,7 @@
         "valuation": 3.5,
         "earnings": 8.0,
         "magic_formula": 3.5,
+        "momentum": 7.5,
         "total": 6.74
       },
       "rules": [
@@ -254,6 +264,7 @@
         "valuation": 7.0,
         "earnings": 6.0,
         "magic_formula": 8.0,
+        "momentum": 7.5,
         "total": 6.69
       },
       "rules": [
@@ -278,6 +289,7 @@
         "valuation": 6.5,
         "earnings": 6.0,
         "magic_formula": 7.5,
+        "momentum": 6.5,
         "total": 6.53
       },
       "rules": [
@@ -302,6 +314,7 @@
         "valuation": 7.0,
         "earnings": 5.5,
         "magic_formula": 5.5,
+        "momentum": 6.5,
         "total": 6.55
       },
       "rules": [
@@ -326,6 +339,7 @@
         "valuation": 7.0,
         "earnings": 5.5,
         "magic_formula": 8.5,
+        "momentum": 7.0,
         "total": 6.47
       },
       "rules": [
@@ -341,17 +355,21 @@
   "positions": {},
   "created_at": "2026-04-27T00:00:00",
   "last_updated": "2026-05-08",
-  "update_reason": "模型v1.1.0升级：融入《股市稳赚》神奇公式维度（Magic Formula），新增E/P+ROE质量校验；更新5月8日市场数据（A股创业板新高/美股芯片回调/黄金涨2%/原油V转/霍尔木兹重燃）；调仓：减持高估值成长（芯片-2.4%/创新药-2.6%/科创-1.1%），增配价值宽基（沪深300+5.5%/中证A500+6.5%/电力+6.2%）",
+  "update_reason": "模型v1.1.0升级（第二批次）：1) 增加中美科技脱钩子因子（纳入geo维度）；2) 神奇公式动态权重（PE分位>80%升至12%，<30%降至5%）；3) 新增12个月动量维度（权重10%）。更新5月8日市场数据。",
   "selection_model": {
     "weights": {
-      "cycle": 0.18,
-      "policy": 0.22,
-      "geo": 0.18,
-      "valuation": 0.18,
-      "earnings": 0.14,
-      "magic_formula": 0.10
+      "cycle": 0.16,
+      "policy": 0.20,
+      "geo": 0.16,
+      "valuation": 0.16,
+      "earnings": 0.12,
+      "magic_formula": 0.10,
+      "momentum": 0.10
     },
     "evaluated_date": "2026-05-08",
-    "magic_formula_reference": "《股市稳赚》(The Little Book That Still Beats the Market) by Joel Greenblatt — 投资回报率(ROIC)排名 + 盈利收益率(E/P)排名，选择'便宜的好公司'"
+    "magic_formula_reference": "《股市稳赚》(The Little Book That Still Beats the Market) by Joel Greenblatt — 投资回报率(ROIC)排名 + 盈利收益率(E/P)排名，选择'便宜的好公司'",
+    "dynamic_weights_note": "神奇公式权重根据沪深300 PE分位动态调整：>80%→12%，<30%→5%，之间→10%",
+    "tech_decouple_note": "中美科技脱钩子因子纳入geo维度（geo = base * 0.6 + decouple * 0.4）",
+    "momentum_note": "12个月价格动量因子，防止接飞刀、追涨杀跌"
   }
 }

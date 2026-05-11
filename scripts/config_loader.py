@@ -100,6 +100,9 @@ class ModelConfig:
     def etf_scoring(self) -> Dict:
         return self._raw.get("etf_selector", {}).get("scoring", {})
 
+    def etf_dynamic_weights(self) -> Dict:
+        return self._raw.get("etf_selector", {}).get("dynamic_weights", {})
+
 
 # ---------------------------------------------------------------------------
 # Public API

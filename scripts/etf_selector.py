@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 """
-ETF多维度甄选系统
+ETF多维度甄选系统 v1.1
 
-基于5大维度对候选ETF进行量化评分，输出最优投资组合：
+基于7大维度对候选ETF进行量化评分，输出最优投资组合：
 1. 周期定位匹配度（康波复苏期受益程度）
 2. 十五五政策匹配度（与国家重点产业契合度）
 3. 地缘政治韧性（中美脱钩/台海风险下的抗压能力）
+   └─ 子因子：中美科技脱钩评分（国产替代 vs 依赖美国技术）
 4. 市场估值合理性（PE/PB分位、E/P等）
 5. 盈利景气度（行业增长预期、业绩确定性）
+6. 神奇公式（《股市稳赚》E/P+ROE，权重随市场PE分位动态调整）
+7. 12个月价格动量（趋势跟踪，防止接飞刀）
 
 用法:
     python scripts/etf_selector.py --evaluate       # 评估候选池
@@ -15,7 +18,7 @@ ETF多维度甄选系统
     python scripts/etf_selector.py --compare        # 对比新旧组合
 
 作者: Claude Code
-日期: 2026-05-01
+日期: 2026-05-08（v1.1：新增中美脱钩子因子、神奇公式动态权重、动量维度）
 """
 
 import argparse
@@ -37,15 +40,17 @@ REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 
 @dataclass
 class ETFScore:
-    """单只ETF评分结果"""
+    """单只ETF评分结果（v1.1 七维度）"""
     code: str
     name: str
-    # 五大维度得分 (0-10)
+    # 七大维度得分 (0-10)
     cycle_score: float          # 周期定位匹配度
     policy_score: float         # 十五五政策匹配度
-    geo_score: float            # 地缘政治韧性
+    geo_score: float            # 地缘政治韧性（含中美脱钩子因子）
     valuation_score: float      # 估值合理性
     earnings_score: float       # 盈利景气度
+    magic_formula_score: float  # 神奇公式（便宜的好公司）
+    momentum_score: float       # 12个月价格动量
     # 综合
     total_score: float
     tier: str                   # core / major / minor / exclude
@@ -367,13 +372,34 @@ class ETFSelector:
                         if key in info and info[key] is not None:
                             self.candidates[code][key] = info[key]
             self._scoring = cfg.etf_scoring()
+            self._dynamic_weights = cfg.etf_dynamic_weights()
             self._from_config = True
         else:
             self.WEIGHTS = self.DEFAULT_WEIGHTS
             self.candidates = CANDIDATE_ETFS
             self._scoring = {}
+            self._dynamic_weights = {}
             self._from_config = False
         self._apply_live_valuations()
+
+    def _resolve_magic_formula_weight(self) -> float:
+        """根据沪深300 PE分位动态调整神奇公式权重。"""
+        dw = self._dynamic_weights.get("magic_formula", {})
+        if not dw:
+            return self.WEIGHTS.get("magic_formula", 0.10)
+        c300 = self.candidates.get("510300", {})
+        pe_percentile = c300.get("pe_percentile")
+        if pe_percentile is None:
+            return self.WEIGHTS.get("magic_formula", 0.10)
+        th = dw.get("thresholds", {})
+        w = dw.get("weights", {})
+        high = th.get("high", 0.80)
+        low = th.get("low", 0.30)
+        if pe_percentile >= high:
+            return w.get("above_high", 0.12)
+        elif pe_percentile <= low:
+            return w.get("below_low", 0.05)
+        return w.get("between", 0.10)
 
     def _apply_live_valuations(self):
         """Fetch live index PE/PB and merge into candidates."""
@@ -450,12 +476,14 @@ class ETFSelector:
         return policy_map.get(code, 5.0)
 
     def score_geo(self, code: str, info: dict) -> float:
-        """地缘政治韧性"""
+        """地缘政治韧性（整合中美科技脱钩子因子：geo = base * 0.6 + decouple * 0.4）"""
         scoring = self._scoring
         if scoring:
             geo_map = scoring.get("geo", {})
+            decouple_map = scoring.get("tech_decouple", {})
         else:
             geo_map = {}
+            decouple_map = {}
         _default_geo_map = {
             "510300": 6.0, "560610": 6.5, "510050": 5.5, "510500": 6.0,
             "159915": 6.5, "512100": 6.0,
@@ -475,9 +503,19 @@ class ETFSelector:
             "159611": 7.5, "516950": 7.0, "159745": 6.0, "512200": 5.0,
             "512980": 5.0,
         }
+        _default_decouple_map = {
+            "510300": 6.0, "560610": 6.5, "513130": 3.5, "159857": 7.5, "159755": 7.0,
+            "159992": 8.5, "159898": 8.0, "562500": 9.0, "159611": 5.5, "159995": 9.5,
+            "512890": 5.5, "512800": 5.0, "518880": 6.0, "512880": 6.5, "512400": 6.5,
+            "515880": 9.0, "588000": 9.5, "159819": 9.0, "515030": 7.0, "512690": 5.0, "513100": 2.0,
+        }
         for k, v in _default_geo_map.items():
             geo_map.setdefault(k, v)
-        return geo_map.get(code, 5.0)
+        for k, v in _default_decouple_map.items():
+            decouple_map.setdefault(k, v)
+        base_geo = geo_map.get(code, 5.0)
+        decouple = decouple_map.get(code, 5.0)
+        return round(base_geo * 0.6 + decouple * 0.4, 2)
 
     def score_valuation(self, code: str, info: dict) -> float:
         """估值合理性：PE/PB分位越低越合理，但需结合E/P"""
@@ -567,8 +605,87 @@ class ETFSelector:
             earnings_map.setdefault(k, v)
         return earnings_map.get(code, 5.0)
 
+    def score_magic_formula(self, code: str, info: dict) -> float:
+        """神奇公式：E/P + ROE 综合排名（高得分 = 便宜的好公司）"""
+        scoring = self._scoring
+        if scoring:
+            mf_map = scoring.get("magic_formula", {})
+        else:
+            mf_map = {}
+        _default_mf_map = {
+            "510300": 8.5, "560610": 8.0, "510050": 8.0, "510500": 7.0,
+            "159915": 5.5, "512100": 5.0,
+            "513130": 6.5, "513100": 6.5, "513500": 6.0, "513520": 5.5,
+            "159941": 6.5, "513050": 5.5,
+            "159857": 6.0, "159755": 5.0, "515030": 5.5, "159790": 6.0, "516160": 5.5,
+            "159992": 2.0, "159898": 7.0, "159647": 6.5, "512170": 6.0,
+            "159995": 2.5, "515880": 3.5, "588000": 3.0, "159819": 3.0,
+            "515050": 5.5, "516510": 4.5, "159869": 5.0, "515230": 3.5,
+            "562500": 4.0, "159638": 5.0, "512660": 5.0, "512710": 5.0,
+            "512800": 9.0, "512880": 6.0, "512070": 6.5,
+            "512690": 8.0, "159928": 5.5, "515170": 5.0, "159996": 7.0, "159825": 5.5,
+            "159766": 4.5,
+            "518880": 5.0, "512400": 7.5, "515220": 7.5, "516780": 5.5,
+            "159870": 6.5, "159930": 7.0,
+            "512890": 9.5, "511010": 4.0, "511380": 4.5,
+            "159611": 7.5, "516950": 6.0, "159745": 6.5, "512200": 6.0,
+            "512980": 5.0,
+        }
+        for k, v in _default_mf_map.items():
+            mf_map.setdefault(k, v)
+        return mf_map.get(code, 5.0)
+
+    def score_momentum(self, code: str, info: dict) -> float:
+        """12个月价格动量因子（从 model_params.json 读取预设值，未来可接入实时动量数据）"""
+        scoring = self._scoring
+        if scoring:
+            mom_map = scoring.get("momentum", {})
+        else:
+            mom_map = {}
+        _default_mom_map = {
+            "510300": 7.0, "560610": 7.5, "510050": 6.5, "510500": 7.0,
+            "159915": 7.5, "512100": 6.5,
+            "513130": 6.0, "513100": 5.5, "513500": 5.5, "513520": 5.0,
+            "159941": 5.5, "513050": 5.5,
+            "159857": 7.5, "159755": 6.5, "515030": 6.5, "159790": 7.0, "516160": 6.5,
+            "159992": 8.0, "159898": 7.5, "159647": 6.5, "512170": 7.0,
+            "159995": 7.0, "515880": 7.5, "588000": 8.0, "159819": 8.0,
+            "515050": 6.5, "516510": 7.0, "159869": 5.5, "515230": 7.0,
+            "562500": 8.5, "159638": 7.0, "512660": 7.0, "512710": 7.0,
+            "512800": 5.0, "512880": 6.0, "512070": 6.0,
+            "512690": 5.0, "159928": 5.0, "515170": 4.5, "159996": 6.0, "159825": 5.0,
+            "159766": 5.0,
+            "518880": 8.0, "512400": 7.5, "515220": 6.5, "516780": 6.5,
+            "159870": 6.5, "159930": 7.0,
+            "512890": 5.5, "511010": 4.5, "511380": 4.5,
+            "159611": 6.5, "516950": 6.0, "159745": 6.0, "512200": 5.0,
+            "512980": 5.0,
+        }
+        for k, v in _default_mom_map.items():
+            mom_map.setdefault(k, v)
+        return mom_map.get(code, 5.0)
+
     def evaluate_all(self) -> List[ETFScore]:
-        """评估所有候选ETF"""
+        """评估所有候选ETF（v1.1：七维度 + 神奇公式动态权重）"""
+        # 动态调整神奇公式权重
+        mf_weight = self._resolve_magic_formula_weight()
+        base_mf_weight = self.WEIGHTS.get("magic_formula", 0.10)
+        # 将权重差值均摊到其他维度以保持总和=1.0
+        weight_delta = mf_weight - base_mf_weight
+        other_keys = [k for k in self.WEIGHTS if k != "magic_formula"]
+        adjusted_weights = dict(self.WEIGHTS)
+        adjusted_weights["magic_formula"] = mf_weight
+        if weight_delta != 0 and other_keys:
+            per_key_delta = weight_delta / len(other_keys)
+            for k in other_keys:
+                adjusted_weights[k] = max(0.0, adjusted_weights[k] - per_key_delta)
+        # 重新归一化确保总和=1.0
+        total_w = sum(adjusted_weights.values())
+        if total_w != 1.0:
+            for k in adjusted_weights:
+                adjusted_weights[k] /= total_w
+        self._active_weights = adjusted_weights
+
         results = []
         for code, info in self.candidates.items():
             c = self.score_cycle(code, info)
@@ -576,12 +693,16 @@ class ETFSelector:
             g = self.score_geo(code, info)
             v = self.score_valuation(code, info)
             e = self.score_earnings(code, info)
+            mf = self.score_magic_formula(code, info)
+            m = self.score_momentum(code, info)
 
-            total = (c * self.WEIGHTS["cycle"] +
-                     p * self.WEIGHTS["policy"] +
-                     g * self.WEIGHTS["geo"] +
-                     v * self.WEIGHTS["valuation"] +
-                     e * self.WEIGHTS["earnings"])
+            total = (c * adjusted_weights["cycle"] +
+                     p * adjusted_weights["policy"] +
+                     g * adjusted_weights["geo"] +
+                     v * adjusted_weights["valuation"] +
+                     e * adjusted_weights["earnings"] +
+                     mf * adjusted_weights["magic_formula"] +
+                     m * adjusted_weights["momentum"])
 
             # 分级
             if total >= 8.0:
@@ -609,12 +730,17 @@ class ETFSelector:
                 reasons.append("景气上行")
             if c >= 8.5:
                 reasons.append("康波核心赛道")
+            if mf >= 8.5:
+                reasons.append("神奇公式优质")
+            if m >= 8.0:
+                reasons.append("动量强劲")
             rationale = "；".join(reasons) if reasons else "综合评分中等"
 
             results.append(ETFScore(
                 code=code, name=info["name"],
                 cycle_score=c, policy_score=p, geo_score=g,
                 valuation_score=v, earnings_score=e,
+                magic_formula_score=mf, momentum_score=m,
                 total_score=total, tier=tier, target_pct=target,
                 rationale=rationale,
             ))
@@ -736,30 +862,34 @@ class ETFSelector:
 # ---------------------------------------------------------------------------
 
 def generate_evaluation_report(selector: ETFSelector) -> str:
-    """生成评估报告"""
+    """生成评估报告（v1.1 七维度）"""
     scores = selector.evaluate_all()
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
+    aw = getattr(selector, '_active_weights', selector.WEIGHTS)
+    mf_w = aw.get("magic_formula", 0.10)
+    mom_w = aw.get("momentum", 0.10)
 
     lines = [
-        f"# ETF多维度甄选评估报告",
+        f"# ETF多维度甄选评估报告 v1.1",
         f"",
         f"**生成时间**: {now}",
         f"**评估池规模**: {len(scores)}只ETF",
-        f"**评分维度**: 周期定位(20%) + 十五五政策(25%) + 地缘韧性(20%) + 估值合理性(20%) + 盈利景气(15%)",
+        f"**评分维度**: 周期(16%) + 政策(20%) + 地缘(16%) + 估值(16%) + 盈利(12%) + 神奇公式({mf_w*100:.0f}%) + 动量({mom_w*100:.0f}%)",
+        f"**神奇公式权重**: {mf_w*100:.1f}%（沪深300 PE分位动态调整）",
         f"",
         "---",
         "",
         "## 一、候选ETF全评分",
         "",
-        "| 排名 | 代码 | 名称 | 周期 | 政策 | 地缘 | 估值 | 盈利 | **总分** | 分级 |",
-        "|------|------|------|------|------|------|------|------|----------|------|",
+        "| 排名 | 代码 | 名称 | 周期 | 政策 | 地缘 | 估值 | 盈利 | 神公 | 动量 | **总分** | 分级 |",
+        "|------|------|------|------|------|------|------|------|------|------|----------|------|",
     ]
 
     for i, s in enumerate(scores, 1):
         lines.append(
             f"| {i} | {s.code} | {s.name} | {s.cycle_score:.1f} | {s.policy_score:.1f} | "
             f"{s.geo_score:.1f} | {s.valuation_score:.1f} | {s.earnings_score:.1f} | "
-            f"**{s.total_score:.2f}** | {s.tier} |"
+            f"{s.magic_formula_score:.1f} | {s.momentum_score:.1f} | **{s.total_score:.2f}** | {s.tier} |"
         )
 
     lines.extend([
@@ -774,6 +904,14 @@ def generate_evaluation_report(selector: ETFSelector) -> str:
         "| major | 6.8-8.0 | 7% | 政策受益显著或估值极具吸引力 |",
         "| minor | 5.5-6.8 | 4% | 防御配置或特定场景受益 |",
         "| exclude | <5.5 | 0% | 评分过低，不纳入组合 |",
+        "",
+        "## 三、v1.1 新增维度说明",
+        "",
+        "| 维度 | 权重 | 说明 |",
+        "|------|------|------|",
+        f"| 神奇公式 | {mf_w*100:.0f}% | 《股市稳赚》E/P+ROE，市场贵时升权防追高 |",
+        f"| 动量因子 | {mom_w*100:.0f}% | 12个月价格趋势，防止接飞刀 |",
+        "| 中美脱钩 | 纳入geo | 国产替代受益高分，依赖美国技术低分 |",
         "",
     ])
 
@@ -880,6 +1018,8 @@ def update_portfolio_config(selector: ETFSelector):
                 "geo": s.geo_score,
                 "valuation": s.valuation_score,
                 "earnings": s.earnings_score,
+                "magic_formula": s.magic_formula_score,
+                "momentum": s.momentum_score,
                 "total": round(s.total_score, 2),
             },
             "rules": [{"kind": "price_percentile", "window": 500, "low": 0.20, "high": 0.80}],
@@ -953,26 +1093,31 @@ def main():
     else:
         # 默认：评估+筛选
         scores = selector.evaluate_all()
-        print("=" * 80)
-        print("ETF多维度甄选结果")
-        print("=" * 80)
-        print(f"\n评分维度权重: 周期{selector.WEIGHTS['cycle']*100:.0f}% | "
-              f"政策{selector.WEIGHTS['policy']*100:.0f}% | "
-              f"地缘{selector.WEIGHTS['geo']*100:.0f}% | "
-              f"估值{selector.WEIGHTS['valuation']*100:.0f}% | "
-              f"盈利{selector.WEIGHTS['earnings']*100:.0f}%")
+        aw = getattr(selector, '_active_weights', selector.WEIGHTS)
+        print("=" * 90)
+        print("ETF多维度甄选结果 v1.1")
+        print("=" * 90)
+        print(f"\n评分维度权重: 周期{aw['cycle']*100:.0f}% | "
+              f"政策{aw['policy']*100:.0f}% | "
+              f"地缘{aw['geo']*100:.0f}% | "
+              f"估值{aw['valuation']*100:.0f}% | "
+              f"盈利{aw['earnings']*100:.0f}% | "
+              f"神公{aw['magic_formula']*100:.1f}% | "
+              f"动量{aw['momentum']*100:.0f}%")
+        print(f"神奇公式动态权重: {aw['magic_formula']*100:.1f}% (沪深300 PE分位驱动)")
         print(f"\n候选池: {len(scores)}只ETF")
         print("\n评分前15名:")
-        print("-" * 80)
+        print("-" * 90)
         for i, s in enumerate(scores[:15], 1):
             print(f"{i:2d}. {s.code} {s.name:12s} 总分{s.total_score:.2f}  "
                   f"周期{s.cycle_score:.1f} 政策{s.policy_score:.1f} 地缘{s.geo_score:.1f} "
-                  f"估值{s.valuation_score:.1f} 盈利{s.earnings_score:.1f}  [{s.tier}]")
+                  f"估值{s.valuation_score:.1f} 盈利{s.earnings_score:.1f} "
+                  f"神公{s.magic_formula_score:.1f} 动量{s.momentum_score:.1f}  [{s.tier}]")
 
-        print("\n" + "=" * 80)
+        print("\n" + "=" * 90)
         portfolio = selector.select_portfolio()
         print(f"推荐组合 ({len(portfolio)}只):")
-        print("-" * 80)
+        print("-" * 90)
         for s in portfolio:
             print(f"  {s.code} {s.name}: {s.target_pct:.1f}% (总分{s.total_score:.2f}) - {s.rationale}")
 
